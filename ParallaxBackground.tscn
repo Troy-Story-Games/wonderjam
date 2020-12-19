@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://backgroundForest.png" type="Texture" id=1]
+[ext_resource path="res://ParallaxBackground.gd" type="Script" id=2]
+
+[node name="ParallaxBackground" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 1024, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+self_modulate = Color( 0.1748, 0.18468, 0.19, 1 )
+position = Vector2( 640, 400 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 1280, 1024 )
