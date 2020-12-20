@@ -1,15 +1,20 @@
 extends Node2D
 
 const FREQ_RANGES = []
-const FREQ_SPLIT_COUNT = 6
-const FREQ_MAX = 11050.0
-const WIDTH = 1280
-const HEIGHT = 150
-const MIN_DB = 60
+const FREQ_SPLIT_COUNT = 20
+const FREQ_MAX = 20000
+const FREQ_MIN = 20
+const WIDTH = 400
+const HEIGHT = 200
 const COMPENSATE_FRAMES = 2
 const COMPENSATE_HZ = 60.0
 const WINDOW_PERIOD = 0.4
 const PRELOAD_TIME = 10.0
+const ACCEL = 20
+
+var max_db = 0
+var min_db = -40
+var histogram = []
 
 enum GameState {
 	LOADING,
@@ -38,10 +43,17 @@ onready var backPlayer = $BackAudioPlayer
 
 
 func _init():
-	FREQ_RANGES.append_array(split_freq_range(0, 11050.0, FREQ_SPLIT_COUNT))
+	FREQ_RANGES.append_array(split_freq_range(FREQ_MIN, FREQ_MAX, FREQ_SPLIT_COUNT))
+	
+	for i in range(FREQ_SPLIT_COUNT):
+		histogram.append(0)
 
 
 func _ready():
+	# Get the min and max DBs
+	min_db += mainPlayer.volume_db
+	max_db += mainPlayer.volume_db
+	
 	# Get the indexes for our 2 buses
 	var main_bus_idx = AudioServer.get_bus_index("MainSong")
 	var back_bus_idx = AudioServer.get_bus_index("BackSong")
@@ -62,26 +74,55 @@ func _ready():
 
 
 func _draw():
-	var low_check = false
-	var med_check = false
-	var high_check = false
-	var w = int(WIDTH / len(FREQ_RANGES))
+	var draw_pos = Vector2(500, 400)
+	var w_interval = WIDTH / FREQ_SPLIT_COUNT
 
-	for i in range(len(FREQ_RANGES)):
-		var rng = FREQ_RANGES[i]
-		var mag = main_spectrum.get_magnitude_for_frequency_range(rng.low, rng.high).length()
-		var energy = clamp((MIN_DB + linear2db(mag)) / MIN_DB, 0, 1)
-		var height = energy * HEIGHT
-		draw_rect(Rect2(w * i, HEIGHT - height, w, height), Color.white)
+	draw_line(Vector2(0, -HEIGHT), Vector2(WIDTH, -HEIGHT), Color.crimson, 2.0, true)
+	
+	for i in range(FREQ_SPLIT_COUNT):
+		draw_line(draw_pos, draw_pos + Vector2(0, -histogram[i] * HEIGHT), Color.crimson, 4.0, true)
+		draw_pos.x += w_interval
 
 
-func _process(_delta):
+func _process(delta):
 	match self.state:
 		GameState.LOADING:
 			analyze_background_song()
 		GameState.PLAYING:
 			analyze_background_song()
 			play_main()
+
+	if mainPlayer.playing:
+		populate_histogram(main_spectrum, delta)
+		update()
+
+
+func populate_histogram(spectrum, delta):
+	"""
+	Just do what we need to visualize the histogram
+	"""
+	var freq = FREQ_MIN
+	var interval = (FREQ_MAX - FREQ_MIN) / FREQ_SPLIT_COUNT
+	
+	for i in range(FREQ_SPLIT_COUNT):
+		var freqrange_low = float(freq - FREQ_MIN) / float(FREQ_MAX - FREQ_MIN)
+		freqrange_low = freqrange_low * freqrange_low * freqrange_low * freqrange_low
+		freqrange_low = lerp(FREQ_MIN, FREQ_MAX, freqrange_low)
+		
+		freq += interval
+		
+		var freqrange_high = float(freq - FREQ_MIN) / float(FREQ_MAX - FREQ_MIN)
+		freqrange_high = freqrange_high * freqrange_high * freqrange_high * freqrange_high
+		freqrange_high = lerp(FREQ_MIN, FREQ_MAX, freqrange_high)
+		
+		var mag = spectrum.get_magnitude_for_frequency_range(freqrange_low, freqrange_high)
+		mag = linear2db(mag.length())
+		mag = (mag - min_db) / (max_db - min_db)
+		
+		mag += 0.3 * (freq - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)
+		mag = clamp(mag, 0.05, 1)
+		
+		histogram[i] = lerp(histogram[i], mag, ACCEL * delta)
 
 
 func analyze_audio(player, spectrum):
@@ -96,8 +137,16 @@ func analyze_audio(player, spectrum):
 
 	for i in range(len(FREQ_RANGES)):
 		var rng = FREQ_RANGES[i]
-		var mag = spectrum.get_magnitude_for_frequency_range(rng.low, rng.high).length()
-		var energy = clamp((MIN_DB + linear2db(mag)) / MIN_DB, 0, 1)
+		var mag = spectrum.get_magnitude_for_frequency_range(rng.low, rng.high)
+		
+		mag = linear2db(mag.length())
+		mag = (mag - min_db) / (max_db - min_db)
+		
+		mag += 0.3 * (rng.low - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)
+		mag = clamp(mag, 0.05, 1)
+		
+		#var energy = clamp((min_db + linear2db(mag)) / min_db, 0, 1)
+		var energy = mag
 		var diff = energy - rng.prev
 
 		if diff > 0 and not rng.attack:
@@ -117,9 +166,9 @@ func analyze_audio(player, spectrum):
 				rng.total_diff += diff
 				rng.mean_diff = rng.total_diff / window_samples
 
-			if diff > rng.mean_diff:
+			if diff > rng.mean_diff :
 				#print("mean_diff: ", rng.mean_diff)
-				print("Beat @", rng.attack_pos)
+				#print("Beat @", rng.attack_pos)
 				beats.append({
 					"pos": rng.attack_pos,
 					"low": rng.low,
@@ -184,8 +233,6 @@ func play_main():
 		splode.emitting = true
 		splode.lifetime = 0.15
 		splode.get_child(0).wait_time = 0.16
-
-	update()
 
 
 func set_state(value):

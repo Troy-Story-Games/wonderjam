@@ -1,4 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Effects/Snow.gd" type="Script" id=1]
 
 [sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 1, 1, 1, 0.89, 0.974333, 1, 1 )
@@ -37,6 +39,7 @@ scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
 [node name="Snow" type="Node"]
+script = ExtResource( 1 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
 position = Vector2( 900, 0 )
