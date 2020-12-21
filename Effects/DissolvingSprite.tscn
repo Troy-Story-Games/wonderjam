@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Effects/Dissolve.material" type="Material" id=1]
+[ext_resource path="res://Effects/DissolvingSprite.gd" type="Script" id=2]
+
+[node name="DissolvingSprite" type="Sprite"]
+material = ExtResource( 1 )
+script = ExtResource( 2 )

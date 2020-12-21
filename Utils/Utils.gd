@@ -19,4 +19,29 @@ func instance_scene_on_main(packed_scene, position=Vector2.ZERO):
 
 
 func get_main_instances():
+	"""
+	Get the shared instance of MainInstances
+	"""
 	return ResourceLoader.load("res://Utils/MainInstances.tres")
+
+
+func new_noise_texture(width, height, octaves=3, period=64, persistence=0.5, lacunarity=2.0):
+	"""
+	Grab a new texture generated from OpenSimplexNoise
+	with the given parameters
+	
+	Ref: https://github.com/splite/Godot-3.1-Dissolve-shader-with-OpenSimplexNoise 
+	"""
+	var noise = OpenSimplexNoise.new();
+	noise.seed = randi()
+	noise.octaves = octaves
+	noise.period = period
+	noise.persistence = persistence
+	noise.lacunarity = lacunarity
+	
+	var noise_tex = NoiseTexture.new()
+	noise_tex.width = width
+	noise_tex.height = height
+	noise_tex.noise = noise
+	
+	return noise_tex
