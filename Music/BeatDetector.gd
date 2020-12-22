@@ -7,23 +7,24 @@ export(int) var FREQ_MAX = 20000
 export(int) var FREQ_MIN = 20
 export(int) var MAX_DB = 0
 export(int) var MIN_DB = -40
+export(int) var COMPENSATE_FRAMES = 2
+export(float) var COMPENSATE_HZ = 60.0
 export(float) var BEAT_WINDOW_PERIOD = 0.4
 export(float) var PRELOAD_TIME = 10.0
 
 var MainInstances = Utils.get_main_instances()
 
-var freq_ranges = []
 var beats = []
+var freq_ranges = []
 var min_db = 0
 var max_db = 0
-var window_samples = 0
-var window_start_time = 0.0
-var window_time = 0.0
 var preloaded_for = 0.0
-var reset = false
 var back_spectrum = null
 var main_stream = null
 var back_stream = null
+var analysis_thread = null
+var analysis_mutex = null
+var exit_thread = false
 
 onready var mainPlayer = $MainPlayer
 onready var backPlayer = $BackPlayer
@@ -33,6 +34,8 @@ onready var preloadTimer = $PreloadTimer
 func _init():
 	freq_ranges.append_array(split_freq_range(FREQ_MIN, FREQ_MAX, FREQ_SPLIT_COUNT))
 	MainInstances.beatDetector = self
+	analysis_mutex = Mutex.new()
+	analysis_thread = Thread.new()
 
 
 func _ready():
@@ -56,6 +59,50 @@ func _ready():
 	# Start preloading the song immediately
 	backPlayer.play()
 	preloadTimer.start(PRELOAD_TIME)
+	analysis_thread.start(self, "_process_thread")
+
+
+func _process(delta):
+	if mainPlayer.playing:
+		# call 'get_beats_now' at the end of this frame
+		# If somebody already called it, it will return
+		# an empty list. If it wasn't called on this frame
+		# it will discard all the beats that are no longer
+		# possible to display
+		call_deferred("get_beats_now")
+
+
+func _process_thread(userdata):
+	"""
+	Perform the analysis of the background song in a thread
+	so we're not tied to 60FPS for beat detection
+	"""
+	var thread_locals = {
+		window_samples = 0,
+		window_start_time = 0.0,
+		window_time = 0.0,
+		reset = false,
+		freq_split_count = FREQ_SPLIT_COUNT,
+		beat_window_period = BEAT_WINDOW_PERIOD
+	}
+
+	while true:
+		analysis_mutex.lock()
+		var should_exit = exit_thread
+		analysis_mutex.unlock()
+
+		if should_exit:
+			break
+
+		analyze_background_song(thread_locals)
+
+
+func _exit_tree():
+	# Gotta cleanup the thread
+	analysis_mutex.lock()
+	exit_thread = true
+	analysis_mutex.unlock()
+	analysis_thread.wait_to_finish()
 
 
 func get_preload_progress():
@@ -82,12 +129,40 @@ func start_main_song():
 	# the song loads. If they want to play immediately
 	# the minimum wait time will be PRELOAD_TIME otherwise
 	# they could wait longer and we track that here.
+	analysis_mutex.lock()
 	preloaded_for = backPlayer.get_playback_position()
+	analysis_mutex.unlock()
+
+	print("DEBUG: preloaded_for ", preloaded_for)
 	mainPlayer.play()
 
 
-func _process(delta):
-	analyze_background_song()
+func get_beats_now():
+	"""
+	Get the identified beats across the spectrum for right now in the
+	main song.
+	
+	This will return beats that should be
+	displayed on this frame to sync visually.
+	"""
+	# Get the playback time that it really is for this frame (e.g slightly
+	# in the future but that's fine b/c we preload the song and do preprocessing)
+	var compensated_playback_time = mainPlayer.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency() + (1 / COMPENSATE_HZ) * COMPENSATE_FRAMES
+	var result = []
+
+	analysis_mutex.lock()
+	if len(beats) == 0:  # No beats
+		analysis_mutex.unlock()
+		return result
+
+	while len(beats) > 0 and compensated_playback_time >= beats[0].pos:
+		var miss = compensated_playback_time - beats[0].pos
+		if miss > 0.05:
+			print("SLOW: Missed by: ", miss)
+		result.append(beats.pop_front())
+	analysis_mutex.unlock()
+
+	return result
 
 
 func load_streams(path, file_bytes):
@@ -132,27 +207,38 @@ func load_song(path):
 	return content
 
 
-func analyze_audio(player, spectrum):
+func analyze_background_song(td):
 	"""
-	Analyze the currently playing audio given
-	the player and the spectrum analyzer
+	Called by _process while the song
+	is pre-playing (to identify beats ahead of time)
+	"""
+	analysis_mutex.lock()
+	var pos = backPlayer.get_playback_position()
+	analysis_mutex.unlock()
 	
-	:param player: The player to analyze (main or back)
-	:param spectrum: The spectrum instance for the associated player
-	"""
-	var pos = player.get_playback_position()
+	if td.window_time > td.beat_window_period:
+		td.window_samples = 0
+		td.window_start_time = pos
+		td.window_time = 0.0
+		td.reset = true
+	else:
+		td.reset = false
+		td.window_time = pos - td.window_start_time
 
-	for i in range(len(freq_ranges)):
+	td.window_samples += 1
+
+	for i in range(td.freq_split_count):
+		analysis_mutex.lock()
 		var rng = freq_ranges[i]
-		var mag = spectrum.get_magnitude_for_frequency_range(rng.low, rng.high)
-		
+		var mag = back_spectrum.get_magnitude_for_frequency_range(rng.low, rng.high)
+		analysis_mutex.unlock()
+
 		mag = linear2db(mag.length())
 		mag = (mag - min_db) / (max_db - min_db)
 		
 		mag += 0.3 * (rng.low - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)
 		mag = clamp(mag, 0.05, 1)
-		
-		#var energy = clamp((min_db + linear2db(mag)) / min_db, 0, 1)
+
 		var energy = mag
 		var diff = energy - rng.prev
 
@@ -166,13 +252,15 @@ func analyze_audio(player, spectrum):
 			rng.attack = false
 			diff = rng.prev - rng.attack_val
 
-			if reset:
+			if td.reset:
 				rng.total_diff = diff
 			elif diff > 0:
 				rng.total_diff += diff
-				rng.mean_diff = rng.total_diff / window_samples
+				rng.mean_diff = rng.total_diff / td.window_samples
 
-			if diff > rng.mean_diff :
+			if diff > rng.mean_diff:
+				print("Beat @ ", pos)
+				analysis_mutex.lock()
 				beats.append({
 					"pos": rng.attack_pos,
 					"low": rng.low,
@@ -180,6 +268,7 @@ func analyze_audio(player, spectrum):
 					"idx": i,
 					"duration": rng.prev_pos - rng.attack_pos
 				})
+				analysis_mutex.unlock()
 
 			rng.attack_pos = 0.0
 			rng.attack_val = 0.0
@@ -187,26 +276,11 @@ func analyze_audio(player, spectrum):
 		rng.prev = energy
 		rng.prev_pos = pos
 
-
-func analyze_background_song():
-	"""
-	Called by _process while the song
-	is pre-playing (to identify beats ahead of time)
-	"""
-	var pos = backPlayer.get_playback_position()
-	
-	if window_time > BEAT_WINDOW_PERIOD:
-		window_samples = 0
-		window_start_time = pos
-		window_time = 0.0
-		reset = true
-	else:
-		reset = false
-		window_time = pos - window_start_time
-
-	window_samples += 1
-
-	analyze_audio(backPlayer, back_spectrum)
+	#analysis_mutex.lock()
+	#var pos2 = backPlayer.get_playback_position()
+	#analysis_mutex.unlock()
+	#if pos != pos2:
+	#	print("JUST CHECKING!!!!!!")
 
 
 func split_freq_range(low, high, split):
@@ -224,16 +298,24 @@ func split_freq_range(low, high, split):
 		var low_hz = prev_hz
 		var high_hz = low + (i * (high / split))
 
+		# Append a "frquency range" to the list. A range
+		# has a low and a high frequency that we use to
+		# query the FFT at a given point in time
 		result.append({
-			"low": low_hz,
-			"high": high_hz,
-			"prev": 0.0,
-			"total_diff": 0.0,
-			"mean_diff": 0.0,
-			"prev_pos": 0.0,
-			"attack_pos": 0.0,
-			"attack": false,
-			"attack_val": 0.0
+			"low": low_hz,      # The low frequency in Hz
+			"high": high_hz,    # The high frequency in Hz
+
+			# These next values deal with tracking
+			# and identifying beats. They deal with
+			# the recorded energy at the given frequency
+			# range from the FFT
+			"prev": 0.0,        # The energy the last time we checked
+			"total_diff": 0.0,  # Total difference in energy for a BEAT_WINDOW_PERIOD 
+			"mean_diff": 0.0,   # Average difference in energy for a BEAT_WINDOW_PERIOD
+			"prev_pos": 0.0,    # The playback position the last time we checked
+			"attack_pos": 0.0,  # The playback position when the energy difference went positive
+			"attack": false,    # Are we in an attack? (e.g. the difference is positive and hasn't gone negative yet)
+			"attack_val": 0.0   # The energy when the attack started (e.g. energy at attack_pos)
 		})
 
 		prev_hz = high_hz

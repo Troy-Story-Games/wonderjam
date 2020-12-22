@@ -12,4 +12,4 @@ func _on_Button_pressed():
 func _on_FileDialog_file_selected(path):
 	print("You selected: ", path)
 	MainInstances.songFilePath = path
-	get_tree().change_scene("res://World/Game.tscn")
+	get_tree().change_scene("res://World/Home.tscn")
