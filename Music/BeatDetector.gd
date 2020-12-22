@@ -9,7 +9,6 @@ export(int) var MAX_DB = 0
 export(int) var MIN_DB = -40
 export(int) var COMPENSATE_FRAMES = 2
 export(float) var COMPENSATE_HZ = 60.0
-export(float) var BEAT_WINDOW_PERIOD = 0.4
 export(float) var PRELOAD_TIME = 10.0
 
 var MainInstances = Utils.get_main_instances()
@@ -77,15 +76,6 @@ func _process_thread(userdata):
 	Perform the analysis of the background song in a thread
 	so we're not tied to 60FPS for beat detection
 	"""
-	var thread_locals = {
-		window_samples = 0,
-		window_start_time = 0.0,
-		window_time = 0.0,
-		reset = false,
-		freq_split_count = FREQ_SPLIT_COUNT,
-		beat_window_period = BEAT_WINDOW_PERIOD
-	}
-
 	while true:
 		analysis_mutex.lock()
 		var should_exit = exit_thread
@@ -94,7 +84,7 @@ func _process_thread(userdata):
 		if should_exit:
 			break
 
-		analyze_background_song(thread_locals)
+		analyze_background_song()
 
 
 func _exit_tree():
@@ -207,7 +197,7 @@ func load_song(path):
 	return content
 
 
-func analyze_background_song(td):
+func analyze_background_song():
 	"""
 	Called by _process while the song
 	is pre-playing (to identify beats ahead of time)
@@ -215,19 +205,8 @@ func analyze_background_song(td):
 	analysis_mutex.lock()
 	var pos = backPlayer.get_playback_position()
 	analysis_mutex.unlock()
-	
-	if td.window_time > td.beat_window_period:
-		td.window_samples = 0
-		td.window_start_time = pos
-		td.window_time = 0.0
-		td.reset = true
-	else:
-		td.reset = false
-		td.window_time = pos - td.window_start_time
 
-	td.window_samples += 1
-
-	for i in range(td.freq_split_count):
+	for i in range(FREQ_SPLIT_COUNT):
 		analysis_mutex.lock()
 		var rng = freq_ranges[i]
 		var mag = back_spectrum.get_magnitude_for_frequency_range(rng.low, rng.high)
@@ -235,52 +214,33 @@ func analyze_background_song(td):
 
 		mag = linear2db(mag.length())
 		mag = (mag - min_db) / (max_db - min_db)
-		
 		mag += 0.3 * (rng.low - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)
-		mag = clamp(mag, 0.05, 1)
+		var energy = clamp(mag, 0.05, 1)
 
-		var energy = mag
-		var diff = energy - rng.prev
-
-		if diff > 0 and not rng.attack:
-			# Starting an attack
-			rng.attack = true
-			rng.attack_val = rng.prev
-			rng.attack_pos = rng.prev_pos
-		elif rng.attack and diff < 0:
-			# We hit the peak and are heading down
-			rng.attack = false
-			diff = rng.prev - rng.attack_val
-
-			if td.reset:
-				rng.total_diff = diff
-			elif diff > 0:
-				rng.total_diff += diff
-				rng.mean_diff = rng.total_diff / td.window_samples
-
-			if diff > rng.mean_diff:
-				print("Beat @ ", pos)
-				analysis_mutex.lock()
-				beats.append({
-					"pos": rng.attack_pos,
-					"low": rng.low,
-					"high": rng.high,
-					"idx": i,
-					"duration": rng.prev_pos - rng.attack_pos
-				})
-				analysis_mutex.unlock()
-
-			rng.attack_pos = 0.0
-			rng.attack_val = 0.0
-
-		rng.prev = energy
-		rng.prev_pos = pos
-
-	#analysis_mutex.lock()
-	#var pos2 = backPlayer.get_playback_position()
-	#analysis_mutex.unlock()
-	#if pos != pos2:
-	#	print("JUST CHECKING!!!!!!")
+		var left = rng.left
+		var middle = rng.middle
+		var right = energy
+		var score = 0
+		
+		if 1.5 * left < middle:
+			score += 2 * middle
+		if 1.5 * right < middle:
+			score += 2 * middle
+		score += middle
+		
+		if score > 0.5:
+			print("Beat @", pos)
+			analysis_mutex.lock()
+			beats.append({
+				"pos": pos,
+				"low": rng.low,
+				"high": rng.high,
+				"idx": i
+			})
+			analysis_mutex.unlock()
+		
+		rng.left = middle
+		rng.middle = energy
 
 
 func split_freq_range(low, high, split):
@@ -298,24 +258,11 @@ func split_freq_range(low, high, split):
 		var low_hz = prev_hz
 		var high_hz = low + (i * (high / split))
 
-		# Append a "frquency range" to the list. A range
-		# has a low and a high frequency that we use to
-		# query the FFT at a given point in time
 		result.append({
-			"low": low_hz,      # The low frequency in Hz
-			"high": high_hz,    # The high frequency in Hz
-
-			# These next values deal with tracking
-			# and identifying beats. They deal with
-			# the recorded energy at the given frequency
-			# range from the FFT
-			"prev": 0.0,        # The energy the last time we checked
-			"total_diff": 0.0,  # Total difference in energy for a BEAT_WINDOW_PERIOD 
-			"mean_diff": 0.0,   # Average difference in energy for a BEAT_WINDOW_PERIOD
-			"prev_pos": 0.0,    # The playback position the last time we checked
-			"attack_pos": 0.0,  # The playback position when the energy difference went positive
-			"attack": false,    # Are we in an attack? (e.g. the difference is positive and hasn't gone negative yet)
-			"attack_val": 0.0   # The energy when the attack started (e.g. energy at attack_pos)
+			"low": low_hz,
+			"high": high_hz,
+			"left": 0.0,
+			"middle": 0.0,
 		})
 
 		prev_hz = high_hz
