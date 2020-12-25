@@ -5,10 +5,6 @@
 [node name="BeatDetector" type="Node"]
 script = ExtResource( 1 )
 
-[node name="MainPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="BackPlayer" type="AudioStreamPlayer" parent="."]
-
 [node name="PreloadTimer" type="Timer" parent="."]
 one_shot = true
 

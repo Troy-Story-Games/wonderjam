@@ -9,8 +9,6 @@ export(int) var MAX_DB = 0
 export(int) var MIN_DB = -40
 export(int) var ACCEL = 20
 
-var MainInstances = Utils.get_main_instances()
-
 var histogram = []
 var min_db = 0
 var max_db = 0
@@ -18,8 +16,8 @@ var spectrum = null
 
 
 func _ready():
-	min_db = MIN_DB + MainInstances.beatDetector.mainPlayer.volume_db
-	max_db = MAX_DB + MainInstances.beatDetector.mainPlayer.volume_db
+	min_db = AudioPlayers.get_min_db()
+	max_db = AudioPlayers.get_max_db()
 	
 	for i in range(NUM_BARS):
 		histogram.append(0.0)

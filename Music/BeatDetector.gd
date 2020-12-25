@@ -5,11 +5,8 @@ signal preload_done()
 export(int) var FREQ_SPLIT_COUNT = 20
 export(int) var FREQ_MAX = 20000
 export(int) var FREQ_MIN = 20
-export(int) var MAX_DB = 0
-export(int) var MIN_DB = -40
-export(int) var COMPENSATE_FRAMES = 2
-export(float) var COMPENSATE_HZ = 60.0
 export(float) var PRELOAD_TIME = 10.0
+export(float) var MIN_TIME_BETWEEN_BEATS = 0.15
 
 var MainInstances = Utils.get_main_instances()
 
@@ -25,8 +22,6 @@ var analysis_thread = null
 var analysis_mutex = null
 var exit_thread = false
 
-onready var mainPlayer = $MainPlayer
-onready var backPlayer = $BackPlayer
 onready var preloadTimer = $PreloadTimer
 
 
@@ -39,30 +34,26 @@ func _init():
 
 func _ready():
 	# Get the min and max DBs
-	min_db = MIN_DB + mainPlayer.volume_db
-	max_db = MAX_DB + mainPlayer.volume_db
-	
+	min_db = AudioPlayers.get_min_db()
+	max_db = AudioPlayers.get_max_db()
+
 	# Get the index for our back song
 	var back_bus_idx = AudioServer.get_bus_index("BackSong")
-
-	# Mute the background song
-	AudioServer.set_bus_mute(back_bus_idx, true)
 
 	# Get the spectrum analysis instance from the back bus
 	back_spectrum = AudioServer.get_bus_effect_instance(back_bus_idx, 0)
 
-	# Read the song contents
-	var file_bytes = load_song(MainInstances.songFilePath)
-	load_streams(MainInstances.songFilePath, file_bytes)
+	# Load the song
+	AudioPlayers.load_song(MainInstances.songFilePath)
 
 	# Start preloading the song immediately
-	backPlayer.play()
+	AudioPlayers.backAudioPlayer.play()
 	preloadTimer.start(PRELOAD_TIME)
 	analysis_thread.start(self, "_process_thread")
 
 
 func _process(delta):
-	if mainPlayer.playing:
+	if AudioPlayers.mainAudioPlayer.playing:
 		# call 'get_beats_now' at the end of this frame
 		# If somebody already called it, it will return
 		# an empty list. If it wasn't called on this frame
@@ -76,6 +67,8 @@ func _process_thread(userdata):
 	Perform the analysis of the background song in a thread
 	so we're not tied to 60FPS for beat detection
 	"""
+	var prev_pos = 0.0
+	
 	while true:
 		analysis_mutex.lock()
 		var should_exit = exit_thread
@@ -84,7 +77,7 @@ func _process_thread(userdata):
 		if should_exit:
 			break
 
-		analyze_background_song()
+		prev_pos = analyze_background_song(prev_pos)
 
 
 func _exit_tree():
@@ -119,12 +112,10 @@ func start_main_song():
 	# the song loads. If they want to play immediately
 	# the minimum wait time will be PRELOAD_TIME otherwise
 	# they could wait longer and we track that here.
-	analysis_mutex.lock()
-	preloaded_for = backPlayer.get_playback_position()
-	analysis_mutex.unlock()
+	preloaded_for = AudioPlayers.backAudioPlayer.get_playback_position()
 
 	print("DEBUG: preloaded_for ", preloaded_for)
-	mainPlayer.play()
+	AudioPlayers.mainAudioPlayer.play()
 
 
 func get_beats_now():
@@ -135,9 +126,7 @@ func get_beats_now():
 	This will return beats that should be
 	displayed on this frame to sync visually.
 	"""
-	# Get the playback time that it really is for this frame (e.g slightly
-	# in the future but that's fine b/c we preload the song and do preprocessing)
-	var compensated_playback_time = mainPlayer.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency() + (1 / COMPENSATE_HZ) * COMPENSATE_FRAMES
+	var compensated_playback_time = AudioPlayers.get_adjusted_playback_time()
 	var result = []
 
 	analysis_mutex.lock()
@@ -146,71 +135,30 @@ func get_beats_now():
 		return result
 
 	while len(beats) > 0 and compensated_playback_time >= beats[0].pos:
-		var miss = compensated_playback_time - beats[0].pos
-		if miss > 0.05:
-			print("SLOW: Missed by: ", miss)
 		result.append(beats.pop_front())
 	analysis_mutex.unlock()
 
 	return result
 
 
-func load_streams(path, file_bytes):
+func analyze_background_song(prev_pos):
 	"""
-	Load the streams (both foreground and background)
-	
-	:param path: The file path for the song so we can check file extension
-	:param file_bytes: The content of the file as bytes
+	Runs in a thread to analyze the muted song for
+	beats ahead of time
 	"""
-	# Create the appropriate stream
-	if MainInstances.songFilePath.ends_with(".mp3"):
-		print("Load MP3: ", path)
-		main_stream = AudioStreamMP3.new()
-		back_stream = AudioStreamMP3.new()
-		main_stream.data = file_bytes
-		back_stream.data = file_bytes
-	elif MainInstances.songFilePath.ends_with(".ogg"):
-		print("Load OGG: ", path)
-		main_stream = AudioStreamOGGVorbis.new()
-		back_stream = AudioStreamOGGVorbis.new()
-		main_stream.data = file_bytes
-		back_stream.data = file_bytes
-	else:
-		print("Load WAV: ", path)
-		main_stream = AudioStreamSample.new()
-		back_stream = AudioStreamSample.new()
-		main_stream.data = file_bytes
-		back_stream.data = file_bytes
+	var pos = AudioPlayers.backAudioPlayer.get_playback_position()
 
-	backPlayer.stream = back_stream
-	backPlayer.set_bus("BackSong")
-	
-	mainPlayer.stream = main_stream
-	mainPlayer.set_bus("MainSong")
-
-
-func load_song(path):
-	var file = File.new()
-	file.open(path, File.READ)
-	var content = file.get_buffer(file.get_len())
-	file.close()
-	return content
-
-
-func analyze_background_song():
-	"""
-	Called by _process while the song
-	is pre-playing (to identify beats ahead of time)
-	"""
-	analysis_mutex.lock()
-	var pos = backPlayer.get_playback_position()
-	analysis_mutex.unlock()
+	if pos == prev_pos:
+		# Don't anlayze the same point in time more than once
+		return pos
 
 	for i in range(FREQ_SPLIT_COUNT):
-		analysis_mutex.lock()
 		var rng = freq_ranges[i]
 		var mag = back_spectrum.get_magnitude_for_frequency_range(rng.low, rng.high)
-		analysis_mutex.unlock()
+
+		var time_since_last_beat = pos - rng.prev_beat_pos
+		if rng.prev_beat_pos > 0.0 and time_since_last_beat <= MIN_TIME_BETWEEN_BEATS:
+			continue  # Skip...too soon
 
 		mag = linear2db(mag.length())
 		mag = (mag - min_db) / (max_db - min_db)
@@ -221,15 +169,17 @@ func analyze_background_song():
 		var middle = rng.middle
 		var right = energy
 		var score = 0
-		
+
 		if 1.5 * left < middle:
 			score += 2 * middle
 		if 1.5 * right < middle:
 			score += 2 * middle
 		score += middle
-		
+
 		if score > 0.5:
-			print("Beat @", pos)
+			print("DEBUG: Beat @", pos)
+			rng.prev_beat_pos = pos
+
 			analysis_mutex.lock()
 			beats.append({
 				"pos": pos,
@@ -241,6 +191,9 @@ func analyze_background_song():
 		
 		rng.left = middle
 		rng.middle = energy
+		rng.prev_score = score
+
+	return pos
 
 
 func split_freq_range(low, high, split):
@@ -263,6 +216,7 @@ func split_freq_range(low, high, split):
 			"high": high_hz,
 			"left": 0.0,
 			"middle": 0.0,
+			"prev_beat_pos": 0.0
 		})
 
 		prev_hz = high_hz
