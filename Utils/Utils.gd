@@ -25,6 +25,13 @@ func get_main_instances():
 	return ResourceLoader.load("res://Utils/MainInstances.tres")
 
 
+func get_player_stats():
+	"""
+	Get the shared instance of PlayerStats
+	"""
+	return ResourceLoader.load("res://Player/PlayerStats.tres")
+
+
 func new_noise_texture(width, height, octaves=3, period=64, persistence=0.5, lacunarity=2.0):
 	"""
 	Grab a new texture generated from OpenSimplexNoise

@@ -9,7 +9,7 @@ enum GameState {
 
 var state = GameState.LOADING
 
-onready var progressBar = $ProgressBar
+onready var progressBar = $CanvasLayer/ProgressBar
 onready var beatDetector = $BeatDetector
 
 

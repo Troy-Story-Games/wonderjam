@@ -14,6 +14,21 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-27
+
+### Added
+
+* Parallax background
+* Bunch of new art
+
+### Changed
+
+* Player physics and mechanics to have a walking and flying mode
+
+### Removed
+
+* Removed test art
+
 ## Unreleased - 2020-12-02
 
 ### Added

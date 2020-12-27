@@ -1,28 +1,53 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Music/BeatDetector.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Music/HistogramAudioVisualizer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Environment/SnowDirtPath.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Music/BeatDetector.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World/Home.gd" type="Script" id=4]
+[ext_resource path="res://Environment/Bush_1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Environment/LowBackground.tscn" type="PackedScene" id=6]
 
 [node name="Home" type="Node2D"]
 script = ExtResource( 4 )
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 972.777
-margin_right = 1278.78
+margin_left = -307.223
+margin_right = -1.21985
 margin_bottom = 24.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BeatDetector" parent="." instance=ExtResource( 1 )]
-FREQ_SPLIT_COUNT = 6
+[node name="LowBackground" parent="." instance=ExtResource( 6 )]
 
-[node name="HistogramAudioVisualizer" parent="." instance=ExtResource( 2 )]
-position = Vector2( 120.642, 288.907 )
-WIDTH = 400
-NUM_BARS = 8
+[node name="SnowDirtPath" parent="." instance=ExtResource( 1 )]
+position = Vector2( 627.092, 655.518 )
+
+[node name="Bush_1" parent="." instance=ExtResource( 5 )]
+position = Vector2( 872.985, 535.271 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 564.811, 587.1 )
+
+[node name="CameraFollow" parent="Player" index="3"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 564.811, 587.1 )
+offset = Vector2( 0, -250 )
+current = true
+limit_left = -400
+limit_top = 250
+limit_right = 1600
+limit_bottom = 0
+smoothing_enabled = true
+
+[node name="BeatDetector" parent="." instance=ExtResource( 3 )]
 
 [connection signal="preload_done" from="BeatDetector" to="." method="_on_BeatDetector_preload_done"]
+
+[editable path="Player"]
