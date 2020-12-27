@@ -9,7 +9,7 @@ enum DissolveEffect {
 }
 
 export(DissolveEffect) var DISSOLVE_EFFECT = DissolveEffect.BURN
-export(float) var burn_pos = -1 setget set_burn_pos
+export(float) var burn_pos = 0 setget set_burn_pos
 
 
 func _ready():
@@ -28,5 +28,5 @@ func _ready():
 
 
 func set_burn_pos(value):
-	burn_pos = clamp(value, -1, 1)
+	burn_pos = clamp(value, 0, 1)
 	get_material().set_shader_param("burn_position", burn_pos)

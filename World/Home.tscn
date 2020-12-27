@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Music/BeatDetector.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Music/HistogramAudioVisualizer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://World/Home.gd" type="Script" id=4]
+
+[node name="Home" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = 972.777
+margin_right = 1278.78
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BeatDetector" parent="." instance=ExtResource( 1 )]
+FREQ_SPLIT_COUNT = 6
+
+[node name="HistogramAudioVisualizer" parent="." instance=ExtResource( 2 )]
+position = Vector2( 120.642, 288.907 )
+WIDTH = 400
+NUM_BARS = 8
+
+[connection signal="preload_done" from="BeatDetector" to="." method="_on_BeatDetector_preload_done"]
