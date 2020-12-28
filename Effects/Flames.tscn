@@ -19,15 +19,15 @@ void fragment() {
 	COLOR = vec4(float(base.r > 0.4), float(base.r > 0.5), float(base.r > 0.6), float(base.r > 0.4));
 }"
 
-[sub_resource type="OpenSimplexNoise" id=2]
+[sub_resource type="OpenSimplexNoise" id=6]
 
-[sub_resource type="NoiseTexture" id=3]
+[sub_resource type="NoiseTexture" id=7]
 seamless = true
-noise = SubResource( 2 )
+noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = SubResource( 1 )
-shader_param/noise = SubResource( 3 )
+shader_param/noise = SubResource( 7 )
 
 [sub_resource type="ParticlesMaterial" id=5]
 lifetime_randomness = 0.1
@@ -40,8 +40,9 @@ initial_velocity = 250.0
 initial_velocity_random = 0.5
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale = 2.0
-color = Color( 2, 2, 0, 1 )
+scale = 3.0
+scale_random = 0.2
+color = Color( 2.5, 2.5, 0, 1 )
 
 [node name="Flames" type="Sprite"]
 material = SubResource( 4 )
@@ -50,11 +51,9 @@ script = ExtResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 3 )
-texture_scale = 0.3
-energy = 2.0
+texture_scale = 0.2
 
 [node name="Embers" type="Particles2D" parent="."]
-amount = 4
-lifetime = 4.0
+lifetime = 2.0
 explosiveness = 0.2
 process_material = SubResource( 5 )

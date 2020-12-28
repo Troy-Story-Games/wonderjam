@@ -5,6 +5,8 @@
 [node name="ParallaxBackground" type="ParallaxBackground"]
 script = ExtResource( 1 )
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
 [node name="StaticLayer" type="ParallaxLayer" parent="."]
 
 [node name="StaticBackgroundSprite" type="Sprite" parent="StaticLayer"]

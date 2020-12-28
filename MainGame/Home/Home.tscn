@@ -1,8 +1,8 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Environment/SnowDirtPath.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Music/BeatDetector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=3]
 [ext_resource path="res://MainGame/Home/Home.gd" type="Script" id=4]
 [ext_resource path="res://Environment/Bush_1.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Environment/LowBackground.tscn" type="PackedScene" id=6]
@@ -10,37 +10,62 @@
 [ext_resource path="res://Effects/Dissolve.shader" type="Shader" id=8]
 [ext_resource path="res://Environment/PlayerHouse.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Environment/Tree_2.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Effects/TheDarkness.tscn" type="PackedScene" id=11]
 [ext_resource path="res://UI/UI.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Effects/SnowParticles.tscn" type="PackedScene" id=13]
 
-[sub_resource type="Environment" id=18]
-background_mode = 4
-glow_enabled = true
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
 
-[sub_resource type="Gradient" id=1]
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 116.108
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 23.7601, 197.248 )
+
+[sub_resource type="Gradient" id=7]
 colors = PoolColorArray( 1, 1, 1, 1, 0.89, 0.974333, 1, 1 )
 
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 7 )
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=9]
 min_value = 0.5
 max_value = 2.0
 _data = [ Vector2( 0, 1 ), 0.0, 4.42138, 0, 1, Vector2( 0.119769, 1.52955 ), 0.0, 0.0, 0, 0, Vector2( 0.186147, 0.806818 ), 0.0, 0.0, 0, 0, Vector2( 0.372294, 1.625 ), -5.53965, -5.53965, 0, 0, Vector2( 0.412698, 0.765909 ), 0.0, 0.0, 0, 0, Vector2( 0.506494, 1.44773 ), 7.99615, 7.99615, 0, 0, Vector2( 0.62482, 0.915909 ), 17.1818, 17.1818, 0, 0, Vector2( 0.72583, 1.55682 ), 23.625, 23.625, 0, 0, Vector2( 0.867244, 1.175 ), 19.7591, 19.7591, 0, 0, Vector2( 1, 1 ), -1.31821, 0.0, 1, 0 ]
 
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
+[sub_resource type="CurveTexture" id=10]
+curve = SubResource( 9 )
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=11]
 min_value = -40.0
 max_value = 40.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.170274, 9.45454 ), -105.488, -105.488, 0, 0, Vector2( 0.417027, -8.72727 ), 336.0, 336.0, 0, 0, Vector2( 0.692641, -5.09091 ), -193.846, -193.846, 0, 0, Vector2( 1, 1 ), 112.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=6]
-curve = SubResource( 5 )
+[sub_resource type="CurveTexture" id=12]
+curve = SubResource( 11 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=13]
 resource_local_to_scene = true
 emission_shape = 2
 emission_box_extents = Vector3( 1920, 0, 1 )
@@ -48,212 +73,134 @@ flag_disable_z = true
 gravity = Vector3( 0, 30, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-tangential_accel_curve = SubResource( 6 )
+tangential_accel_curve = SubResource( 12 )
 scale = 2.0
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 8 )
 
-[sub_resource type="ShaderMaterial" id=8]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
-
-[sub_resource type="ShaderMaterial" id=9]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
-
-[sub_resource type="CircleShape2D" id=10]
-radius = 120.844
-
-[sub_resource type="ShaderMaterial" id=11]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
-
-[sub_resource type="ShaderMaterial" id=12]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
-
-[sub_resource type="Animation" id=13]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Leaves:burn_pos")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -1.0, 1.0 ]
-}
-
-[sub_resource type="Animation" id=14]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Snow:burn_pos")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -1.0, 1.0 ]
-}
-
-[sub_resource type="Animation" id=15]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Leaves:burn_pos")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, -1.0 ]
-}
-
-[sub_resource type="Animation" id=16]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Snow:burn_pos")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, -1.0 ]
-}
-
-[sub_resource type="RectangleShape2D" id=17]
-extents = Vector2( 33.3068, 225.722 )
-
-[node name="Home" type="Node"]
+[node name="Home" instance=ExtResource( 3 )]
 script = ExtResource( 4 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 18 )
+[node name="TheDarkness" parent="." index="0"]
+color = Color( 0.529412, 0.501961, 0.686275, 1 )
 
-[node name="UI" parent="." instance=ExtResource( 12 )]
+[node name="UI" parent="." index="2" instance=ExtResource( 12 )]
 
-[node name="BeatDetector" parent="." instance=ExtResource( 3 )]
+[node name="LowBackground" parent="." index="3" instance=ExtResource( 6 )]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 430.424, 566.888 )
+[node name="Camera2D" type="Camera2D" parent="." index="4"]
+position = Vector2( 299.815, 664.055 )
 current = true
 limit_top = 0
 limit_bottom = 720
 smoothing_enabled = true
 
-[node name="SnowParticles" parent="." instance=ExtResource( 13 )]
-position = Vector2( 754.164, -10 )
-amount = 1920
-process_material = SubResource( 7 )
+[node name="Tree_1_5" parent="." index="5" instance=ExtResource( 7 )]
+position = Vector2( -409.399, 597.716 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
 
-[node name="LowBackground" parent="." instance=ExtResource( 6 )]
+[node name="Tree_1_6" parent="." index="6" instance=ExtResource( 7 )]
+position = Vector2( -736.883, 613.559 )
+rotation = -3.14159
+scale = Vector2( 1, -1 )
 
-[node name="TheDarkness" parent="." instance=ExtResource( 11 )]
+[node name="Tree_1_4" parent="." index="7" instance=ExtResource( 7 )]
+position = Vector2( 122.956, 619.442 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
 
-[node name="CanvasModulate" parent="TheDarkness" index="0"]
-color = Color( 0.647059, 0.501961, 0.686275, 1 )
+[node name="Tree_2" parent="." index="8" instance=ExtResource( 10 )]
+position = Vector2( 741.821, 618.22 )
+rotation = -3.14159
+scale = Vector2( 1, -1 )
 
-[node name="Tree_1_7" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( -39.1215, 424.995 )
+[node name="Tree_2_2" parent="." index="9" instance=ExtResource( 10 )]
+position = Vector2( 2245.71, 617.084 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
 
-[node name="Tree_1_5" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( -234.477, 424.787 )
-scale = Vector2( -1, 1 )
+[node name="Tree_2_3" parent="." index="10" instance=ExtResource( 10 )]
+position = Vector2( 2590.46, 614.237 )
 
-[node name="Tree_1_6" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( -532.173, 442.039 )
+[node name="Tree_2_4" parent="." index="11" instance=ExtResource( 10 )]
+position = Vector2( 1779.96, 612.339 )
 
-[node name="Tree_1_4" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( 153.739, 438.147 )
-scale = Vector2( -1, 1 )
+[node name="Tree_1" parent="." index="12" instance=ExtResource( 7 )]
+position = Vector2( -121.454, 615.28 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
 
-[node name="Tree_2" parent="TheDarkness" instance=ExtResource( 10 )]
-position = Vector2( 741.821, 438.423 )
-
-[node name="Tree_2_2" parent="TheDarkness" instance=ExtResource( 10 )]
-position = Vector2( 2213.96, 434.291 )
-scale = Vector2( -1, 1 )
-
-[node name="Tree_2_3" parent="TheDarkness" instance=ExtResource( 10 )]
-position = Vector2( 2515.85, 427.556 )
-
-[node name="SnowDirtPath" parent="TheDarkness" instance=ExtResource( 1 )]
+[node name="SnowDirtPath" parent="." index="13" instance=ExtResource( 1 )]
 position = Vector2( 627.092, 655.518 )
 
-[node name="Tree_2_4" parent="TheDarkness" instance=ExtResource( 10 )]
-position = Vector2( 1867.27, 467.198 )
+[node name="Tree_2_6" parent="." index="14" instance=ExtResource( 10 )]
+position = Vector2( 2472.99, 790.584 )
+rotation = -3.14159
+scale = Vector2( 1, -1 )
 
-[node name="Tree_2_5" parent="TheDarkness" instance=ExtResource( 10 )]
-position = Vector2( 2049.72, 493.423 )
+[node name="Tree_2_5" parent="." index="15" instance=ExtResource( 10 )]
+position = Vector2( 2040.91, 746.953 )
+rotation = -3.14159
+scale = Vector2( 1, -1 )
 
-[node name="PlayerHouse" parent="TheDarkness" instance=ExtResource( 9 )]
-position = Vector2( 1095.31, 466.696 )
+[node name="PlayerHouse" parent="." index="16" instance=ExtResource( 9 )]
+position = Vector2( 1100.21, 639.626 )
 
-[node name="Player" parent="TheDarkness" instance=ExtResource( 2 )]
-position = Vector2( 430.424, 566.888 )
+[node name="Player" parent="." index="17" instance=ExtResource( 2 )]
+position = Vector2( 299.815, 664.055 )
 
-[node name="CameraFollow" parent="TheDarkness/Player" index="3"]
-remote_path = NodePath("../../../Camera2D")
+[node name="CameraFollow" parent="Player" index="3"]
+remote_path = NodePath("../../Camera2D")
 
-[node name="Bush_1" parent="TheDarkness" instance=ExtResource( 5 )]
-position = Vector2( 1631.01, 576.094 )
+[node name="Bush_1" parent="." index="18" instance=ExtResource( 5 )]
+position = Vector2( 1631.01, 661.498 )
 
-[node name="Leaves" parent="TheDarkness/Bush_1" index="1"]
-material = SubResource( 8 )
+[node name="Leaves" parent="Bush_1" index="1"]
+material = SubResource( 1 )
 
-[node name="Snow" parent="TheDarkness/Bush_1" index="2"]
-material = SubResource( 9 )
+[node name="Snow" parent="Bush_1" index="2"]
+material = SubResource( 2 )
 
-[node name="Collider" parent="TheDarkness/Bush_1" index="4"]
-shape = SubResource( 10 )
+[node name="Collider" parent="Bush_1" index="4"]
+shape = SubResource( 3 )
 
-[node name="Tree_1_2" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( -171.22, 472.266 )
+[node name="Bush_2" parent="." index="19" instance=ExtResource( 5 )]
+position = Vector2( 615.513, 798.25 )
+rotation = -3.14159
+scale = Vector2( 1, -1 )
 
-[node name="Tree_1_3" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( 4.14111, 490.268 )
+[node name="Tree_1_2" parent="." index="20" instance=ExtResource( 7 )]
+position = Vector2( -277.237, 669.539 )
 
-[node name="Leaves" parent="TheDarkness/Tree_1_3" index="1"]
-material = SubResource( 11 )
+[node name="Tree_1_3" parent="." index="21" instance=ExtResource( 7 )]
+position = Vector2( -33.6729, 668.777 )
 
-[node name="Snow" parent="TheDarkness/Tree_1_3" index="2"]
-material = SubResource( 12 )
+[node name="Leaves" parent="Tree_1_3" index="1"]
+material = SubResource( 4 )
 
-[node name="AnimationPlayer" parent="TheDarkness/Tree_1_3" index="3"]
-anims/Burn = SubResource( 13 )
-anims/Melt = SubResource( 14 )
-anims/Unburn = SubResource( 15 )
-anims/Unmelt = SubResource( 16 )
+[node name="Snow" parent="Tree_1_3" index="2"]
+material = SubResource( 5 )
 
-[node name="Collider" parent="TheDarkness/Tree_1_3" index="4"]
-shape = SubResource( 17 )
+[node name="Collider" parent="Tree_1_3" index="4"]
+shape = SubResource( 6 )
 
-[node name="Tree_1_8" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( -412.718, 478.856 )
+[node name="Tree_1_8" parent="." index="22" instance=ExtResource( 7 )]
+position = Vector2( -619.031, 657.454 )
 
-[node name="Tree_1" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( -306.718, 492.856 )
-scale = Vector2( -1, 1 )
+[node name="Tree_1_9" parent="." index="23" instance=ExtResource( 7 )]
+position = Vector2( -446.024, 778.701 )
 
-[node name="Tree_1_9" parent="TheDarkness" instance=ExtResource( 7 )]
-position = Vector2( -580.718, 492.856 )
+[node name="Tree_1_7" parent="." index="24" instance=ExtResource( 7 )]
+position = Vector2( -124.525, 858.006 )
 
-[editable path="TheDarkness"]
-[editable path="TheDarkness/Player"]
-[editable path="TheDarkness/Bush_1"]
-[editable path="TheDarkness/Tree_1_3"]
+[node name="SnowParticles" parent="." index="25" instance=ExtResource( 13 )]
+self_modulate = Color( 2, 2, 2, 1 )
+position = Vector2( 754.164, -10 )
+amount = 1920
+visibility_rect = Rect2( -1919.51, 0, 3843.07, 661.734 )
+process_material = SubResource( 13 )
+
+[editable path="Player"]
+[editable path="Bush_1"]
+[editable path="Tree_1_3"]

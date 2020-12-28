@@ -18,19 +18,22 @@ script = ExtResource( 2 )
 
 [node name="SnowSchloop" type="Sprite" parent="."]
 visible = false
-position = Vector2( -12.3566, 105.633 )
+position = Vector2( -12.3566, 9.24897 )
 texture = ExtResource( 4 )
 flip_h = true
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -93.2342 )
 texture = ExtResource( 1 )
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -88.1945 )
 shape = SubResource( 1 )
 
 [node name="CameraFollow" type="RemoteTransform2D" parent="."]
 
 [node name="Hurtbox" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -93.2342 )
 collision_layer = 4
 
 [node name="Collider" parent="Hurtbox" index="0"]

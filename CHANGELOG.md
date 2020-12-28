@@ -14,6 +14,28 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-28 (pt. 2)
+
+### Added
+
+* Added `CollisionWalls` - A basic scene used to create the invisible walls to prevent the player from going off screen when above clouds
+* Added `GameArea` base scene which is used as the base scene for everything in the `MainGame` folder - Has a darkness layer and a world environment for lighting and glow effects
+
+### Changed
+
+* Improved flames lighting and embers 
+* Modified noise texture utilitiy to default to a 512x512 texture so you don't __have__ to specify if you don't need to
+* Modifed the `AboveClouds` scene to responde to the beat
+* Modified the `BeatDetector` to track LOW, MED, and HIGH range of beats based on frequency split being used (default 24)
+* Updated the player's home area
+* Updated all tress, bushes and other in-game sprites to position them differnetly (this was an attempt to make use of YSort which I abandoned - We can switch them back but leaving them the way they are now doesn't hurt) (TLDR - YSort isn't gonna work here which is fine)
+* Modified the base Parallax background sceneto have a canvas modulate so the darkness of the background can be controlled
+* Boosted the snow particle's "self-modulate" to be over 100% so it shines through the darkness layer
+
+### Removed
+
+* Deleted the standalone `TheDarkness` scene in favor of putting the `CavasModulate` node inside both the `GameArea` and `ParallaxBackground` scenes
+
 ## Unreleased - 2020-12-28
 
 ### Added

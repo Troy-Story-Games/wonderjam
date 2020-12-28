@@ -25,7 +25,7 @@ func get_player_stats():
 	return ResourceLoader.load("res://Player/PlayerStats.tres")
 
 
-func new_noise_texture(width, height, octaves=3, period=64, persistence=0.5, lacunarity=2.0):
+func new_noise_texture(width=512, height=512, octaves=3, period=64, persistence=0.5, lacunarity=2.0):
 	"""
 	Grab a new texture generated from OpenSimplexNoise
 	with the given parameters

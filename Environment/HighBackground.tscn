@@ -6,14 +6,14 @@
 
 [node name="HighBackground" instance=ExtResource( 1 )]
 
-[node name="StaticLayer" parent="." index="0"]
+[node name="StaticLayer" parent="." index="1"]
 motion_mirroring = Vector2( 3840, 0 )
 
 [node name="StaticBackgroundSprite" parent="StaticLayer" index="0"]
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 3840, 720 )
 
-[node name="Background" parent="." index="1"]
+[node name="Background" parent="." index="2"]
 motion_mirroring = Vector2( 3840, 0 )
 
 [node name="BackgroundSprite" parent="Background" index="0"]

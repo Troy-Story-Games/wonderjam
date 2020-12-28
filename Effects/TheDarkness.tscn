@@ -1,8 +1,0 @@
-[gd_scene format=2]
-
-[node name="TheDarkness" type="CanvasLayer"]
-layer = -1
-follow_viewport_enable = true
-
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.501961, 0.501961, 0.588235, 1 )

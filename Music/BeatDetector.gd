@@ -2,11 +2,17 @@ extends Node
 
 signal preload_done()
 
-export(int) var FREQ_SPLIT_COUNT = 20
+export(int) var FREQ_SPLIT_COUNT = 24
 export(int) var FREQ_MAX = 20000
 export(int) var FREQ_MIN = 20
 export(float) var PRELOAD_TIME = 10.0
 export(float) var MIN_TIME_BETWEEN_BEATS = 0.15
+
+enum BeatRange {
+	LOW,
+	MED,
+	HIGH
+}
 
 var beats = []
 var freq_ranges = []
@@ -40,16 +46,9 @@ func _ready():
 	# Get the spectrum analysis instance from the back bus
 	back_spectrum = AudioServer.get_bus_effect_instance(back_bus_idx, 0)
 
-
-func _process(delta):
+func _physics_process(delta):
 	if AudioPlayers.mainAudioPlayer.playing:
-		# call 'get_beats_now' at the end of this frame
-		# If somebody already called it, it will return
-		# an empty list. If it wasn't called on this frame
-		# it will discard all the beats that are no longer
-		# possible to display
 		call_deferred("get_beats_now")
-
 
 func _process_thread(userdata):
 	"""
@@ -126,18 +125,14 @@ func get_beats_now():
 	displayed on this frame to sync visually.
 	"""
 	var compensated_playback_time = AudioPlayers.get_adjusted_playback_time()
-	var result = []
+	var beats_now = []
 
 	analysis_mutex.lock()
-	if len(beats) == 0:  # No beats
-		analysis_mutex.unlock()
-		return result
-
 	while len(beats) > 0 and compensated_playback_time >= beats[0].pos:
-		result.append(beats.pop_front())
+		beats_now.append(beats.pop_front())
 	analysis_mutex.unlock()
 
-	return result
+	return beats_now
 
 
 func analyze_background_song(prev_pos):
@@ -176,11 +171,12 @@ func analyze_background_song(prev_pos):
 		score += middle
 
 		if score > 0.5:
-			print("DEBUG: Beat @", pos)
+			#print("DEBUG: Beat @", pos)
 			rng.prev_beat_pos = pos
 
 			analysis_mutex.lock()
 			beats.append({
+				"beat_range": rng.beat_range,
 				"pos": pos,
 				"low": rng.low,
 				"high": rng.high,
@@ -204,13 +200,21 @@ func split_freq_range(low, high, split):
 	:param high: The high value (in hz)
 	:param split: The number of times to split
 	"""
+	var beat_range = BeatRange.LOW
+	var range_cutoff = int(floor(split / 3))
 	var result = []
 	var prev_hz = low
+	var j = range_cutoff
 	for i in range(split):
 		var low_hz = prev_hz
 		var high_hz = low + (i * (high / split))
 
+		if i > j:
+			j += range_cutoff
+			beat_range += 1
+
 		result.append({
+			"beat_range": beat_range,
 			"low": low_hz,
 			"high": high_hz,
 			"left": 0.0,

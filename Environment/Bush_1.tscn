@@ -21,13 +21,18 @@ shader_param/burn_position = -1.0
 [node name="Bush_1" instance=ExtResource( 1 )]
 
 [node name="Tree" parent="." index="0"]
-position = Vector2( 0.89093, 0 )
+position = Vector2( 0.89093, -84.4147 )
 texture = ExtResource( 3 )
 
 [node name="Leaves" parent="." index="1"]
 material = SubResource( 1 )
+position = Vector2( 0, -86.9345 )
 texture = ExtResource( 2 )
 
 [node name="Snow" parent="." index="2"]
 material = SubResource( 2 )
+position = Vector2( 0, -81.8949 )
 texture = ExtResource( 4 )
+
+[node name="Collider" parent="." index="4"]
+position = Vector2( 0, -90.7142 )
