@@ -18,13 +18,6 @@ func instance_scene_on_main(packed_scene, position=Vector2.ZERO):
 	return instance
 
 
-func get_main_instances():
-	"""
-	Get the shared instance of MainInstances
-	"""
-	return ResourceLoader.load("res://Utils/MainInstances.tres")
-
-
 func get_player_stats():
 	"""
 	Get the shared instance of PlayerStats

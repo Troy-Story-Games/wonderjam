@@ -23,8 +23,9 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.170274, 9.45454 ), -105.48
 curve = SubResource( 5 )
 
 [sub_resource type="ParticlesMaterial" id=7]
+resource_local_to_scene = true
 emission_shape = 2
-emission_box_extents = Vector3( 100, 0, 1 )
+emission_box_extents = Vector3( 400, 0, 1 )
 flag_disable_z = true
 gravity = Vector3( 0, 30, 0 )
 orbit_velocity = 0.0
@@ -34,9 +35,9 @@ scale = 2.0
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
-[node name="Particles2D" type="Particles2D"]
+[node name="SnowParticles" type="Particles2D"]
 amount = 500
-lifetime = 7.0
-preprocess = 7.0
+lifetime = 6.5
+preprocess = 6.5
 randomness = 1.0
 process_material = SubResource( 7 )

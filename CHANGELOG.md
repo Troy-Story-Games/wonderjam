@@ -14,6 +14,34 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-28
+
+### Added
+
+* Flame shader with 2D light, glow, and embers
+* Art for house
+* Art for `Tree 2`
+* Art for clouds
+* Cloud particle effect
+* A `UI` scene that has just the progress bar for now (just to break the code up)
+* A `HighBackground` scene (similar to `LowBackground`) - It's the Parallax background we display above the clouds
+* A temporary `TEST` scene that I'm using to test out the flame shader
+
+### Changed
+
+* `BeatDetector` is an auto-load singleton now
+* Home level now has player house, trees, bushes, etc.
+* Transition from song selection through to playing is in place
+* Simplified player movement
+* Organized code layout - `MainGame` is now a folder which contains the `House` and `PlaySong` subfolders.
+    * `House` contains the players "loading" scene. This is where the player will go after they select a song. They will be able to walk around for a few seconds while the song loads and when they're ready they can do soemthing (idk) to start the song
+    * `PlaySong` contains the `AboveClouds` scene which is going to be the main gameplay scene. We still need to make a scene for "below the clouds" when the player comes in to "winterize" a location
+
+## Removed
+
+* `MainInstances.tres` and `.gd` - Don't need them anymore now that `BeatDetector` is a singleton
+* Removed player jump for now - Probably don't need to overegnineer player ground movement since it's not really main-game
+
 ## Unreleased - 2020-12-27
 
 ### Added

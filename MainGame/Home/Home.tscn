@@ -1,0 +1,259 @@
+[gd_scene load_steps=32 format=2]
+
+[ext_resource path="res://Environment/SnowDirtPath.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Music/BeatDetector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MainGame/Home/Home.gd" type="Script" id=4]
+[ext_resource path="res://Environment/Bush_1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Environment/LowBackground.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Environment/Tree_1.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Effects/Dissolve.shader" type="Shader" id=8]
+[ext_resource path="res://Environment/PlayerHouse.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Environment/Tree_2.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Effects/TheDarkness.tscn" type="PackedScene" id=11]
+[ext_resource path="res://UI/UI.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Effects/SnowParticles.tscn" type="PackedScene" id=13]
+
+[sub_resource type="Environment" id=18]
+background_mode = 4
+glow_enabled = true
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 1, 1, 1, 1, 0.89, 0.974333, 1, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+min_value = 0.5
+max_value = 2.0
+_data = [ Vector2( 0, 1 ), 0.0, 4.42138, 0, 1, Vector2( 0.119769, 1.52955 ), 0.0, 0.0, 0, 0, Vector2( 0.186147, 0.806818 ), 0.0, 0.0, 0, 0, Vector2( 0.372294, 1.625 ), -5.53965, -5.53965, 0, 0, Vector2( 0.412698, 0.765909 ), 0.0, 0.0, 0, 0, Vector2( 0.506494, 1.44773 ), 7.99615, 7.99615, 0, 0, Vector2( 0.62482, 0.915909 ), 17.1818, 17.1818, 0, 0, Vector2( 0.72583, 1.55682 ), 23.625, 23.625, 0, 0, Vector2( 0.867244, 1.175 ), 19.7591, 19.7591, 0, 0, Vector2( 1, 1 ), -1.31821, 0.0, 1, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+min_value = -40.0
+max_value = 40.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.170274, 9.45454 ), -105.488, -105.488, 0, 0, Vector2( 0.417027, -8.72727 ), 336.0, 336.0, 0, 0, Vector2( 0.692641, -5.09091 ), -193.846, -193.846, 0, 0, Vector2( 1, 1 ), 112.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+resource_local_to_scene = true
+emission_shape = 2
+emission_box_extents = Vector3( 1920, 0, 1 )
+flag_disable_z = true
+gravity = Vector3( 0, 30, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+tangential_accel_curve = SubResource( 6 )
+scale = 2.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
+
+[sub_resource type="ShaderMaterial" id=9]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
+
+[sub_resource type="CircleShape2D" id=10]
+radius = 120.844
+
+[sub_resource type="ShaderMaterial" id=11]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
+
+[sub_resource type="ShaderMaterial" id=12]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/burn_size = 0.1
+shader_param/burn_position = -1.0
+
+[sub_resource type="Animation" id=13]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Leaves:burn_pos")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -1.0, 1.0 ]
+}
+
+[sub_resource type="Animation" id=14]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Snow:burn_pos")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -1.0, 1.0 ]
+}
+
+[sub_resource type="Animation" id=15]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Leaves:burn_pos")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, -1.0 ]
+}
+
+[sub_resource type="Animation" id=16]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Snow:burn_pos")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, -1.0 ]
+}
+
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 33.3068, 225.722 )
+
+[node name="Home" type="Node"]
+script = ExtResource( 4 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 18 )
+
+[node name="UI" parent="." instance=ExtResource( 12 )]
+
+[node name="BeatDetector" parent="." instance=ExtResource( 3 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 430.424, 566.888 )
+current = true
+limit_top = 0
+limit_bottom = 720
+smoothing_enabled = true
+
+[node name="SnowParticles" parent="." instance=ExtResource( 13 )]
+position = Vector2( 754.164, -10 )
+amount = 1920
+process_material = SubResource( 7 )
+
+[node name="LowBackground" parent="." instance=ExtResource( 6 )]
+
+[node name="TheDarkness" parent="." instance=ExtResource( 11 )]
+
+[node name="CanvasModulate" parent="TheDarkness" index="0"]
+color = Color( 0.647059, 0.501961, 0.686275, 1 )
+
+[node name="Tree_1_7" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( -39.1215, 424.995 )
+
+[node name="Tree_1_5" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( -234.477, 424.787 )
+scale = Vector2( -1, 1 )
+
+[node name="Tree_1_6" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( -532.173, 442.039 )
+
+[node name="Tree_1_4" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( 153.739, 438.147 )
+scale = Vector2( -1, 1 )
+
+[node name="Tree_2" parent="TheDarkness" instance=ExtResource( 10 )]
+position = Vector2( 741.821, 438.423 )
+
+[node name="Tree_2_2" parent="TheDarkness" instance=ExtResource( 10 )]
+position = Vector2( 2213.96, 434.291 )
+scale = Vector2( -1, 1 )
+
+[node name="Tree_2_3" parent="TheDarkness" instance=ExtResource( 10 )]
+position = Vector2( 2515.85, 427.556 )
+
+[node name="SnowDirtPath" parent="TheDarkness" instance=ExtResource( 1 )]
+position = Vector2( 627.092, 655.518 )
+
+[node name="Tree_2_4" parent="TheDarkness" instance=ExtResource( 10 )]
+position = Vector2( 1867.27, 467.198 )
+
+[node name="Tree_2_5" parent="TheDarkness" instance=ExtResource( 10 )]
+position = Vector2( 2049.72, 493.423 )
+
+[node name="PlayerHouse" parent="TheDarkness" instance=ExtResource( 9 )]
+position = Vector2( 1095.31, 466.696 )
+
+[node name="Player" parent="TheDarkness" instance=ExtResource( 2 )]
+position = Vector2( 430.424, 566.888 )
+
+[node name="CameraFollow" parent="TheDarkness/Player" index="3"]
+remote_path = NodePath("../../../Camera2D")
+
+[node name="Bush_1" parent="TheDarkness" instance=ExtResource( 5 )]
+position = Vector2( 1631.01, 576.094 )
+
+[node name="Leaves" parent="TheDarkness/Bush_1" index="1"]
+material = SubResource( 8 )
+
+[node name="Snow" parent="TheDarkness/Bush_1" index="2"]
+material = SubResource( 9 )
+
+[node name="Collider" parent="TheDarkness/Bush_1" index="4"]
+shape = SubResource( 10 )
+
+[node name="Tree_1_2" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( -171.22, 472.266 )
+
+[node name="Tree_1_3" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( 4.14111, 490.268 )
+
+[node name="Leaves" parent="TheDarkness/Tree_1_3" index="1"]
+material = SubResource( 11 )
+
+[node name="Snow" parent="TheDarkness/Tree_1_3" index="2"]
+material = SubResource( 12 )
+
+[node name="AnimationPlayer" parent="TheDarkness/Tree_1_3" index="3"]
+anims/Burn = SubResource( 13 )
+anims/Melt = SubResource( 14 )
+anims/Unburn = SubResource( 15 )
+anims/Unmelt = SubResource( 16 )
+
+[node name="Collider" parent="TheDarkness/Tree_1_3" index="4"]
+shape = SubResource( 17 )
+
+[node name="Tree_1_8" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( -412.718, 478.856 )
+
+[node name="Tree_1" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( -306.718, 492.856 )
+scale = Vector2( -1, 1 )
+
+[node name="Tree_1_9" parent="TheDarkness" instance=ExtResource( 7 )]
+position = Vector2( -580.718, 492.856 )
+
+[editable path="TheDarkness"]
+[editable path="TheDarkness/Player"]
+[editable path="TheDarkness/Bush_1"]
+[editable path="TheDarkness/Tree_1_3"]

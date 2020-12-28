@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Art/flame_shader_gradient.png" type="Texture" id=1]
+[ext_resource path="res://Effects/Flames.gd" type="Script" id=2]
+[ext_resource path="res://Art/light_gradient.png" type="Texture" id=3]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D noise;
+
+void fragment() {
+	vec4 base = texture(TEXTURE, UV);
+	vec4 n = texture(noise, vec2(UV.x, UV.y + TIME));
+
+	base.r += 0.4f - distance(vec2(0.5, UV.y), UV);
+	base.r = (base.r * 0.3) + (n.r * 0.4);
+
+	COLOR = vec4(float(base.r > 0.4), float(base.r > 0.5), float(base.r > 0.6), float(base.r > 0.4));
+}"
+
+[sub_resource type="OpenSimplexNoise" id=2]
+
+[sub_resource type="NoiseTexture" id=3]
+seamless = true
+noise = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 1 )
+shader_param/noise = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+lifetime_randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 35.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, 250, 0 )
+initial_velocity = 250.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 2.0
+color = Color( 2, 2, 0, 1 )
+
+[node name="Flames" type="Sprite"]
+material = SubResource( 4 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 3 )
+texture_scale = 0.3
+energy = 2.0
+
+[node name="Embers" type="Particles2D" parent="."]
+amount = 4
+lifetime = 4.0
+explosiveness = 0.2
+process_material = SubResource( 5 )

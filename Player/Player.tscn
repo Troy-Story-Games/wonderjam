@@ -12,9 +12,7 @@ extents = Vector2( 37.9169, 85.0482 )
 radius = 28.2393
 height = 111.409
 
-[node name="Player" type="KinematicBody2D" groups=[
-"Player",
-]]
+[node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 2 )
 
@@ -26,7 +24,6 @@ flip_h = true
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-flip_h = true
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -38,5 +35,7 @@ collision_layer = 4
 
 [node name="Collider" parent="Hurtbox" index="0"]
 shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [editable path="Hurtbox"]

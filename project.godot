@@ -41,6 +41,7 @@ config/icon="res://icon.png"
 
 Utils="*res://Utils/Utils.gd"
 AudioPlayers="*res://Music/AudioPlayers.tscn"
+BeatDetector="*res://Music/BeatDetector.tscn"
 
 [display]
 

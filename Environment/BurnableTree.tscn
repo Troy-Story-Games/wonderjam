@@ -76,7 +76,8 @@ tracks/0/keys = {
 "values": [ 1.0, -1.0 ]
 }
 
-[node name="BurnableTree" type="Node2D"]
+[node name="BurnableTree" type="StaticBody2D"]
+collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="Tree" type="Sprite" parent="."]
@@ -93,5 +94,7 @@ anims/Burn = SubResource( 3 )
 anims/Melt = SubResource( 4 )
 anims/Unburn = SubResource( 5 )
 anims/Unmelt = SubResource( 6 )
+
+[node name="Collider" type="CollisionShape2D" parent="."]
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

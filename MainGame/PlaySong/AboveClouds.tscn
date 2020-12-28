@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Environment/HighBackground.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Effects/CloudParticles.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Effects/TheDarkness.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MainGame/PlaySong/AboveClouds.gd" type="Script" id=5]
+
+[sub_resource type="ParticlesMaterial" id=1]
+resource_local_to_scene = true
+emission_shape = 2
+emission_box_extents = Vector3( 1, 1, 1 )
+flag_disable_z = true
+spread = 3.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = -200.0
+initial_velocity_random = 0.25
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
+[node name="AboveClouds" type="Node"]
+script = ExtResource( 5 )
+
+[node name="CloudParticles" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1349.54, 721.938 )
+amount = 15
+lifetime = 20.0
+preprocess = 20.0
+explosiveness = 0.0
+visibility_rect = Rect2( -3807.42, -133.097, 3807.42, 306.707 )
+process_material = SubResource( 1 )
+
+[node name="HighBackground" parent="." instance=ExtResource( 1 )]
+AUTO_SCROLL = true
+SCROLL_SPEED = 250
+BACKGROUND_SCALE = 0.9
+MIDGROUND_SCALE = 1.0
+
+[node name="TheDarkness" parent="." instance=ExtResource( 4 )]
+
+[node name="Player" parent="TheDarkness" instance=ExtResource( 2 )]
+position = Vector2( 152.735, 376.181 )
+ACCELERATION = 2000
+MAX_SPEED = 450
+GRAVITY = 0
+FRICTION = 1.0
+STATE = 1
+
+[node name="SnowSchloop" parent="TheDarkness/Player" index="0"]
+visible = true
+
+[node name="CameraFollow" parent="TheDarkness/Player" index="3"]
+remote_path = NodePath("../../../Camera2D")
+
+[editable path="TheDarkness/Player"]

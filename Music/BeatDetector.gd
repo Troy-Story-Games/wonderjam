@@ -8,8 +8,6 @@ export(int) var FREQ_MIN = 20
 export(float) var PRELOAD_TIME = 10.0
 export(float) var MIN_TIME_BETWEEN_BEATS = 0.15
 
-var MainInstances = Utils.get_main_instances()
-
 var beats = []
 var freq_ranges = []
 var min_db = 0
@@ -27,7 +25,6 @@ onready var preloadTimer = $PreloadTimer
 
 func _init():
 	freq_ranges.append_array(split_freq_range(FREQ_MIN, FREQ_MAX, FREQ_SPLIT_COUNT))
-	MainInstances.beatDetector = self
 	analysis_mutex = Mutex.new()
 	analysis_thread = Thread.new()
 
@@ -42,14 +39,6 @@ func _ready():
 
 	# Get the spectrum analysis instance from the back bus
 	back_spectrum = AudioServer.get_bus_effect_instance(back_bus_idx, 0)
-
-	# Load the song
-	AudioPlayers.load_song(MainInstances.songFilePath)
-
-	# Start preloading the song immediately
-	AudioPlayers.backAudioPlayer.play()
-	preloadTimer.start(PRELOAD_TIME)
-	analysis_thread.start(self, "_process_thread")
 
 
 func _process(delta):
@@ -86,6 +75,16 @@ func _exit_tree():
 	exit_thread = true
 	analysis_mutex.unlock()
 	analysis_thread.wait_to_finish()
+
+
+func preload_song(path):
+	# Load the song
+	AudioPlayers.load_song(path)
+
+	# Start preloading the song immediately
+	AudioPlayers.backAudioPlayer.play()
+	preloadTimer.start(PRELOAD_TIME)
+	analysis_thread.start(self, "_process_thread")
 
 
 func get_preload_progress():
