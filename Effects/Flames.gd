@@ -17,6 +17,7 @@ func _process(delta):
 	"""
 	Handles the flickering of the fire
 	"""
-	time += delta * 75
-	var offset = noise_texture.noise.get_noise_1d(time)
-	light2D.scale = Vector2(1.5 + offset / 3, 1.5 + offset / 3)
+	if light2D.visible:
+		time += delta * 75
+		var offset = noise_texture.noise.get_noise_1d(time)
+		light2D.scale = Vector2(1.5 + offset / 3, 1.5 + offset / 3)

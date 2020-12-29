@@ -14,6 +14,22 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-28 (pt. 3)
+
+### Added
+
+* A wider non-circular fire
+* An enemy base scene
+* An initial fire enemy using the flames shader
+* Some more art
+* Added default export locations and setup basic parameters for Windows, Android, and Web export
+* Laser ice beam thing based on https://github.com/GDQuest/godot-2d-space-game
+
+### Changed
+
+* Broke the flame shader out into it's own object along with the flames material so they can be reused
+* Modified the flame shader to set custom flame colors and some other tweaks
+
 ## Unreleased - 2020-12-28 (pt. 2)
 
 ### Added
