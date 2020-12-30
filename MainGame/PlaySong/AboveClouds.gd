@@ -17,7 +17,7 @@ func _ready():
 
 
 func _physics_process(delta):
-	var beats = BeatDetector.get_low_beats_now(delta)
+	var beats = BeatDetector.get_low_beats_now()
 
 	if len(beats) > 0:
 		boost = true

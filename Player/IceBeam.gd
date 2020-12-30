@@ -1,8 +1,11 @@
 extends RayCast2D
 
-export(float) var LINE_WIDTH = 5.0
+export(float) var LINE_WIDTH = 10.0
+export(Vector2) var PULSE_ORB_SCALE = Vector2.ONE setget set_pulse_orb_scale
+export(float) var PULSE_LINE_WIDTH = LINE_WIDTH setget set_pulse_line_width
 
 var is_casting = false setget set_is_casting
+
 
 onready var line2D = $Line2D
 onready var appearTween = $AppearTween
@@ -10,11 +13,13 @@ onready var beamSourceParticles = $BeamSourceParticles
 onready var beamImpactParticles = $BeamImpactParticles
 onready var beamSparkles = $BeamSparkles
 onready var animationPlayer = $AnimationPlayer
+onready var beamSourceOrb = $BeamSourceOrb
 
 
 func _ready():
 	set_physics_process(false)
 	line2D.points[1] = Vector2.ZERO
+	beamSourceOrb.scale = Vector2.ZERO
 
 
 func _input(event):
@@ -39,10 +44,10 @@ func _physics_process(delta):
 
 	beamSparkles.position = cast_point * 0.5
 	beamSparkles.process_material.emission_box_extents.x = cast_point.length() * 0.5
-
-	if not appearTween.is_active() and not animationPlayer.is_playing() and len(BeatDetector.get_beats_now(delta)) > 0:
-		print("****PULSE")
-		animationPlayer.play("Pulse")
+	
+	if not appearTween.is_active():
+		if len(BeatDetector.get_beats_now()) > 0:
+			pulse()
 
 
 func set_is_casting(value):
@@ -50,8 +55,8 @@ func set_is_casting(value):
 
 	beamSparkles.emitting = is_casting
 	beamSourceParticles.emitting = is_casting
+
 	if is_casting:
-		animationPlayer.stop()
 		appear()
 	else:
 		beamImpactParticles.emitting = false
@@ -60,13 +65,38 @@ func set_is_casting(value):
 	set_physics_process(is_casting)
 
 
+func set_pulse_orb_scale(value):
+	PULSE_ORB_SCALE = value
+	if beamSourceOrb != null:
+		beamSourceOrb.scale = PULSE_ORB_SCALE
+
+
+func set_pulse_line_width(value):
+	PULSE_LINE_WIDTH = value
+	if line2D != null:
+		line2D.width = PULSE_LINE_WIDTH
+
+
+func pulse(speed=0.3):
+	speed = 1 / speed  # Speed needs to be greater than 1 to increase speed
+	if not animationPlayer.is_playing():
+		animationPlayer.playback_speed = speed
+		animationPlayer.play("Pulse")
+	else:
+		animationPlayer.playback_speed *= 1.5
+
+
 func appear():
-	appearTween.stop_all()
-	appearTween.interpolate_property(line2D, "width", 0, LINE_WIDTH, 0.2)
+	animationPlayer.stop()
+	appearTween.remove_all()
+	appearTween.interpolate_property(beamSourceOrb, "scale", Vector2.ZERO, Vector2.ONE, 0.1)
+	appearTween.interpolate_property(line2D, "width", 0, LINE_WIDTH, 0.1)
 	appearTween.start()
-	
+
 
 func disappear():
-	appearTween.stop_all()
+	animationPlayer.stop()
+	appearTween.remove_all()
+	appearTween.interpolate_property(beamSourceOrb, "scale", Vector2.ONE, Vector2.ZERO, 0.1)
 	appearTween.interpolate_property(line2D, "width", LINE_WIDTH, 0, 0.1)
 	appearTween.start()

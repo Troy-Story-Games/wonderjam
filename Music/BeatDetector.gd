@@ -71,7 +71,7 @@ func _physics_process(delta):
 		# This must always be called - so we call it here just in case nobody
 		# else does on this frame. This populates the beats_now instance
 		# variable with beats valid for this frame.
-		get_beats_now(delta)
+		get_beats_now()
 		
 		# We schedule the "clear_beats_now" function to be called
 		# at the end of the frame since they won't be valid for
@@ -149,7 +149,7 @@ func start_main_song():
 	AudioPlayers.mainAudioPlayer.play()
 
 
-func get_beats_now(delta):
+func get_beats_now():
 	"""
 	Get the identified beats across the spectrum for right now in the
 	main song.
@@ -187,30 +187,30 @@ func get_beats_now(delta):
 	return beats_now
 
 
-func get_low_beats_now(delta):
+func get_low_beats_now():
 	"""
 	Same as get_beats_now but only return the list of beats in the
 	low frequency ranges
 	"""
-	get_beats_now(delta)
+	get_beats_now()
 	return beats_now_by_range.low
 
 
-func get_mid_beats_now(delta):
+func get_mid_beats_now():
 	"""
 	Same as get_beats_now but only return the list of beats in the
 	middle frequency ranges
 	"""
-	get_beats_now(delta)
+	get_beats_now()
 	return beats_now_by_range.mid
 
 
-func get_high_beats_now(delta):
+func get_high_beats_now():
 	"""
 	Same as get_beats_now but only return the list of beats in the
 	high frequency ranges
 	"""
-	get_beats_now(delta)
+	get_beats_now()
 	return beats_now_by_range.high
 
 

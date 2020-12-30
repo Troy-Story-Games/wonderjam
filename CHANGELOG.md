@@ -14,6 +14,17 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-30
+
+### Added
+
+* Laser shader
+* Better laser pulsing logic
+
+### Changed
+
+* Laser particle size and amount
+
 ## Unreleased - 2020-12-29
 
 ### Added

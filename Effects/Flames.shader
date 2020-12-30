@@ -7,6 +7,7 @@ uniform bool narrow = true;
 uniform float speed : hint_range(0.1, 5.0) = 1.0;
 uniform sampler2D noise;
 
+
 void fragment() {
 	vec4 base = texture(TEXTURE, UV);
 	vec4 n = texture(noise, vec2(UV.x, UV.y + (TIME * speed)));

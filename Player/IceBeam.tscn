@@ -1,10 +1,26 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player/IceBeam.gd" type="Script" id=1]
-[ext_resource path="res://Art/glowing_circle.png" type="Texture" id=2]
+[ext_resource path="res://Effects/Laser.shader" type="Shader" id=2]
+
+[sub_resource type="OpenSimplexNoise" id=12]
+period = 24.0
+persistence = 0.1
+lacunarity = 4.0
+
+[sub_resource type="NoiseTexture" id=13]
+height = 20
+noise = SubResource( 12 )
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = ExtResource( 2 )
+shader_param/color = Color( 0.235294, 0.701961, 0.976471, 1 )
+shader_param/scroll_speed = 1.0
+shader_param/flash_interval = 5.0
+shader_param/noise_texture = SubResource( 13 )
 
 [sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0, 0.655022, 1 )
+offsets = PoolRealArray( 0, 0.296943, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=2]
@@ -16,25 +32,20 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.496183, 1 ), 0.0, 0.0, 0, 
 [sub_resource type="CurveTexture" id=4]
 curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=5]
-flag_disable_z = true
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 120.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 0.3
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
-
 [sub_resource type="ParticlesMaterial" id=6]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 250.0
+initial_velocity = 300.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale = 0.3
+scale = 0.4
+scale_random = 0.5
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
+
+[sub_resource type="StreamTexture" id=10]
+flags = 4
+load_path = "res://.import/glowing_circle.png-9d567aba19cc3cec2481f6afa5449655.stex"
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.496882, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
@@ -50,29 +61,51 @@ flag_disable_z = true
 direction = Vector3( -1, 0, 0 )
 spread = 0.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 30.0
+initial_velocity = 80.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-tangential_accel = 100.0
+tangential_accel = 200.0
 tangential_accel_random = 1.0
 scale = 0.3
 scale_curve = SubResource( 8 )
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="ParticlesMaterial" id=5]
+lifetime_randomness = 0.5
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 150.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.75
+scale_random = 0.5
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="Animation" id=11]
 resource_name = "Pulse"
-length = 0.15
-step = 0.005
 tracks/0/type = "value"
-tracks/0/path = NodePath("Line2D:width")
+tracks/0/path = NodePath(".:PULSE_ORB_SCALE")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.075, 0.15 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 5.0, 10.0, 5.0 ]
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:PULSE_LINE_WIDTH")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 10.0, 15.0, 10.0 ]
 }
 
 [node name="IceBeam" type="RayCast2D"]
@@ -80,44 +113,52 @@ enabled = true
 cast_to = Vector2( 1920, 0 )
 collision_mask = 8
 script = ExtResource( 1 )
+PULSE_LINE_WIDTH = 15.0
 
 [node name="Line2D" type="Line2D" parent="."]
 self_modulate = Color( 2, 2, 2, 1 )
+material = SubResource( 14 )
 points = PoolVector2Array( 0, 0, 100, 0 )
-width = 5.0
 default_color = Color( 0.235294, 0.701961, 0.976471, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+round_precision = 50
+antialiased = true
 
 [node name="AppearTween" type="Tween" parent="."]
 
-[node name="BeamSourceParticles" type="Particles2D" parent="."]
-modulate = Color( 1.5, 1.5, 1.5, 1 )
-emitting = false
-lifetime = 0.3
-process_material = SubResource( 5 )
-texture = ExtResource( 2 )
-
 [node name="BeamImpactParticles" type="Particles2D" parent="."]
-modulate = Color( 1.5, 1.5, 1.5, 1 )
+modulate = Color( 2, 2, 2, 1 )
 emitting = false
 lifetime = 0.3
 process_material = SubResource( 6 )
-texture = ExtResource( 2 )
+texture = SubResource( 10 )
 
 [node name="BeamSparkles" type="Particles2D" parent="."]
-modulate = Color( 1.5, 1.5, 1.5, 1 )
+modulate = Color( 2, 2, 2, 1 )
 emitting = false
-amount = 50
+amount = 150
 preprocess = 1.0
 randomness = 1.0
 visibility_rect = Rect2( -2500, -2500, 5000, 5000 )
 local_coords = false
 draw_order = 1
 process_material = SubResource( 9 )
-texture = ExtResource( 2 )
+texture = SubResource( 10 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="BeamSourceOrb" type="Sprite" parent="."]
+visible = false
 self_modulate = Color( 2, 2, 2, 1 )
-texture = ExtResource( 2 )
+scale = Vector2( 1.2, 1.2 )
+texture = SubResource( 10 )
+
+[node name="BeamSourceParticles" type="Particles2D" parent="."]
+modulate = Color( 2, 2, 2, 1 )
+emitting = false
+lifetime = 0.4
+process_material = SubResource( 5 )
+texture = SubResource( 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Pulse = SubResource( 10 )
+anims/Pulse = SubResource( 11 )
