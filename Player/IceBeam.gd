@@ -1,12 +1,15 @@
 extends RayCast2D
 
+export(float) var LINE_WIDTH = 5.0
+
 var is_casting = false setget set_is_casting
 
 onready var line2D = $Line2D
-onready var tween = $Tween
+onready var appearTween = $AppearTween
 onready var beamSourceParticles = $BeamSourceParticles
 onready var beamImpactParticles = $BeamImpactParticles
 onready var beamSparkles = $BeamSparkles
+onready var animationPlayer = $AnimationPlayer
 
 
 func _ready():
@@ -37,6 +40,10 @@ func _physics_process(delta):
 	beamSparkles.position = cast_point * 0.5
 	beamSparkles.process_material.emission_box_extents.x = cast_point.length() * 0.5
 
+	if not appearTween.is_active() and not animationPlayer.is_playing() and len(BeatDetector.get_beats_now(delta)) > 0:
+		print("****PULSE")
+		animationPlayer.play("Pulse")
+
 
 func set_is_casting(value):
 	is_casting = value
@@ -44,6 +51,7 @@ func set_is_casting(value):
 	beamSparkles.emitting = is_casting
 	beamSourceParticles.emitting = is_casting
 	if is_casting:
+		animationPlayer.stop()
 		appear()
 	else:
 		beamImpactParticles.emitting = false
@@ -53,12 +61,12 @@ func set_is_casting(value):
 
 
 func appear():
-	tween.stop_all()
-	tween.interpolate_property(line2D, "width", 0, 10.0, 0.2)
-	tween.start()
+	appearTween.stop_all()
+	appearTween.interpolate_property(line2D, "width", 0, LINE_WIDTH, 0.2)
+	appearTween.start()
 	
 
 func disappear():
-	tween.stop_all()
-	tween.interpolate_property(line2D, "width", 10.0, 0, 0.1)
-	tween.start()
+	appearTween.stop_all()
+	appearTween.interpolate_property(line2D, "width", LINE_WIDTH, 0, 0.1)
+	appearTween.start()

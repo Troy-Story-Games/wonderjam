@@ -45,3 +45,17 @@ func new_noise_texture(width=512, height=512, octaves=3, period=64, persistence=
 	noise_tex.noise = noise
 	
 	return noise_tex
+
+
+func stdev(items, mean):
+	"""
+	Calculate the standard deviation of a list of items given the items
+	and the mean
+	"""
+	var sum_of_squares = 0.0
+	for item in items:
+		sum_of_squares += pow((item - mean), 2)
+
+	var variance = sum_of_squares / (len(items) - 1.0)
+
+	return sqrt(variance)

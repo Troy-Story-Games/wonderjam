@@ -16,8 +16,11 @@ var PlayerStats = Utils.get_player_stats()
 var motion = Vector2.ZERO
 var state = PlayerState.WALKING setget set_state
 
-onready var sprite = $Sprite
+onready var flyingSprite = $FlyingSprite
+onready var walkingSprite = $WalkingSprite
 onready var snowSchloop = $SnowSchloop
+onready var animationPlayer = $AnimationPlayer
+onready var iceBeam = $IceBeam
 
 
 func _ready():
@@ -53,8 +56,14 @@ func set_state(value):
 	match state:
 		PlayerState.WALKING:
 			snowSchloop.visible = false
+			flyingSprite.visible = false
+			walkingSprite.visible = true
+			iceBeam.visible = false
 		PlayerState.FLYING:
 			snowSchloop.visible = true
+			walkingSprite.visible = false
+			flyingSprite.visible = true
+			iceBeam.visible = true
 
 
 func get_input_vector():
@@ -110,7 +119,10 @@ func update_animations(input_vector):
 	match self.state:
 		PlayerState.WALKING:
 			if input_vector.x != 0:
-				sprite.scale.x = sign(input_vector.x)
+				walkingSprite.scale.x = sign(input_vector.x)
+				animationPlayer.play("Walking")
+			else:
+				animationPlayer.stop()
 		PlayerState.FLYING:
 			pass  # TODO
 

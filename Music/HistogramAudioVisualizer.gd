@@ -63,11 +63,5 @@ func populate_histogram(delta):
 		freqrange_high = freqrange_high * freqrange_high * freqrange_high * freqrange_high
 		freqrange_high = lerp(FREQ_MIN, FREQ_MAX, freqrange_high)
 		
-		var mag = spectrum.get_magnitude_for_frequency_range(freqrange_low, freqrange_high)
-		mag = linear2db(mag.length())
-		mag = (mag - min_db) / (max_db - min_db)
-		
-		mag += 0.3 * (freq - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)
-		mag = clamp(mag, 0.05, 1)
-		
-		histogram[i] = lerp(histogram[i], mag, ACCEL * delta)
+		var energy = AudioPlayers.get_energy_for_frequency_range(spectrum, freqrange_low, freqrange_high)
+		histogram[i] = lerp(histogram[i], energy, ACCEL * delta)

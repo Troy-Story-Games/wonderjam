@@ -6,6 +6,9 @@
 
 [node name="HighBackground" instance=ExtResource( 1 )]
 
+[node name="CanvasModulate" parent="." index="0"]
+color = Color( 0.501961, 0.501961, 0.501961, 1 )
+
 [node name="StaticLayer" parent="." index="1"]
 motion_mirroring = Vector2( 3840, 0 )
 

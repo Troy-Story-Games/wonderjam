@@ -4,6 +4,11 @@ const MAX_DB = 0
 const MIN_DB = -40
 const COMPENSATE_FRAMES = 2
 const COMPENSATE_HZ = 60.0
+const FREQ_MAX = 20000
+const FREQ_MIN = 20
+
+var max_db = MAX_DB
+var min_db = MIN_DB
 
 onready var mainAudioPlayer = $MainAudioPlayer
 onready var backAudioPlayer = $BackAudioPlayer
@@ -15,6 +20,9 @@ func _ready():
 
 	# Mute the background song
 	AudioServer.set_bus_mute(back_bus_idx, true)
+	
+	min_db = MIN_DB + mainAudioPlayer.volume_db
+	max_db = MAX_DB + mainAudioPlayer.volume_db
 
 
 func get_adjusted_playback_time():
@@ -23,12 +31,24 @@ func get_adjusted_playback_time():
 	return mainAudioPlayer.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency() + (1 / COMPENSATE_HZ) * COMPENSATE_FRAMES
 
 
+func get_background_playback_position():
+	return backAudioPlayer.get_playback_position() + AudioServer.get_time_since_last_mix()
+
+
+func get_energy_for_frequency_range(spectrum, freq_low, freq_high):
+	var mag = spectrum.get_magnitude_for_frequency_range(freq_low, freq_high)
+	mag = linear2db(mag.length())
+	mag = (mag - min_db) / (max_db - min_db)
+	mag += 0.3 * (freq_low - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)
+	return clamp(mag, 0.05, 1)
+
+
 func get_min_db():
-	return MIN_DB + mainAudioPlayer.volume_db
+	return min_db
 
 
 func get_max_db():
-	return MAX_DB + mainAudioPlayer.volume_db
+	return max_db
 
 
 func load_song(path):

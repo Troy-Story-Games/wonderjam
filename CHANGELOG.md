@@ -14,6 +14,22 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-29
+
+### Added
+
+* Walking animations for winter guy (Aseprite + png sprite sheet + scene modifications)
+* An `get_energy_for_frequency_range` helper function 
+
+### Changed
+
+* Fixed glowing for laser so it looks better (still needs more work)
+* Added a stadard deviation helper to Utils (for beat analysis)
+* Massively improved beat detection
+* Started added energy and further beat analysis (WIP - Detect lulls, drops, and BPM eventually)
+* Modified laser to pulse to the beat
+* Improved scrolling background to the beat
+
 ## Unreleased - 2020-12-28 (pt. 3)
 
 ### Added
