@@ -1,11 +1,9 @@
 extends RayCast2D
 
 export(float) var LINE_WIDTH = 10.0
-export(Vector2) var PULSE_ORB_SCALE = Vector2.ONE setget set_pulse_orb_scale
 export(float) var PULSE_LINE_WIDTH = LINE_WIDTH setget set_pulse_line_width
 
 var is_casting = false setget set_is_casting
-
 
 onready var line2D = $Line2D
 onready var appearTween = $AppearTween
@@ -13,13 +11,11 @@ onready var beamSourceParticles = $BeamSourceParticles
 onready var beamImpactParticles = $BeamImpactParticles
 onready var beamSparkles = $BeamSparkles
 onready var animationPlayer = $AnimationPlayer
-onready var beamSourceOrb = $BeamSourceOrb
 
 
 func _ready():
 	set_physics_process(false)
 	line2D.points[1] = Vector2.ZERO
-	beamSourceOrb.scale = Vector2.ZERO
 
 
 func _input(event):
@@ -65,12 +61,6 @@ func set_is_casting(value):
 	set_physics_process(is_casting)
 
 
-func set_pulse_orb_scale(value):
-	PULSE_ORB_SCALE = value
-	if beamSourceOrb != null:
-		beamSourceOrb.scale = PULSE_ORB_SCALE
-
-
 func set_pulse_line_width(value):
 	PULSE_LINE_WIDTH = value
 	if line2D != null:
@@ -89,7 +79,6 @@ func pulse(speed=0.3):
 func appear():
 	animationPlayer.stop()
 	appearTween.remove_all()
-	appearTween.interpolate_property(beamSourceOrb, "scale", Vector2.ZERO, Vector2.ONE, 0.1)
 	appearTween.interpolate_property(line2D, "width", 0, LINE_WIDTH, 0.1)
 	appearTween.start()
 
@@ -97,6 +86,5 @@ func appear():
 func disappear():
 	animationPlayer.stop()
 	appearTween.remove_all()
-	appearTween.interpolate_property(beamSourceOrb, "scale", Vector2.ONE, Vector2.ZERO, 0.1)
 	appearTween.interpolate_property(line2D, "width", LINE_WIDTH, 0, 0.1)
 	appearTween.start()

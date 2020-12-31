@@ -78,6 +78,7 @@ resource_local_to_scene = true
 emission_shape = 2
 emission_box_extents = Vector3( 1920, 0, 1 )
 flag_disable_z = true
+spread = 15.0
 gravity = Vector3( 0, 30, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
@@ -207,9 +208,13 @@ position = Vector2( -124.525, 858.006 )
 
 [node name="SnowParticles" parent="." index="25" instance=ExtResource( 13 )]
 self_modulate = Color( 2, 2, 2, 1 )
-position = Vector2( 754.164, -10 )
-amount = 1920
-visibility_rect = Rect2( -1919.51, 0, 3843.07, 661.734 )
+position = Vector2( 640, -100 )
+amount = 1500
+lifetime = 7.0
+preprocess = 7.0
+randomness = 0.5
+visibility_rect = Rect2( -1918.57, 0, 3842.89, 660.211 )
+draw_order = 1
 process_material = SubResource( 14 )
 
 [editable path="Player"]
