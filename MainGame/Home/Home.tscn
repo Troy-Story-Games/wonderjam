@@ -1,6 +1,6 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
-[ext_resource path="res://Environment/SnowDirtPath.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Environment/SnowPath.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=3]
 [ext_resource path="res://MainGame/Home/Home.gd" type="Script" id=4]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Effects/Dissolve.shader" type="Shader" id=8]
 [ext_resource path="res://Environment/PlayerHouse.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Environment/Tree_2.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Art/snow_path_front.png" type="Texture" id=11]
 [ext_resource path="res://UI/UI.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Effects/SnowParticles.tscn" type="PackedScene" id=13]
 
@@ -101,7 +102,7 @@ environment = SubResource( 1 )
 [node name="LowBackground" parent="." index="3" instance=ExtResource( 6 )]
 
 [node name="Camera2D" type="Camera2D" parent="." index="4"]
-position = Vector2( 299.815, 664.055 )
+position = Vector2( 299.815, 661.406 )
 current = true
 limit_top = 0
 limit_bottom = 720
@@ -138,13 +139,13 @@ position = Vector2( 2590.46, 614.237 )
 [node name="Tree_2_4" parent="." index="11" instance=ExtResource( 10 )]
 position = Vector2( 1779.96, 612.339 )
 
-[node name="Tree_1" parent="." index="12" instance=ExtResource( 7 )]
+[node name="SnowPath" parent="." index="12" instance=ExtResource( 1 )]
+position = Vector2( 640, 650 )
+
+[node name="Tree_1" parent="." index="13" instance=ExtResource( 7 )]
 position = Vector2( -121.454, 615.28 )
 rotation = 3.14159
 scale = Vector2( 1, -1 )
-
-[node name="SnowDirtPath" parent="." index="13" instance=ExtResource( 1 )]
-position = Vector2( 627.092, 655.518 )
 
 [node name="Tree_2_6" parent="." index="14" instance=ExtResource( 10 )]
 position = Vector2( 2472.99, 790.584 )
@@ -160,12 +161,18 @@ scale = Vector2( 1, -1 )
 position = Vector2( 1100.21, 639.626 )
 
 [node name="Player" parent="." index="17" instance=ExtResource( 2 )]
-position = Vector2( 299.815, 664.055 )
+position = Vector2( 299.815, 661.406 )
 
 [node name="CameraFollow" parent="Player" index="4"]
 remote_path = NodePath("../../Camera2D")
 
-[node name="Bush_1" parent="." index="18" instance=ExtResource( 5 )]
+[node name="SnowPathFront" type="Sprite" parent="." index="18"]
+position = Vector2( 640, 640 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 4096, 150 )
+
+[node name="Bush_1" parent="." index="19" instance=ExtResource( 5 )]
 position = Vector2( 1631.01, 661.498 )
 
 [node name="Leaves" parent="Bush_1" index="1"]
@@ -177,15 +184,15 @@ material = SubResource( 3 )
 [node name="Collider" parent="Bush_1" index="4"]
 shape = SubResource( 4 )
 
-[node name="Bush_2" parent="." index="19" instance=ExtResource( 5 )]
+[node name="Bush_2" parent="." index="20" instance=ExtResource( 5 )]
 position = Vector2( 615.513, 798.25 )
 rotation = -3.14159
 scale = Vector2( 1, -1 )
 
-[node name="Tree_1_2" parent="." index="20" instance=ExtResource( 7 )]
+[node name="Tree_1_2" parent="." index="21" instance=ExtResource( 7 )]
 position = Vector2( -277.237, 669.539 )
 
-[node name="Tree_1_3" parent="." index="21" instance=ExtResource( 7 )]
+[node name="Tree_1_3" parent="." index="22" instance=ExtResource( 7 )]
 position = Vector2( -33.6729, 668.777 )
 
 [node name="Leaves" parent="Tree_1_3" index="1"]
@@ -197,16 +204,16 @@ material = SubResource( 6 )
 [node name="Collider" parent="Tree_1_3" index="4"]
 shape = SubResource( 7 )
 
-[node name="Tree_1_8" parent="." index="22" instance=ExtResource( 7 )]
+[node name="Tree_1_8" parent="." index="23" instance=ExtResource( 7 )]
 position = Vector2( -619.031, 657.454 )
 
-[node name="Tree_1_9" parent="." index="23" instance=ExtResource( 7 )]
+[node name="Tree_1_9" parent="." index="24" instance=ExtResource( 7 )]
 position = Vector2( -446.024, 778.701 )
 
-[node name="Tree_1_7" parent="." index="24" instance=ExtResource( 7 )]
+[node name="Tree_1_7" parent="." index="25" instance=ExtResource( 7 )]
 position = Vector2( -124.525, 858.006 )
 
-[node name="SnowParticles" parent="." index="25" instance=ExtResource( 13 )]
+[node name="SnowParticles" parent="." index="26" instance=ExtResource( 13 )]
 self_modulate = Color( 2, 2, 2, 1 )
 position = Vector2( 640, -100 )
 amount = 1500

@@ -14,6 +14,27 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-31
+
+### Added
+
+* Snow dirt path back and front instead of a single image
+* Snow path (no dirt) for the home area
+* Player's footprint (for home area)
+* Made footprints appear and disolve as the player walks
+* Added a "snow accumulation" gradient (which is just a solid white-ish color)
+* Added an `Events` auto-load to handle global events
+   * Added footprint signal so that the footprint could be placed on the path node rather than the player node
+
+### Modified
+
+* Added noise options as export variables to the `DisolvingSprite` base scene
+* Added footprint code to the player scene
+
+### Removed
+
+* Removed the snow dirt path image and broke it into a foreground/background path for more layers
+
 ## Unreleased - 2020-12-30
 
 ### Added

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/snow_dirt_path.png-96f8231078485dd3136446a1f6eddea2.stex"
+path="res://.import/snow_path_back.png-72206bb32614e1e8525f9c76a243fd6d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/snow_dirt_path.png"
-dest_files=[ "res://.import/snow_dirt_path.png-96f8231078485dd3136446a1f6eddea2.stex" ]
+source_file="res://Art/snow_path_back.png"
+dest_files=[ "res://.import/snow_path_back.png-72206bb32614e1e8525f9c76a243fd6d.stex" ]
 
 [params]
 

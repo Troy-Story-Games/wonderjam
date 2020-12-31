@@ -8,6 +8,7 @@ enum PlayerState {
 export (int) var ACCELERATION = 900
 export (int) var MAX_SPEED = 200
 export(int) var GRAVITY = 600
+export(int) var FOOTPRINT_WIDTH = 60
 export (float) var FRICTION = 0.75
 export (PlayerState) var STATE = PlayerState.WALKING
 
@@ -15,12 +16,16 @@ var PlayerStats = Utils.get_player_stats()
 
 var motion = Vector2.ZERO
 var state = PlayerState.WALKING setget set_state
+var place_right_foot = true
+var distance_since_last_footprint = 0.0
 
 onready var flyingSprite = $FlyingSprite
 onready var walkingSprite = $WalkingSprite
 onready var snowSchloop = $SnowSchloop
 onready var animationPlayer = $AnimationPlayer
 onready var iceBeam = $IceBeam
+onready var rightFootPosition = $RightFootPosition
+onready var leftFootPosition = $LeftFootPosition
 
 
 func _ready():
@@ -41,6 +46,7 @@ func _physics_process(delta):
 			apply_gravity(delta)
 			update_animations(input_vector)
 			move()
+			place_footprint(delta)
 		PlayerState.FLYING:
 			"""
 			This is when we're actually playing (above or below clouds)
@@ -113,6 +119,27 @@ func apply_gravity(delta):
 	"""
 	if not is_on_floor():
 		motion.y += GRAVITY * delta
+
+
+func place_footprint(delta):
+	"""
+	Place the footprints
+	"""
+	var pos = Vector2.ZERO
+	var scale = Vector2.ONE
+	distance_since_last_footprint += abs(motion.x) * delta
+	if distance_since_last_footprint >= FOOTPRINT_WIDTH:
+		print("DEBUG: Place footprint")
+		distance_since_last_footprint = 0.0
+		scale.x = walkingSprite.scale.x
+
+		if place_right_foot:
+			Events.emit_signal("footprint", rightFootPosition.global_position, scale)
+			place_right_foot = false
+		else:
+			scale.y = -1
+			Events.emit_signal("footprint", leftFootPosition.global_position, scale)
+			place_right_foot = true
 
 
 func update_animations(input_vector):

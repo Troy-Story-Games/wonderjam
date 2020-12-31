@@ -1,12 +1,11 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Art/snow_dirt_path_back.png" type="Texture" id=1]
+[ext_resource path="res://Art/snow_path_back.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 2110.82, 42.9311 )
+extents = Vector2( 2100.1, 46.8392 )
 
-[node name="SnowDirtPath" type="StaticBody2D"]
-collision_mask = 0
+[node name="SnowPath" type="StaticBody2D"]
 
 [node name="Back" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -14,5 +13,5 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 4096, 150 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.18921, 47.3555 )
+position = Vector2( 0, 68.4994 )
 shape = SubResource( 1 )

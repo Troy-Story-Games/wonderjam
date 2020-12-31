@@ -72,4 +72,10 @@ anims/Walking = SubResource( 3 )
 visible = false
 position = Vector2( 66.5956, -63.028 )
 
+[node name="RightFootPosition" type="Position2D" parent="."]
+position = Vector2( 0, 7.57664 )
+
+[node name="LeftFootPosition" type="Position2D" parent="."]
+position = Vector2( 0, -8.41845 )
+
 [editable path="Hurtbox"]
