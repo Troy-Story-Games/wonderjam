@@ -99,6 +99,7 @@ tracks/0/keys = {
 enabled = true
 cast_to = Vector2( 1920, 0 )
 collision_mask = 8
+collide_with_areas = true
 script = ExtResource( 1 )
 LINE_WIDTH = 2.0
 PULSE_LINE_WIDTH = 5.0

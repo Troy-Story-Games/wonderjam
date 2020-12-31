@@ -6,6 +6,7 @@
 [ext_resource path="res://Effects/Flames.material" type="Material" id=4]
 
 [sub_resource type="ParticlesMaterial" id=1]
+resource_local_to_scene = true
 lifetime_randomness = 0.1
 emission_shape = 1
 emission_sphere_radius = 35.0

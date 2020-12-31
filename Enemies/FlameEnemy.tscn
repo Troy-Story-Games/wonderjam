@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Enemies/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Effects/Flames.tscn" type="PackedScene" id=2]
@@ -20,6 +20,22 @@ shader_param/narrow = true
 shader_param/speed = 1.0
 shader_param/noise = SubResource( 2 )
 
+[sub_resource type="ParticlesMaterial" id=6]
+resource_local_to_scene = true
+lifetime_randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 35.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 250, -100, 0 )
+initial_velocity = 250.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 3.0
+scale_random = 0.2
+color = Color( 2.5, 2.5, 0, 1 )
+
 [sub_resource type="CapsuleShape2D" id=4]
 radius = 25.0664
 height = 39.6941
@@ -35,10 +51,11 @@ position = Vector2( -0.264862, 0 )
 rotation = 1.5708
 
 [node name="Light2D" parent="Flames" index="0"]
-visible = false
+texture_scale = 0.25
 
 [node name="Embers" parent="Flames" index="1"]
-visible = false
+self_modulate = Color( 1.5, 1.5, 1.5, 1 )
+process_material = SubResource( 6 )
 
 [node name="Sprite" parent="." index="1"]
 position = Vector2( -33.0729, 19.8438 )
