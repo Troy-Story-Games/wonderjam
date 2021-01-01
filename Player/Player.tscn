@@ -28,7 +28,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 0 ]
+"values": [ 3 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -60,7 +60,8 @@ flip_h = true
 [node name="WalkingSprite" type="Sprite" parent="."]
 position = Vector2( 0, -93.2342 )
 texture = ExtResource( 6 )
-hframes = 3
+hframes = 4
+frame = 3
 
 [node name="FlyingSprite" type="Sprite" parent="."]
 visible = false

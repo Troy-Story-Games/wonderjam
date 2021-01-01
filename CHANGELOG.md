@@ -14,6 +14,12 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-31 (pt. 3)
+
+### Changed
+
+* Better idle animation frame
+
 ## Unreleased - 2020-12-31 (pt. 2)
 
 ### Added
