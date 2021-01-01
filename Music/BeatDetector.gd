@@ -1,15 +1,8 @@
 extends Node
 
-enum BeatRange {
-	LOW,
-	MID,
-	HIGH
-}
-
 signal preload_done()
 
-# Number of equal frequency ranges to split the above range
-# into (e.g. split into 24 equal ranges between 20 and 20000 Hz)
+# Number of equal frequency ranges to split the frequency range into
 const FREQ_SPLIT_COUNT = 24
 # Number of seconds to preload the song before it can be played
 const PRELOAD_TIME = 10.0
@@ -49,7 +42,13 @@ onready var preloadTimer = $PreloadTimer
 
 
 func _init():
-	freq_ranges.append_array(split_freq_range(AudioPlayers.FREQ_MIN, AudioPlayers.FREQ_MAX, FREQ_SPLIT_COUNT))
+	freq_ranges.append_array(AudioPlayers.split_freq_range(AudioPlayers.FREQ_MIN, AudioPlayers.FREQ_MAX, FREQ_SPLIT_COUNT))
+	for rng in freq_ranges:
+		# Add our custom values to the dict
+		rng.left = 0.0
+		rng.middle = 0.0
+		rng.prev_beat_pos = 0.0
+	
 	analysis_mutex = Mutex.new()
 	analysis_thread = Thread.new()
 
@@ -85,8 +84,8 @@ func _process_thread(userdata):
 	so we're not tied to 60FPS for beat detection
 	"""
 	var prev_pos = 0.0
-	
-	while true:
+
+	while AudioPlayers.backAudioPlayer.playing:
 		analysis_mutex.lock()
 		var should_exit = exit_thread
 		analysis_mutex.unlock()
@@ -173,11 +172,11 @@ func get_beats_now():
 
 		var beat = beats.pop_front()
 
-		if beat.beat_range == BeatDetector.BeatRange.LOW:
+		if beat.freq_range == AudioPlayers.FrequencyRange.LOW:
 			beats_now_by_range.low.append(beat)
-		elif beat.beat_range == BeatDetector.BeatRange.MID:
+		elif beat.freq_range == AudioPlayers.FrequencyRange.MID:
 			beats_now_by_range.mid.append(beat)
-		elif beat.beat_range == BeatDetector.BeatRange.HIGH:
+		elif beat.freq_range == AudioPlayers.FrequencyRange.HIGH:
 			beats_now_by_range.high.append(beat)
 
 		beats_now.append(beat)
@@ -255,12 +254,12 @@ func analyze_background_song(prev_pos):
 		score += middle
 
 		if score > BEAT_SCORE_THRESHOLD:
-			print("DEBUG: Beat @", prev_pos)
+			#print("DEBUG: Beat @", prev_pos)
 			rng.prev_beat_pos = prev_pos
 
 			analysis_mutex.lock()
 			beats.append({
-				"beat_range": rng.beat_range,
+				"freq_range": rng.freq_range,
 				"pos": prev_pos,
 				"low": rng.low,
 				"high": rng.high,
@@ -366,18 +365,18 @@ func analyze_collected_beats(begin, end):
 			break  # They're in time order so we won't have any more to process
 		
 		# Consider each range separately
-		match beat.beat_range:
-			BeatRange.LOW:
+		match beat.freq_range:
+			AudioPlayers.FrequencyRange.LOW:
 				low_energies.append(beat.energy)
 				total_low_energies += beat.energy
 				if beat.energy > low_max:
 					low_max = beat.energy
-			BeatRange.MID:
+			AudioPlayers.FrequencyRange.MID:
 				mid_energies.append(beat.energy)
 				total_mid_energies += beat.energy
 				if beat.energy > mid_max:
 					mid_max = beat.energy
-			BeatRange.HIGH:
+			AudioPlayers.FrequencyRange.HIGH:
 				high_energies.append(beat.energy)
 				total_high_energies += beat.energy
 				if beat.energy > high_max:
@@ -403,54 +402,18 @@ func analyze_collected_beats(begin, end):
 			break  # They're in time order so we won't have any more to process
 
 		# Consider each range separately
-		match beat.beat_range:
-			BeatRange.LOW:
+		match beat.freq_range:
+			AudioPlayers.FrequencyRange.LOW:
 				if beat.energy >= low_threshold:
 					pass
-			BeatRange.MID:
+			AudioPlayers.FrequencyRange.MID:
 				if beat.energy >= mid_threshold:
 					pass
-			BeatRange.HIGH:
+			AudioPlayers.FrequencyRange.HIGH:
 				if beat.energy >= high_threshold:
 					pass
 
 	analysis_mutex.unlock()
-
-
-func split_freq_range(low, high, split):
-	"""
-	Given a low and a high value, split it evenly
-	a number of times.
-	
-	:param low: The low value (in hz)
-	:param high: The high value (in hz)
-	:param split: The number of times to split
-	"""
-	var beat_range = BeatRange.LOW
-	var range_cutoff = int(floor(split / 3))
-	var result = []
-	var prev_hz = low
-	var j = range_cutoff
-	for i in range(split):
-		var low_hz = prev_hz
-		var high_hz = low + (i * (high / split))
-
-		if i >= j:
-			j += range_cutoff
-			beat_range += 1
-
-		result.append({
-			"beat_range": beat_range,
-			"low": low_hz,
-			"high": high_hz,
-			"left": 0.0,
-			"middle": 0.0,
-			"prev_beat_pos": 0.0
-		})
-
-		prev_hz = high_hz
-
-	return result
 
 
 func _on_PreloadTimer_timeout():

@@ -14,3 +14,11 @@ glow_bicubic_upscale = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
+
+[node name="BackgroundLayer" type="Node" parent="."]
+
+[node name="MidgroundLayer" type="Node" parent="."]
+
+[node name="PlayerLayer" type="Node" parent="."]
+
+[node name="ForegroundLayer" type="Node" parent="."]

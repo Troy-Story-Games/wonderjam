@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Environment/HighBackground.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://MainGame/PlaySong/AboveClouds.gd" type="Script" id=5]
 [ext_resource path="res://Enemies/FlameEnemy.tscn" type="PackedScene" id=6]
 [ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Music/HistogramAudioVisualizer.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Environment" id=1]
 resource_local_to_scene = true
@@ -15,6 +16,18 @@ glow_enabled = true
 glow_levels/4 = true
 glow_blend_mode = 0
 glow_bicubic_upscale = true
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 10, 360 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 640, 10 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 640, 10 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 10, 360 )
 
 [sub_resource type="ParticlesMaterial" id=2]
 resource_local_to_scene = true
@@ -27,12 +40,6 @@ initial_velocity = -200.0
 initial_velocity_random = 0.25
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 50, 400 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 50, 720 )
 
 [node name="AboveClouds" instance=ExtResource( 7 )]
 script = ExtResource( 5 )
@@ -49,7 +56,31 @@ SCROLL_SPEED = 250
 BACKGROUND_SCALE = 0.9
 MIDGROUND_SCALE = 1.0
 
-[node name="Player" parent="." index="3" instance=ExtResource( 2 )]
+[node name="HistogramAudioVisualizer" parent="BackgroundLayer" index="0" instance=ExtResource( 8 )]
+position = Vector2( 0, 250 )
+rotation = 8.74228e-08
+scale = Vector2( 1, -1 )
+EXTENTS = Vector2( 1280, 250 )
+BAR_COLOR = Color( 0.0235294, 0.054902, 0.466667, 0.188235 )
+BAR_WIDTH = 50.0
+ACCELERATION = 10
+
+[node name="FlameEnemy" parent="MidgroundLayer" index="0" instance=ExtResource( 6 )]
+position = Vector2( 1170.65, 110.792 )
+
+[node name="FlameEnemy2" parent="MidgroundLayer" index="1" instance=ExtResource( 6 )]
+position = Vector2( 1110.59, 206.9 )
+
+[node name="FlameEnemy3" parent="MidgroundLayer" index="2" instance=ExtResource( 6 )]
+position = Vector2( 1170.65, 321.696 )
+
+[node name="FlameEnemy4" parent="MidgroundLayer" index="3" instance=ExtResource( 6 )]
+position = Vector2( 1113.26, 435.158 )
+
+[node name="FlameEnemy5" parent="MidgroundLayer" index="4" instance=ExtResource( 6 )]
+position = Vector2( 1185.34, 541.945 )
+
+[node name="Player" parent="PlayerLayer" index="0" instance=ExtResource( 2 )]
 position = Vector2( 151.148, 471.425 )
 ACCELERATION = 2000
 MAX_SPEED = 450
@@ -57,10 +88,31 @@ GRAVITY = 0
 FRICTION = 1.0
 STATE = 1
 
-[node name="SnowSchloop" parent="Player" index="0"]
-visible = true
+[node name="CollisionWallLeft" parent="ForegroundLayer" index="0" instance=ExtResource( 4 )]
+position = Vector2( -10, 360 )
 
-[node name="CloudParticles" parent="." index="4" instance=ExtResource( 3 )]
+[node name="CollisionShape2D" parent="ForegroundLayer/CollisionWallLeft" index="0"]
+shape = SubResource( 5 )
+
+[node name="CollisionWallRight" parent="ForegroundLayer" index="1" instance=ExtResource( 4 )]
+position = Vector2( 640, -10 )
+
+[node name="CollisionShape2D" parent="ForegroundLayer/CollisionWallRight" index="0"]
+shape = SubResource( 6 )
+
+[node name="CollisionWall3" parent="ForegroundLayer" index="2" instance=ExtResource( 4 )]
+position = Vector2( 640, 730 )
+
+[node name="CollisionShape2D" parent="ForegroundLayer/CollisionWall3" index="0"]
+shape = SubResource( 7 )
+
+[node name="CollisionWall4" parent="ForegroundLayer" index="3" instance=ExtResource( 4 )]
+position = Vector2( 650, 360 )
+
+[node name="CollisionShape2D" parent="ForegroundLayer/CollisionWall4" index="0"]
+shape = SubResource( 8 )
+
+[node name="CloudParticles" parent="." index="7" instance=ExtResource( 3 )]
 position = Vector2( 1349.54, 721.938 )
 amount = 15
 lifetime = 20.0
@@ -68,53 +120,7 @@ preprocess = 20.0
 visibility_rect = Rect2( -3807.42, -133.097, 3807.42, 306.707 )
 process_material = SubResource( 2 )
 
-[node name="CollisionWall" parent="." index="5" instance=ExtResource( 4 )]
-position = Vector2( -5.65686, 362.039 )
-
-[node name="CollisionShape2D" parent="CollisionWall" index="0"]
-position = Vector2( -50, 0 )
-shape = SubResource( 3 )
-
-[node name="CollisionWall4" parent="." index="6" instance=ExtResource( 4 )]
-position = Vector2( 839.795, 362.039 )
-
-[node name="CollisionShape2D" parent="CollisionWall4" index="0"]
-position = Vector2( -50, 0 )
-shape = SubResource( 3 )
-
-[node name="CollisionWall2" parent="." index="7" instance=ExtResource( 4 )]
-position = Vector2( 643.467, -1.41428 )
-rotation = 1.5708
-
-[node name="CollisionShape2D" parent="CollisionWall2" index="0"]
-position = Vector2( -50, 0 )
-shape = SubResource( 4 )
-
-[node name="CollisionWall3" parent="." index="8" instance=ExtResource( 4 )]
-position = Vector2( 628.635, 814.372 )
-rotation = 1.5708
-
-[node name="CollisionShape2D" parent="CollisionWall3" index="0"]
-position = Vector2( -50, 14.3976 )
-shape = SubResource( 4 )
-
-[node name="FlameEnemy" parent="." index="9" instance=ExtResource( 6 )]
-position = Vector2( 1170.65, 110.792 )
-
-[node name="FlameEnemy2" parent="." index="10" instance=ExtResource( 6 )]
-position = Vector2( 1110.59, 206.9 )
-
-[node name="FlameEnemy3" parent="." index="11" instance=ExtResource( 6 )]
-position = Vector2( 1170.65, 321.696 )
-
-[node name="FlameEnemy4" parent="." index="12" instance=ExtResource( 6 )]
-position = Vector2( 1113.26, 435.158 )
-
-[node name="FlameEnemy5" parent="." index="13" instance=ExtResource( 6 )]
-position = Vector2( 1185.34, 541.945 )
-
-[editable path="Player"]
-[editable path="CollisionWall"]
-[editable path="CollisionWall4"]
-[editable path="CollisionWall2"]
-[editable path="CollisionWall3"]
+[editable path="ForegroundLayer/CollisionWallLeft"]
+[editable path="ForegroundLayer/CollisionWallRight"]
+[editable path="ForegroundLayer/CollisionWall3"]
+[editable path="ForegroundLayer/CollisionWall4"]

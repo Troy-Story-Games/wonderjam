@@ -14,6 +14,26 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2020-12-31 (pt. 2)
+
+### Added
+
+* Interior of house scene
+* New rounded wide fire gradient for the fireplace
+* Added histagram visualizer to the `AboveClouds` scene
+* Added ability to move between the house and outside
+
+### Changed
+
+* Histagram visualizer is now a tool so you can see what's going on in the editor
+* Histagram visualizer improved to be more configurable via exports
+* Histagram visualizer code cleanup
+* Fixed animation not always stopping on first frame
+* Tree and bush naming cleanup
+* Updated the ice beam to create the pulse animation in code so it can be configured entirely via the exports
+* Updated the base `GameArea` scene to contain some `Node`-type nodes to organize the scenese a bit so they're not so cluttered
+* Tweaked the min and max frequency ranges
+
 ## Unreleased - 2020-12-31
 
 ### Added

@@ -3,15 +3,15 @@
 [ext_resource path="res://Art/snow_path_back.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 2100.1, 46.8392 )
+extents = Vector2( 960, 28 )
 
 [node name="SnowPath" type="StaticBody2D"]
 
 [node name="Back" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 4096, 150 )
+region_rect = Rect2( 0, 0, 1920, 150 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 68.4994 )
+position = Vector2( 0, 40 )
 shape = SubResource( 1 )

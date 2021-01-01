@@ -1,7 +1,7 @@
 extends RayCast2D
 
 export(float) var LINE_WIDTH = 10.0
-export(float) var PULSE_LINE_WIDTH = LINE_WIDTH setget set_pulse_line_width
+export(float) var PULSE_LINE_WIDTH = 15.0
 
 var is_casting = false setget set_is_casting
 
@@ -16,6 +16,17 @@ onready var animationPlayer = $AnimationPlayer
 func _ready():
 	set_physics_process(false)
 	line2D.points[1] = Vector2.ZERO
+
+	# We programmatically build the "Pulse" animation so
+	# we can easily edit the export above without
+	# also needed to update the animation player
+	var animation = Animation.new()
+	var track_index = animation.add_track(Animation.TYPE_VALUE)
+	animation.track_set_path(track_index, "Line2D:width")
+	animation.track_insert_key(track_index, 0.0, LINE_WIDTH)
+	animation.track_insert_key(track_index, 0.5, PULSE_LINE_WIDTH)
+	animation.track_insert_key(track_index, 1.0, LINE_WIDTH)
+	animationPlayer.add_animation("Pulse", animation)
 
 
 func _input(event):
@@ -59,12 +70,6 @@ func set_is_casting(value):
 		disappear()
 
 	set_physics_process(is_casting)
-
-
-func set_pulse_line_width(value):
-	PULSE_LINE_WIDTH = value
-	if line2D != null:
-		line2D.width = PULSE_LINE_WIDTH
 
 
 func pulse(speed=0.3):

@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 enum PlayerState {
 	WALKING,
@@ -129,7 +130,6 @@ func place_footprint(delta):
 	var scale = Vector2.ONE
 	distance_since_last_footprint += abs(motion.x) * delta
 	if distance_since_last_footprint >= FOOTPRINT_WIDTH:
-		print("DEBUG: Place footprint")
 		distance_since_last_footprint = 0.0
 		scale.x = walkingSprite.scale.x
 
@@ -149,7 +149,7 @@ func update_animations(input_vector):
 				walkingSprite.scale.x = sign(input_vector.x)
 				animationPlayer.play("Walking")
 			else:
-				animationPlayer.stop()
+				animationPlayer.play("Idle")
 		PlayerState.FLYING:
 			pass  # TODO
 

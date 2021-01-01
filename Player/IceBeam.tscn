@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Player/IceBeam.gd" type="Script" id=1]
 [ext_resource path="res://Effects/Laser.shader" type="Shader" id=2]
@@ -81,34 +81,17 @@ scale_random = 0.5
 scale_curve = SubResource( 7 )
 color_ramp = SubResource( 5 )
 
-[sub_resource type="Animation" id=14]
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:PULSE_LINE_WIDTH")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 10.0, 15.0, 10.0 ]
-}
-
 [node name="IceBeam" type="RayCast2D"]
 enabled = true
 cast_to = Vector2( 1920, 0 )
 collision_mask = 8
 collide_with_areas = true
 script = ExtResource( 1 )
-LINE_WIDTH = 2.0
-PULSE_LINE_WIDTH = 5.0
 
 [node name="Line2D" type="Line2D" parent="."]
 self_modulate = Color( 2, 2, 2, 1 )
 material = SubResource( 3 )
 points = PoolVector2Array( 0, 0, 100, 0 )
-width = 2.0
 default_color = Color( 0.235294, 0.701961, 0.976471, 1 )
 joint_mode = 2
 begin_cap_mode = 2
@@ -145,4 +128,3 @@ process_material = SubResource( 13 )
 texture = SubResource( 9 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Pulse = SubResource( 14 )

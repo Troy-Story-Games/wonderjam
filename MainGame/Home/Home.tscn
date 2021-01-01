@@ -1,18 +1,19 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Environment/SnowPath.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=3]
 [ext_resource path="res://MainGame/Home/Home.gd" type="Script" id=4]
-[ext_resource path="res://Environment/Bush_1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Environment/Bush.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Environment/LowBackground.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Environment/Tree_1.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Effects/Dissolve.shader" type="Shader" id=8]
+[ext_resource path="res://Environment/PineTree.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Environment/CollisionWall.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Environment/PlayerHouse.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Environment/Tree_2.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Environment/Tree.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Art/snow_path_front.png" type="Texture" id=11]
 [ext_resource path="res://UI/UI.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Effects/SnowParticles.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Environment/Bookend.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Environment" id=1]
 resource_local_to_scene = true
@@ -22,71 +23,50 @@ glow_levels/4 = true
 glow_blend_mode = 0
 glow_bicubic_upscale = true
 
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 360 )
 
-[sub_resource type="ShaderMaterial" id=3]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10, 360 )
 
-[sub_resource type="CircleShape2D" id=4]
-radius = 116.108
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 49.6146, 84.1512 )
 
-[sub_resource type="ShaderMaterial" id=5]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
-
-[sub_resource type="ShaderMaterial" id=6]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
-
-[sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 23.7601, 197.248 )
-
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=4]
 colors = PoolColorArray( 1, 1, 1, 1, 0.89, 0.974333, 1, 1 )
 
-[sub_resource type="GradientTexture" id=9]
-gradient = SubResource( 8 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=6]
 min_value = 0.5
 max_value = 2.0
 _data = [ Vector2( 0, 1 ), 0.0, 4.42138, 0, 1, Vector2( 0.119769, 1.52955 ), 0.0, 0.0, 0, 0, Vector2( 0.186147, 0.806818 ), 0.0, 0.0, 0, 0, Vector2( 0.372294, 1.625 ), -5.53965, -5.53965, 0, 0, Vector2( 0.412698, 0.765909 ), 0.0, 0.0, 0, 0, Vector2( 0.506494, 1.44773 ), 7.99615, 7.99615, 0, 0, Vector2( 0.62482, 0.915909 ), 17.1818, 17.1818, 0, 0, Vector2( 0.72583, 1.55682 ), 23.625, 23.625, 0, 0, Vector2( 0.867244, 1.175 ), 19.7591, 19.7591, 0, 0, Vector2( 1, 1 ), -1.31821, 0.0, 1, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
-curve = SubResource( 10 )
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
 
-[sub_resource type="Curve" id=12]
+[sub_resource type="Curve" id=8]
 min_value = -40.0
 max_value = 40.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.170274, 9.45454 ), -105.488, -105.488, 0, 0, Vector2( 0.417027, -8.72727 ), 336.0, 336.0, 0, 0, Vector2( 0.692641, -5.09091 ), -193.846, -193.846, 0, 0, Vector2( 1, 1 ), 112.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=13]
-curve = SubResource( 12 )
+[sub_resource type="CurveTexture" id=9]
+curve = SubResource( 8 )
 
-[sub_resource type="ParticlesMaterial" id=14]
+[sub_resource type="ParticlesMaterial" id=10]
 resource_local_to_scene = true
 emission_shape = 2
-emission_box_extents = Vector3( 1920, 0, 1 )
+emission_box_extents = Vector3( 960, 0, 1 )
 flag_disable_z = true
 spread = 15.0
 gravity = Vector3( 0, 30, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-tangential_accel_curve = SubResource( 13 )
+tangential_accel_curve = SubResource( 9 )
 scale = 2.0
-scale_curve = SubResource( 11 )
-color_ramp = SubResource( 9 )
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
 
 [node name="Home" instance=ExtResource( 3 )]
 script = ExtResource( 4 )
@@ -102,128 +82,88 @@ environment = SubResource( 1 )
 [node name="LowBackground" parent="." index="3" instance=ExtResource( 6 )]
 
 [node name="Camera2D" type="Camera2D" parent="." index="4"]
-position = Vector2( 299.815, 661.406 )
+position = Vector2( 1101.13, 651 )
 current = true
+limit_left = 0
 limit_top = 0
+limit_right = 1920
 limit_bottom = 720
 smoothing_enabled = true
 
-[node name="Tree_1_5" parent="." index="5" instance=ExtResource( 7 )]
-position = Vector2( -409.399, 597.716 )
-rotation = 3.14159
-scale = Vector2( 1, -1 )
-
-[node name="Tree_1_6" parent="." index="6" instance=ExtResource( 7 )]
-position = Vector2( -736.883, 613.559 )
+[node name="Bush" parent="BackgroundLayer" index="0" instance=ExtResource( 5 )]
+position = Vector2( 1465.9, 614.721 )
 rotation = -3.14159
 scale = Vector2( 1, -1 )
 
-[node name="Tree_1_4" parent="." index="7" instance=ExtResource( 7 )]
-position = Vector2( 122.956, 619.442 )
+[node name="PineTree" parent="BackgroundLayer" index="1" instance=ExtResource( 7 )]
+position = Vector2( 420.258, 618.253 )
 rotation = 3.14159
 scale = Vector2( 1, -1 )
 
-[node name="Tree_2" parent="." index="8" instance=ExtResource( 10 )]
+[node name="Tree" parent="BackgroundLayer" index="2" instance=ExtResource( 10 )]
 position = Vector2( 741.821, 618.22 )
 rotation = -3.14159
 scale = Vector2( 1, -1 )
 
-[node name="Tree_2_2" parent="." index="9" instance=ExtResource( 10 )]
-position = Vector2( 2245.71, 617.084 )
-rotation = 3.14159
-scale = Vector2( 1, -1 )
+[node name="SnowPath" parent="MidgroundLayer" index="0" instance=ExtResource( 1 )]
+position = Vector2( 960, 650 )
 
-[node name="Tree_2_3" parent="." index="10" instance=ExtResource( 10 )]
-position = Vector2( 2590.46, 614.237 )
-
-[node name="Tree_2_4" parent="." index="11" instance=ExtResource( 10 )]
-position = Vector2( 1779.96, 612.339 )
-
-[node name="SnowPath" parent="." index="12" instance=ExtResource( 1 )]
-position = Vector2( 640, 650 )
-
-[node name="Tree_1" parent="." index="13" instance=ExtResource( 7 )]
-position = Vector2( -121.454, 615.28 )
-rotation = 3.14159
-scale = Vector2( 1, -1 )
-
-[node name="Tree_2_6" parent="." index="14" instance=ExtResource( 10 )]
-position = Vector2( 2472.99, 790.584 )
-rotation = -3.14159
-scale = Vector2( 1, -1 )
-
-[node name="Tree_2_5" parent="." index="15" instance=ExtResource( 10 )]
-position = Vector2( 2040.91, 746.953 )
-rotation = -3.14159
-scale = Vector2( 1, -1 )
-
-[node name="PlayerHouse" parent="." index="16" instance=ExtResource( 9 )]
+[node name="PlayerHouse" parent="PlayerLayer" index="0" instance=ExtResource( 9 )]
 position = Vector2( 1100.21, 639.626 )
 
-[node name="Player" parent="." index="17" instance=ExtResource( 2 )]
-position = Vector2( 299.815, 661.406 )
+[node name="Player" parent="PlayerLayer" index="1" instance=ExtResource( 2 )]
+position = Vector2( 1101.13, 651 )
 
-[node name="CameraFollow" parent="Player" index="4"]
-remote_path = NodePath("../../Camera2D")
+[node name="CameraFollow" parent="PlayerLayer/Player" index="4"]
+remote_path = NodePath("../../../Camera2D")
 
-[node name="SnowPathFront" type="Sprite" parent="." index="18"]
-position = Vector2( 640, 640 )
+[node name="SnowPathFront" type="Sprite" parent="ForegroundLayer" index="0"]
+position = Vector2( 960, 632 )
 texture = ExtResource( 11 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 4096, 150 )
+region_rect = Rect2( 0, 0, 1920, 150 )
 
-[node name="Bush_1" parent="." index="19" instance=ExtResource( 5 )]
-position = Vector2( 1631.01, 661.498 )
+[node name="BookendLeft" parent="ForegroundLayer" index="1" instance=ExtResource( 14 )]
+position = Vector2( 0, 720 )
 
-[node name="Leaves" parent="Bush_1" index="1"]
-material = SubResource( 2 )
+[node name="BookendRight" parent="ForegroundLayer" index="2" instance=ExtResource( 14 )]
+position = Vector2( 1920, 720 )
+scale = Vector2( -1, 1 )
 
-[node name="Snow" parent="Bush_1" index="2"]
-material = SubResource( 3 )
+[node name="CollisionWallLeft" parent="." index="9" instance=ExtResource( 8 )]
+position = Vector2( 0, 360 )
 
-[node name="Collider" parent="Bush_1" index="4"]
-shape = SubResource( 4 )
+[node name="CollisionShape2D" parent="CollisionWallLeft" index="0"]
+shape = SubResource( 2 )
 
-[node name="Bush_2" parent="." index="20" instance=ExtResource( 5 )]
-position = Vector2( 615.513, 798.25 )
-rotation = -3.14159
-scale = Vector2( 1, -1 )
+[node name="CollisionWallRight" parent="." index="10" instance=ExtResource( 8 )]
+position = Vector2( 1920, 360 )
 
-[node name="Tree_1_2" parent="." index="21" instance=ExtResource( 7 )]
-position = Vector2( -277.237, 669.539 )
+[node name="CollisionShape2D" parent="CollisionWallRight" index="0"]
+shape = SubResource( 3 )
 
-[node name="Tree_1_3" parent="." index="22" instance=ExtResource( 7 )]
-position = Vector2( -33.6729, 668.777 )
+[node name="EnterHouseArea" type="Area2D" parent="." index="11"]
+position = Vector2( 1097.63, 530.216 )
+collision_layer = 0
+collision_mask = 2
 
-[node name="Leaves" parent="Tree_1_3" index="1"]
-material = SubResource( 5 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterHouseArea" index="0"]
+shape = SubResource( 11 )
 
-[node name="Snow" parent="Tree_1_3" index="2"]
-material = SubResource( 6 )
-
-[node name="Collider" parent="Tree_1_3" index="4"]
-shape = SubResource( 7 )
-
-[node name="Tree_1_8" parent="." index="23" instance=ExtResource( 7 )]
-position = Vector2( -619.031, 657.454 )
-
-[node name="Tree_1_9" parent="." index="24" instance=ExtResource( 7 )]
-position = Vector2( -446.024, 778.701 )
-
-[node name="Tree_1_7" parent="." index="25" instance=ExtResource( 7 )]
-position = Vector2( -124.525, 858.006 )
-
-[node name="SnowParticles" parent="." index="26" instance=ExtResource( 13 )]
+[node name="SnowParticles" parent="." index="12" instance=ExtResource( 13 )]
 self_modulate = Color( 2, 2, 2, 1 )
-position = Vector2( 640, -100 )
-amount = 1500
-lifetime = 7.0
-preprocess = 7.0
-randomness = 0.5
+position = Vector2( 960, -100 )
+amount = 3000
+lifetime = 7.05
+preprocess = 7.05
+randomness = 0.2
 visibility_rect = Rect2( -1918.57, 0, 3842.89, 660.211 )
 draw_order = 1
-process_material = SubResource( 14 )
+process_material = SubResource( 10 )
 
-[editable path="Player"]
-[editable path="Bush_1"]
-[editable path="Tree_1_3"]
+[connection signal="body_entered" from="EnterHouseArea" to="." method="_on_EnterHouseArea_body_entered"]
+[connection signal="body_exited" from="EnterHouseArea" to="." method="_on_EnterHouseArea_body_exited"]
+
+[editable path="PlayerLayer/Player"]
+[editable path="CollisionWallLeft"]
+[editable path="CollisionWallRight"]

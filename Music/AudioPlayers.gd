@@ -1,10 +1,16 @@
 extends Node
 
+enum FrequencyRange {
+	LOW,
+	MID,
+	HIGH
+}
+
 const MAX_DB = 0
 const MIN_DB = -40
 const COMPENSATE_FRAMES = 2
 const COMPENSATE_HZ = 60.0
-const FREQ_MAX = 20000
+const FREQ_MAX = 11050.0
 const FREQ_MIN = 20
 
 var max_db = MAX_DB
@@ -94,3 +100,36 @@ func load_streams(song_file_path, file_bytes):
 	
 	mainAudioPlayer.stream = main_stream
 	mainAudioPlayer.set_bus("MainSong")
+
+
+func split_freq_range(low, high, split):
+	"""
+	Given a low and a high value, split it evenly
+	a number of times.
+	
+	:param low: The low value (in hz)
+	:param high: The high value (in hz)
+	:param split: The number of times to split
+	"""
+	var freq_range = FrequencyRange.LOW
+	var range_cutoff = int(floor(split / 3))
+	var result = []
+	var prev_hz = low
+	var j = range_cutoff
+	for i in range(split):
+		var low_hz = prev_hz
+		var high_hz = low + (i * (high / split))
+
+		if i >= j:
+			j += range_cutoff
+			freq_range += 1
+
+		result.append({
+			"freq_range": freq_range,
+			"low": low_hz,
+			"high": high_hz,
+		})
+
+		prev_hz = high_hz
+
+	return result

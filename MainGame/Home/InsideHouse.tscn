@@ -1,3 +1,197 @@
-[gd_scene format=2]
+[gd_scene load_steps=26 format=2]
 
-[node name="InsideHouse" type="Node"]
+[ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Art/home_interior.png" type="Texture" id=2]
+[ext_resource path="res://Environment/CollisionWall.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Effects/Flames.shader" type="Shader" id=5]
+[ext_resource path="res://Art/fireplace_logs.png" type="Texture" id=6]
+[ext_resource path="res://Effects/Flames.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Effects/WideFlames.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Art/VFX/wide_flame_gradient_rounded.png" type="Texture" id=9]
+[ext_resource path="res://MainGame/Home/InsideHouse.gd" type="Script" id=10]
+
+[sub_resource type="Environment" id=1]
+resource_local_to_scene = true
+background_mode = 4
+glow_enabled = true
+glow_levels/4 = true
+glow_blend_mode = 0
+glow_bicubic_upscale = true
+
+[sub_resource type="OpenSimplexNoise" id=2]
+
+[sub_resource type="NoiseTexture" id=3]
+seamless = true
+noise = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/core_fire_color = Color( 1, 0.654902, 0.0980392, 1 )
+shader_param/inner_fire_color = Color( 1, 1, 0, 1 )
+shader_param/outer_fire_color = Color( 1, 0.843137, 0.286275, 1 )
+shader_param/narrow = true
+shader_param/speed = 1.0
+shader_param/noise = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.501312, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+resource_local_to_scene = true
+lifetime_randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 35.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 60.0
+gravity = Vector3( 0, 200, 0 )
+initial_velocity = 400.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+tangential_accel = 400.0
+tangential_accel_random = 1.0
+scale = 8.0
+scale_random = 0.2
+scale_curve = SubResource( 6 )
+color = Color( 2, 2, 0, 1 )
+
+[sub_resource type="OpenSimplexNoise" id=8]
+
+[sub_resource type="NoiseTexture" id=9]
+seamless = true
+noise = SubResource( 8 )
+
+[sub_resource type="ShaderMaterial" id=10]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/core_fire_color = Color( 1, 1, 1, 1 )
+shader_param/inner_fire_color = Color( 1, 0.843137, 0.286275, 1 )
+shader_param/outer_fire_color = Color( 1, 0.654902, 0.0980392, 1 )
+shader_param/narrow = false
+shader_param/speed = 1.0
+shader_param/noise = SubResource( 9 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+resource_local_to_scene = true
+lifetime_randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 35.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, 250, 0 )
+initial_velocity = 250.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale_random = 0.2
+color = Color( 2.5, 2.5, 0, 1 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 960, 25 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 10, 360 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 10, 360 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 17.1185, 60.1667 )
+
+[node name="InsideHouse" instance=ExtResource( 1 )]
+script = ExtResource( 10 )
+
+[node name="WorldEnvironment" parent="." index="1"]
+environment = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="." index="2"]
+position = Vector2( 106.356, 685.757 )
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 720
+smoothing_enabled = true
+
+[node name="Sprite" type="Sprite" parent="BackgroundLayer" index="0"]
+texture = ExtResource( 2 )
+centered = false
+
+[node name="WideFlames" parent="MidgroundLayer" index="0" instance=ExtResource( 8 )]
+material = SubResource( 4 )
+position = Vector2( 997.349, 563.491 )
+scale = Vector2( 0.378087, 0.432887 )
+texture = ExtResource( 9 )
+
+[node name="Light2D" parent="MidgroundLayer/WideFlames" index="0"]
+texture_scale = 1.0
+energy = 0.35
+
+[node name="Embers" parent="MidgroundLayer/WideFlames" index="1"]
+lifetime = 1.0
+process_material = SubResource( 7 )
+
+[node name="Flames" parent="MidgroundLayer" index="1" instance=ExtResource( 7 )]
+visible = false
+material = SubResource( 10 )
+position = Vector2( 1010.54, 568.045 )
+scale = Vector2( 2.225, 1.48437 )
+
+[node name="Light2D" parent="MidgroundLayer/Flames" index="0"]
+energy = 0.2
+
+[node name="Embers" parent="MidgroundLayer/Flames" index="1"]
+amount = 4
+lifetime = 0.5
+process_material = SubResource( 11 )
+
+[node name="Sprite" type="Sprite" parent="MidgroundLayer" index="2"]
+position = Vector2( 999.423, 619.56 )
+texture = ExtResource( 6 )
+
+[node name="Player" parent="PlayerLayer" index="0" instance=ExtResource( 4 )]
+position = Vector2( 106.356, 685.757 )
+
+[node name="CameraFollow" parent="PlayerLayer/Player" index="4"]
+remote_path = NodePath("../../../Camera2D")
+
+[node name="Floor" parent="ForegroundLayer" index="0" instance=ExtResource( 3 )]
+position = Vector2( 960, 720 )
+
+[node name="CollisionShape2D" parent="ForegroundLayer/Floor" index="0"]
+shape = SubResource( 12 )
+
+[node name="CollisionWallLeft" parent="ForegroundLayer" index="1" instance=ExtResource( 3 )]
+position = Vector2( -10, 360 )
+
+[node name="CollisionShape2D" parent="ForegroundLayer/CollisionWallLeft" index="0"]
+shape = SubResource( 13 )
+
+[node name="CollisionWallRight" parent="ForegroundLayer" index="2" instance=ExtResource( 3 )]
+position = Vector2( 1930, 360 )
+
+[node name="CollisionShape2D" parent="ForegroundLayer/CollisionWallRight" index="0"]
+shape = SubResource( 14 )
+
+[node name="ExitArea" type="Area2D" parent="ForegroundLayer" index="3"]
+position = Vector2( 17.21, 635.852 )
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForegroundLayer/ExitArea" index="0"]
+shape = SubResource( 15 )
+
+[connection signal="body_entered" from="ForegroundLayer/ExitArea" to="." method="_on_Area2D_body_entered"]
+
+[editable path="MidgroundLayer/WideFlames"]
+[editable path="MidgroundLayer/Flames"]
+[editable path="PlayerLayer/Player"]
+[editable path="ForegroundLayer/Floor"]
+[editable path="ForegroundLayer/CollisionWallLeft"]
+[editable path="ForegroundLayer/CollisionWallRight"]
