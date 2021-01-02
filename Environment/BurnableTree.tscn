@@ -1,23 +1,30 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Effects/DissolvingSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Environment/BurnableTree.gd" type="Script" id=2]
 [ext_resource path="res://Effects/Dissolve.shader" type="Shader" id=3]
 
-[sub_resource type="ShaderMaterial" id=1]
+[sub_resource type="OpenSimplexNoise" id=1]
+
+[sub_resource type="NoiseTexture" id=2]
+resource_local_to_scene = true
+noise = SubResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=8]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
+shader_param/burn_position = 0.078
+shader_param/noise_tex = SubResource( 2 )
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=5]
 resource_local_to_scene = true
 shader = ExtResource( 3 )
 shader_param/burn_size = 0.1
-shader_param/burn_position = -1.0
+shader_param/burn_position = 0.078
+shader_param/noise_tex = SubResource( 2 )
 
-[sub_resource type="Animation" id=3]
-resource_name = "Burn"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Leaves:burn_pos")
 tracks/0/interp = 2
@@ -31,8 +38,7 @@ tracks/0/keys = {
 "values": [ -1.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "Melt"
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Snow:burn_pos")
 tracks/0/interp = 2
@@ -46,7 +52,7 @@ tracks/0/keys = {
 "values": [ -1.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "Unburn"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Leaves:burn_pos")
@@ -61,7 +67,7 @@ tracks/0/keys = {
 "values": [ 1.0, -1.0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "Unmelt"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Snow:burn_pos")
@@ -83,17 +89,17 @@ script = ExtResource( 2 )
 [node name="Tree" type="Sprite" parent="."]
 
 [node name="Leaves" parent="." instance=ExtResource( 1 )]
-material = SubResource( 1 )
+material = SubResource( 8 )
 
 [node name="Snow" parent="." instance=ExtResource( 1 )]
-material = SubResource( 2 )
+material = SubResource( 5 )
 DISSOLVE_EFFECT = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Burn = SubResource( 3 )
-anims/Melt = SubResource( 4 )
-anims/Unburn = SubResource( 5 )
-anims/Unmelt = SubResource( 6 )
+anims/Burn = SubResource( 6 )
+anims/Melt = SubResource( 7 )
+anims/Unburn = SubResource( 3 )
+anims/Unmelt = SubResource( 4 )
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 

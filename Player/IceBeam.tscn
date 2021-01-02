@@ -1,11 +1,13 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Player/IceBeam.gd" type="Script" id=1]
 [ext_resource path="res://Effects/Laser.shader" type="Shader" id=2]
+[ext_resource path="res://Overlap/Hitbox.tscn" type="PackedScene" id=3]
 
 [sub_resource type="OpenSimplexNoise" id=1]
-period = 24.0
-persistence = 0.1
+octaves = 1
+period = 20.0
+persistence = 1.0
 lacunarity = 4.0
 
 [sub_resource type="NoiseTexture" id=2]
@@ -81,6 +83,9 @@ scale_random = 0.5
 scale_curve = SubResource( 7 )
 color_ramp = SubResource( 5 )
 
+[sub_resource type="CircleShape2D" id=14]
+radius = 15.1133
+
 [node name="IceBeam" type="RayCast2D"]
 enabled = true
 cast_to = Vector2( 1920, 0 )
@@ -93,6 +98,7 @@ self_modulate = Color( 2, 2, 2, 1 )
 material = SubResource( 3 )
 points = PoolVector2Array( 0, 0, 100, 0 )
 default_color = Color( 0.235294, 0.701961, 0.976471, 1 )
+texture_mode = 2
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
@@ -128,3 +134,17 @@ process_material = SubResource( 13 )
 texture = SubResource( 9 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Hitbox" parent="." instance=ExtResource( 3 )]
+collision_mask = 8
+
+[node name="Collider" parent="Hitbox" index="0"]
+shape = SubResource( 14 )
+disabled = true
+
+[node name="DamageTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="DamageTimer" to="." method="_on_DamageTimer_timeout"]
+
+[editable path="Hitbox"]

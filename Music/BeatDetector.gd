@@ -288,6 +288,7 @@ func analyze_background_song(prev_pos):
 		# the beats as we go (it's a sliding window)
 		analyze_collected_beats(pos - ANALYSIS_WINDOW, pos)
 
+
 	return pos
 
 

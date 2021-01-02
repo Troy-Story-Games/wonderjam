@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Effects/ParallaxBackground.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/night_sky.png" type="Texture" id=2]
-[ext_resource path="res://Art/background_trees.png" type="Texture" id=3]
+[ext_resource path="res://Art/background_trees_opaque.png" type="Texture" id=3]
+[ext_resource path="res://Art/background_mountains.png" type="Texture" id=4]
+[ext_resource path="res://Effects/StarParticles.tscn" type="PackedScene" id=5]
 
 [node name="HighBackground" instance=ExtResource( 1 )]
 
@@ -16,11 +18,21 @@ motion_mirroring = Vector2( 3840, 0 )
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 3840, 720 )
 
-[node name="Background" parent="." index="2"]
+[node name="Particles2D" parent="." index="2" instance=ExtResource( 5 )]
+
+[node name="Background" parent="." index="3"]
 motion_mirroring = Vector2( 3840, 0 )
 
 [node name="BackgroundSprite" parent="Background" index="0"]
 self_modulate = Color( 0.501961, 0.501961, 0.588235, 1 )
-position = Vector2( 0, 418.205 )
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 3840, 720 )
+
+[node name="Midground" parent="." index="4"]
+motion_mirroring = Vector2( 3840, 0 )
+
+[node name="MidgroundSprite" parent="Midground" index="0"]
+self_modulate = Color( 0.5, 0.5, 0.5, 1 )
+position = Vector2( 0, 501.244 )
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 3840, 720 )

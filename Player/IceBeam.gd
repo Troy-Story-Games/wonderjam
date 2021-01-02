@@ -2,6 +2,8 @@ extends RayCast2D
 
 export(float) var LINE_WIDTH = 10.0
 export(float) var PULSE_LINE_WIDTH = 15.0
+export(int) var DAMAGE = 1
+export(float) var DAMAGE_INTERVAL = 0.25
 
 var is_casting = false setget set_is_casting
 
@@ -11,6 +13,9 @@ onready var beamSourceParticles = $BeamSourceParticles
 onready var beamImpactParticles = $BeamImpactParticles
 onready var beamSparkles = $BeamSparkles
 onready var animationPlayer = $AnimationPlayer
+onready var hitboxCollider = $Hitbox/Collider
+onready var hitbox = $Hitbox
+onready var damageTimer = $DamageTimer
 
 
 func _ready():
@@ -27,6 +32,11 @@ func _ready():
 	animation.track_insert_key(track_index, 0.5, PULSE_LINE_WIDTH)
 	animation.track_insert_key(track_index, 1.0, LINE_WIDTH)
 	animationPlayer.add_animation("Pulse", animation)
+
+	# Set the damage on the hitbox so we don't have to come into this scene
+	# and set it on the hitbox manually. Disable it by default.
+	hitbox.DAMAGE = DAMAGE
+	hitboxCollider.disabled = true
 
 
 func _input(event):
@@ -46,6 +56,10 @@ func _physics_process(delta):
 		cast_point = to_local(get_collision_point())
 		beamImpactParticles.global_rotation = get_collision_normal().angle()
 		beamImpactParticles.position = cast_point
+		hitbox.position = cast_point
+		if damageTimer.time_left == 0:
+			hitboxCollider.disabled = false
+			damageTimer.start(DAMAGE_INTERVAL)
 
 	line2D.points[1] = cast_point
 
@@ -66,6 +80,7 @@ func set_is_casting(value):
 	if is_casting:
 		appear()
 	else:
+		hitbox.position = Vector2.ZERO
 		beamImpactParticles.emitting = false
 		disappear()
 
@@ -93,3 +108,7 @@ func disappear():
 	appearTween.remove_all()
 	appearTween.interpolate_property(line2D, "width", LINE_WIDTH, 0, 0.1)
 	appearTween.start()
+
+
+func _on_DamageTimer_timeout():
+	hitboxCollider.disabled = true

@@ -20,6 +20,35 @@ Use the following sub-headings when adding changelog entries:
 
 * Better idle animation frame
 
+## Unreleased - 2020-01-01
+
+### Added
+
+* Laser beam gradient (not used yet)
+* Background mountain art and stars
+* Explode particle effect
+* Particle scene for the new star texture
+* Enemy spawner that spawns enemies based on the music
+* Basic Flame enemy movement script
+* Opaque version of the background trees to go in front of the mountains
+
+
+### Changed
+
+* Flames, WideFlames, and Dissolve effects are all static now (e.g. we're not making a new noise texture every time)
+   * Creating a unique noise texture for each object was adding considerable overhead
+* Updated all the scenes that inherit the above mentioned effects to use the static noise texture
+* Updated player home areas to have more trees
+* Added the new mountains to the high background
+* Added stars to the high background
+* Added a hitbox to the laser
+* Added damage to the laser
+* Made enemies kill-able
+
+### Removed
+
+* Removed the `Flames.gd` script - We don't need code for the flames anymore.
+
 ## Unreleased - 2020-12-31 (pt. 2)
 
 ### Added
@@ -28,6 +57,8 @@ Use the following sub-headings when adding changelog entries:
 * New rounded wide fire gradient for the fireplace
 * Added histagram visualizer to the `AboveClouds` scene
 * Added ability to move between the house and outside
+* Added an `EnemyStats` scene to track enemy health
+* Added a custom HTML file for the HTML export template that handles drag-n-drop so players can add their songs when playing in a browser
 
 ### Changed
 

@@ -2,8 +2,8 @@ extends Node
 
 export(int) var STARTING_SCROLL_SPEED = 250
 export(int) var MAX_SCROLL_SPEED = 3000
-export(int) var SCROLL_ACCELERATION = 1500
-export(float) var SCROLL_FRICTION = 0.025
+export(int) var SCROLL_ACCELERATION = 300
+export(float) var SCROLL_FRICTION = 0.030
 
 var boost = false
 var speed = 0 setget set_speed

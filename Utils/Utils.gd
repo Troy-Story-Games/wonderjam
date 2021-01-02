@@ -13,8 +13,8 @@ func instance_scene_on_main(packed_scene, position=Vector2.ZERO):
 	"""
 	var main = get_tree().current_scene
 	var instance = packed_scene.instance()
-	instance.global_position = position
 	main.add_child(instance)
+	instance.global_position = position
 	return instance
 
 
