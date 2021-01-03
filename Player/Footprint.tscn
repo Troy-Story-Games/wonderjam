@@ -17,12 +17,12 @@ noise = SubResource( 1 )
 resource_local_to_scene = true
 shader = ExtResource( 4 )
 shader_param/burn_size = 0.1
-shader_param/burn_position = -0.175
+shader_param/burn_position = 0.05
 shader_param/noise_tex = SubResource( 2 )
 
 [sub_resource type="Animation" id=4]
 resource_name = "Accumulate"
-length = 5.0
+length = 10.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:material:shader_param/burn_position")
 tracks/0/interp = 1
@@ -30,10 +30,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 5 ),
+"times": PoolRealArray( 0, 10 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.05, 1.0 ]
+"values": [ 0.05, 0.75 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -42,7 +42,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 5 ),
+"times": PoolRealArray( 10 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],

@@ -52,7 +52,7 @@ _global_script_class_icons={
 
 config/name="Untitled Wintry Game"
 config/description="It's a game with winter, music, and shooting"
-run/main_scene="res://Menus/StartMenu.tscn"
+run/main_scene="res://UI/StartMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
