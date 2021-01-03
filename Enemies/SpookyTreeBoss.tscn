@@ -1,0 +1,199 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Enemies/Enemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/body_behind.png" type="Texture" id=2]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/body.png" type="Texture" id=3]
+[ext_resource path="res://Effects/Flames.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Effects/SmokeParticles.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Effects/Flames.shader" type="Shader" id=6]
+[ext_resource path="res://Enemies/SpookyTreeBoss.gd" type="Script" id=7]
+
+[sub_resource type="OpenSimplexNoise" id=1]
+
+[sub_resource type="NoiseTexture" id=2]
+seamless = true
+noise = SubResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=10]
+resource_local_to_scene = true
+shader = ExtResource( 6 )
+shader_param/core_fire_color = Color( 1, 1, 1, 1 )
+shader_param/inner_fire_color = Color( 1, 0.9415, 0.73, 1 )
+shader_param/outer_fire_color = Color( 1, 0.808333, 0.5, 1 )
+shader_param/narrow = true
+shader_param/speed = 3.5
+shader_param/scale = 0.6
+shader_param/noise = SubResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+resource_local_to_scene = true
+lifetime_randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 35.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, 250, 0 )
+initial_velocity = 250.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 3.0
+scale_random = 0.2
+color = Color( 2.5, 2.5, 0, 1 )
+
+[sub_resource type="Gradient" id=12]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=13]
+gradient = SubResource( 12 )
+
+[sub_resource type="Curve" id=3]
+max_value = 2.0
+_data = [ Vector2( 0.00787402, 0.4 ), 0.0, 0.0, 0, 0, Vector2( 0.328084, 0.509091 ), 0.0, 0.0, 0, 0, Vector2( 0.616798, 1.43636 ), 1.66254, 1.66254, 0, 0, Vector2( 1, 2 ), -0.506873, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+resource_local_to_scene = true
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 15.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 50.0
+angular_velocity = -5.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.15
+scale_random = 0.2
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 13 )
+
+[sub_resource type="OpenSimplexNoise" id=6]
+
+[sub_resource type="NoiseTexture" id=7]
+seamless = true
+noise = SubResource( 6 )
+
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = ExtResource( 6 )
+shader_param/core_fire_color = Color( 1, 1, 1, 1 )
+shader_param/inner_fire_color = Color( 1, 0.843137, 0.286275, 1 )
+shader_param/outer_fire_color = Color( 1, 0.654902, 0.0980392, 1 )
+shader_param/narrow = true
+shader_param/speed = 2.0
+shader_param/scale = 0.898
+shader_param/noise = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+resource_local_to_scene = true
+lifetime_randomness = 0.2
+flag_disable_z = true
+direction = Vector3( 1, -1, 0 )
+spread = 30.0
+gravity = Vector3( 0, 150, 0 )
+initial_velocity = 250.0
+initial_velocity_random = 0.5
+angular_velocity = -10.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 3.0
+scale_random = 0.2
+color = Color( 2.5, 2.5, 0, 1 )
+
+[sub_resource type="Animation" id=14]
+resource_name = "Rage"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("AngerFlames:material:shader_param/scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.6, 1.0, 1.0, 0.6 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Flames:material:shader_param/speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, 3.5, 3.5, 2.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Flames:material:shader_param/scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.898, 1.0, 1.0, 0.898 ]
+}
+
+[node name="SpookyTreeBoss" instance=ExtResource( 1 )]
+script = ExtResource( 7 )
+
+[node name="EnemyStats" parent="." index="0"]
+max_health = 125
+
+[node name="BehindBody" type="Sprite" parent="." index="1"]
+show_behind_parent = true
+position = Vector2( 10.054, -203.77 )
+texture = ExtResource( 2 )
+
+[node name="AngerFlames" parent="." index="2" instance=ExtResource( 4 )]
+material = SubResource( 10 )
+position = Vector2( 129.796, -382.164 )
+rotation = 0.907571
+scale = Vector2( 0.904936, 1.88398 )
+
+[node name="Embers" parent="AngerFlames" index="1"]
+visible = false
+process_material = SubResource( 11 )
+
+[node name="SmokeParticles" parent="." index="3" instance=ExtResource( 5 )]
+position = Vector2( 56.1266, -320.724 )
+rotation = 0.785398
+process_material = SubResource( 5 )
+
+[node name="Flames" parent="." index="4" instance=ExtResource( 4 )]
+material = SubResource( 8 )
+position = Vector2( -23.8871, -157.101 )
+scale = Vector2( 1, 2.34993 )
+
+[node name="Light2D" parent="Flames" index="0"]
+energy = 5.5
+
+[node name="Embers" parent="Flames" index="1"]
+self_modulate = Color( 3, 3, 3, 1 )
+position = Vector2( 98.8897, -76.9607 )
+lifetime = 1.0
+process_material = SubResource( 9 )
+
+[node name="Sprite" parent="." index="5"]
+light_mask = 0
+position = Vector2( 10.054, -203.77 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" parent="." index="9"]
+anims/Rage = SubResource( 14 )
+
+[connection signal="health_changed" from="EnemyStats" to="." method="_on_EnemyStats_health_changed"]
+
+[editable path="AngerFlames"]
+[editable path="Flames"]
+[editable path="Hurtbox"]
+[editable path="Hitbox"]

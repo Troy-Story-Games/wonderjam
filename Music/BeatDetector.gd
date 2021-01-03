@@ -37,6 +37,7 @@ var back_stream = null
 var analysis_thread = null
 var analysis_mutex = null
 var exit_thread = false
+var is_preload_done = false
 
 onready var preloadTimer = $PreloadTimer
 
@@ -418,4 +419,5 @@ func analyze_collected_beats(begin, end):
 
 
 func _on_PreloadTimer_timeout():
+	is_preload_done = true
 	emit_signal("preload_done")

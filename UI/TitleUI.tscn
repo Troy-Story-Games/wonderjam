@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Art/placeholder_logo.png" type="Texture" id=1]
+[ext_resource path="res://Art/placeholder_start_text.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Dance"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("TitleLogo:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 5.0, -5.0 ]
+}
+
+[node name="TitleUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleLogo" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -400.0
+margin_top = -75.0
+margin_right = 400.0
+margin_bottom = 525.0
+rect_rotation = -4.76731
+rect_scale = Vector2( 0.75, 0.75 )
+rect_pivot_offset = Vector2( 400, 300 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PressSomething" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -210.0
+margin_right = 400.0
+margin_bottom = 390.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Dance"
+anims/Dance = SubResource( 1 )

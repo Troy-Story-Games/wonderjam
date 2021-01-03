@@ -8,11 +8,13 @@ export(float) var SCROLL_FRICTION = 0.030
 var boost = false
 var speed = 0 setget set_speed
 
+onready var fadeLayer = $FadeLayer
 onready var highBackground = $HighBackground
 onready var histogram = $BackgroundLayer/HistogramAudioVisualizer
 
 
 func _ready():
+	fadeLayer.fade_in()
 	BeatDetector.start_main_song()
 	self.speed = STARTING_SCROLL_SPEED
 

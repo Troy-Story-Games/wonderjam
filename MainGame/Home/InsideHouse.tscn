@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/home_interior.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Effects/WideFlames.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Art/VFX/wide_flame_gradient_rounded.png" type="Texture" id=9]
 [ext_resource path="res://MainGame/Home/InsideHouse.gd" type="Script" id=10]
+[ext_resource path="res://Effects/FadeLayer.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Environment" id=1]
 resource_local_to_scene = true
@@ -160,13 +161,37 @@ extents = Vector2( 10, 360 )
 [sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 17.1185, 60.1667 )
 
+[sub_resource type="RectangleShape2D" id=24]
+extents = Vector2( 179.496, 238.466 )
+
 [node name="InsideHouse" instance=ExtResource( 1 )]
 script = ExtResource( 10 )
 
-[node name="WorldEnvironment" parent="." index="1"]
+[node name="UI" type="CanvasLayer" parent="." index="0"]
+
+[node name="FileDialog" type="FileDialog" parent="UI" index="0"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -507.0
+margin_top = -209.5
+margin_right = 507.0
+margin_bottom = 209.5
+popup_exclusive = true
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.mp3; MP3 Songs", "*.ogg; OGG Songs", "*.wav; WAV Songs" )
+current_dir = "/Users/lapla/Documents/GitRepo/untitled-wintry-game"
+current_path = "/Users/lapla/Documents/GitRepo/untitled-wintry-game/"
+
+[node name="WorldEnvironment" parent="." index="2"]
 environment = SubResource( 1 )
 
-[node name="Camera2D" type="Camera2D" parent="." index="2"]
+[node name="FadeLayer" parent="." index="3" instance=ExtResource( 11 )]
+
+[node name="Camera2D" type="Camera2D" parent="." index="4"]
 position = Vector2( 106.356, 685.757 )
 current = true
 limit_left = 0
@@ -249,7 +274,18 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForegroundLayer/ExitArea" index="0"]
 shape = SubResource( 23 )
 
-[connection signal="body_entered" from="ForegroundLayer/ExitArea" to="." method="_on_Area2D_body_entered"]
+[node name="Area2D" type="Area2D" parent="ForegroundLayer" index="4"]
+position = Vector2( 1605.4, 431.195 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForegroundLayer/Area2D" index="0"]
+position = Vector2( 1.78174, 23.1634 )
+shape = SubResource( 24 )
+
+[connection signal="file_selected" from="UI/FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="fade_out_complete" from="FadeLayer" to="." method="_on_FadeLayer_fade_out_complete"]
+[connection signal="body_entered" from="ForegroundLayer/ExitArea" to="." method="_on_ExitArea_body_entered"]
+[connection signal="body_entered" from="ForegroundLayer/Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="ForegroundLayer/Area2D" to="." method="_on_Area2D_body_exited"]
 
 [editable path="MidgroundLayer/WideFlames"]
 [editable path="MidgroundLayer/Flames"]

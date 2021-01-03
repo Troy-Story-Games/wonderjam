@@ -25,6 +25,8 @@ collision_layer = 8
 [node name="Hitbox" parent="." instance=ExtResource( 2 )]
 collision_mask = 4
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
 [connection signal="no_health" from="EnemyStats" to="." method="_on_EnemyStats_no_health"]
 [connection signal="take_damage" from="Hurtbox" to="." method="_on_Hurtbox_take_damage"]
 

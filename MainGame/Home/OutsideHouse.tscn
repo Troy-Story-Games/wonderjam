@@ -1,0 +1,121 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Environment/LowBackground.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Art/snow_path_front.png" type="Texture" id=3]
+[ext_resource path="res://Art/VFX/snow_flakes.png" type="Texture" id=4]
+[ext_resource path="res://Environment/SnowPath.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Environment/Bookend.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Environment/Bush.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Environment/PineTree.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Effects/SnowParticles.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Environment/PlayerHouse.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Environment" id=1]
+resource_local_to_scene = true
+background_mode = 4
+glow_enabled = true
+glow_levels/4 = true
+glow_blend_mode = 0
+glow_bicubic_upscale = true
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 1, 1, 1, 1, 0.89, 0.974333, 1, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="Curve" id=4]
+min_value = -40.0
+max_value = 40.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.170274, 9.45454 ), -105.488, -105.488, 0, 0, Vector2( 0.417027, -8.72727 ), 336.0, 336.0, 0, 0, Vector2( 0.692641, -5.09091 ), -193.846, -193.846, 0, 0, Vector2( 1, 1 ), 112.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+resource_local_to_scene = true
+lifetime_randomness = 0.2
+emission_shape = 2
+emission_box_extents = Vector3( 960, 0, 1 )
+flag_disable_z = true
+spread = 15.0
+gravity = Vector3( 0, 30, 0 )
+angular_velocity = -50.0
+angular_velocity_random = 0.2
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+tangential_accel_curve = SubResource( 5 )
+scale = 0.1
+scale_random = 0.1
+color_ramp = SubResource( 3 )
+
+[node name="OutsideHouse" instance=ExtResource( 1 )]
+
+[node name="TheDarkness" parent="." index="0"]
+color = Color( 0.529412, 0.501961, 0.686275, 1 )
+
+[node name="WorldEnvironment" parent="." index="1"]
+environment = SubResource( 1 )
+
+[node name="LowBackground" parent="." index="2" instance=ExtResource( 2 )]
+
+[node name="PineTree" parent="BackgroundLayer" index="0" instance=ExtResource( 8 )]
+position = Vector2( 471.152, 625.173 )
+
+[node name="PineTree3" parent="BackgroundLayer" index="1" instance=ExtResource( 8 )]
+position = Vector2( 195.38, 623.759 )
+scale = Vector2( 1.1, 1.1 )
+
+[node name="PineTree4" parent="BackgroundLayer" index="2" instance=ExtResource( 8 )]
+position = Vector2( 339.63, 629.416 )
+rotation = -3.14159
+scale = Vector2( 0.85, -0.85 )
+
+[node name="PineTree2" parent="BackgroundLayer" index="3" instance=ExtResource( 8 )]
+position = Vector2( 1448.5, 620.001 )
+rotation = -3.14159
+scale = Vector2( 0.8, -0.8 )
+
+[node name="PineTree5" parent="BackgroundLayer" index="4" instance=ExtResource( 8 )]
+position = Vector2( 1625.28, 617.173 )
+
+[node name="Bush" parent="BackgroundLayer" index="5" instance=ExtResource( 7 )]
+position = Vector2( 765.228, 614.122 )
+scale = Vector2( 0.7, 0.7 )
+
+[node name="SnowPath" parent="MidgroundLayer" index="0" instance=ExtResource( 5 )]
+position = Vector2( 960, 650 )
+
+[node name="PlayerHouse" parent="PlayerLayer" index="0" instance=ExtResource( 10 )]
+position = Vector2( 1100.21, 639.626 )
+
+[node name="SnowPathFront" type="Sprite" parent="ForegroundLayer" index="0"]
+position = Vector2( 960, 632 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 1920, 150 )
+
+[node name="BookendLeft" parent="ForegroundLayer" index="1" instance=ExtResource( 6 )]
+position = Vector2( 0, 720 )
+
+[node name="BookendRight" parent="ForegroundLayer" index="2" instance=ExtResource( 6 )]
+position = Vector2( 1920, 720 )
+rotation = -3.14159
+scale = Vector2( 1, -1 )
+
+[node name="Bush2" parent="ForegroundLayer" index="3" instance=ExtResource( 7 )]
+position = Vector2( 1500.42, 730.339 )
+rotation = -3.14159
+scale = Vector2( 1, -1 )
+
+[node name="SnowParticles" parent="." index="7" instance=ExtResource( 9 )]
+self_modulate = Color( 1.7, 1.7, 1.7, 1 )
+position = Vector2( 960, -100 )
+amount = 2000
+lifetime = 7.5
+preprocess = 7.5
+randomness = 0.2
+visibility_rect = Rect2( -960, 0, 1920, 900 )
+process_material = SubResource( 6 )
+texture = ExtResource( 4 )

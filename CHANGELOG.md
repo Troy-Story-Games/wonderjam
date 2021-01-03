@@ -14,11 +14,35 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
-## Unreleased - 2020-12-31 (pt. 3)
+## Unreleased - 2020-01-02
+
+### Added
+
+* Added stars to home scene
+* Added snowflakes
+* Started work on button to select file in web export.
+* Added smoke to house
+* Added base spooky tree boss enemy
+    * Added initial body, flames, etc. - Still needs limbs, skeleton, and animations
+* Added a fade layer to fade in and out between scene transitions
+* Added placeholder title logo and prompt text
+* Added a test `BelowClouds` scene to hold the boss for now
+* Created a "flow" of sorts for starting the game, selecting a songs, etc.
+* Created an intro animation
+* Added Troy Story Games logo
 
 ### Changed
 
-* Better idle animation frame
+* Tweak footprint dissolve rate
+* rearranged some files.
+* Changed the title screen and main menu around
+* Broke home scene into peaces so the "outside house" area could be used in both the main menu and as a playable area
+* Game now starts inside the house
+
+### Removed
+
+* Removed the progress bar (for now)
+* Removed Godot `icon.png`
 
 ## Unreleased - 2020-01-01
 
@@ -36,7 +60,7 @@ Use the following sub-headings when adding changelog entries:
 ### Changed
 
 * Flames, WideFlames, and Dissolve effects are all static now (e.g. we're not making a new noise texture every time)
-   * Creating a unique noise texture for each object was adding considerable overhead
+    * Creating a unique noise texture for each object was adding considerable overhead
 * Updated all the scenes that inherit the above mentioned effects to use the static noise texture
 * Updated player home areas to have more trees
 * Added the new mountains to the high background
@@ -48,6 +72,12 @@ Use the following sub-headings when adding changelog entries:
 ### Removed
 
 * Removed the `Flames.gd` script - We don't need code for the flames anymore.
+
+## Unreleased - 2020-12-31 (pt. 3)
+
+### Changed
+
+* Better idle animation frame
 
 ## Unreleased - 2020-12-31 (pt. 2)
 
