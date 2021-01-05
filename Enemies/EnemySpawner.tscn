@@ -1,57 +1,123 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Enemies/EnemySpawner.gd" type="Script" id=1]
+[ext_resource path="res://Enemies/SpawnNavigator.tscn" type="PackedScene" id=2]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( -191.688, 533.763, -255.871, 669.681, -318.167, 690.446, -359.697, 658.354, -359.697, 624.375, -63.3206, 5.19312, -10.4636, -53.3271, 27.2914, -26.8986, 21.6281, 12.7441 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6, 7, 8 ) ]
+outlines = [ PoolVector2Array( 21.6281, 12.7441, 27.2914, -26.8986, -10.4636, -53.3271, -63.3206, 5.19312, -359.697, 624.375, -359.697, 658.354, -318.167, 690.446, -255.871, 669.681, -191.688, 533.763 ) ]
+
+[sub_resource type="NavigationPolygon" id=2]
+vertices = PoolVector2Array( -18.877, -54.9489, 51.0476, -4.09464, -67.6123, 82.7813, -133.299, 74.3056, -406.641, 21.3325, -332.478, -12.5704, -205.343, 419.691, -247.721, 474.783, -143.894, 515.042, -182.034, 411.215, -192.629, 417.572, -192.629, 546.826, -222.294, 534.113, -160.845, 536.232 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 3, 2, 8, 9 ), PoolIntArray( 10, 9, 8 ), PoolIntArray( 11, 12, 7, 6, 10, 8, 13 ) ]
+outlines = [ PoolVector2Array( -18.877, -54.9489, 51.0476, -4.09464, -67.6123, 82.7813, -143.894, 515.042, -160.845, 536.232, -192.629, 546.826, -222.294, 534.113, -247.721, 474.783, -406.641, 21.3325, -332.478, -12.5704, -205.343, 419.691, -192.629, 417.572, -182.034, 411.215, -133.299, 74.3056 ) ]
+
+[sub_resource type="NavigationPolygon" id=3]
+vertices = PoolVector2Array( -470.208, -61.8734, -508.349, -146.63, -101.515, -208.079, -150.25, -114.847, -126.942, -13.1381, 72.2368, -4.6624, 12.9069, 61.0243 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 3, 2, 5, 6 ) ]
+outlines = [ PoolVector2Array( 72.2368, -4.6624, 12.9069, 61.0243, -126.942, -13.1381, -150.25, -114.847, -470.208, -61.8734, -508.349, -146.63, -101.515, -208.079 ) ]
+
+[sub_resource type="NavigationPolygon" id=7]
+vertices = PoolVector2Array( 59.3547, -15.8401, 48.7601, 18.0627, -510.636, 26.5384, -487.328, -34.9105 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 59.3547, -15.8401, 48.7601, 18.0627, -510.636, 26.5384, -487.328, -34.9105 ) ]
+
+[sub_resource type="NavigationPolygon" id=8]
+vertices = PoolVector2Array( 67.8304, -14.0128, 69.9493, 17.7711, -495.804, 24.1279, -495.804, -28.8453 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 67.8304, -14.0128, 69.9493, 17.7711, -495.804, 24.1279, -495.804, -28.8453 ) ]
+
+[sub_resource type="NavigationPolygon" id=4]
+vertices = PoolVector2Array( -143.894, 252.972, -533.776, 115.242, -482.922, 11.4143, -207.461, 153.382, 55.2854, 34.7225, -198.986, 47.436, 36.2151, -37.321 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 0, 3, 5, 6 ) ]
+outlines = [ PoolVector2Array( 36.2151, -37.321, 55.2854, 34.7225, -143.894, 252.972, -533.776, 115.242, -482.922, 11.4143, -207.461, 153.382, -198.986, 47.436 ) ]
+
+[sub_resource type="NavigationPolygon" id=5]
+vertices = PoolVector2Array( 51.0476, -11.9092, -27.3527, 58.0154, -173.559, -429.338, -124.823, -475.954, -218.056, -427.219, -324.002, 5.04224, -408.759, -28.8606, -283.743, -459.003, -245.602, -509.857, -211.699, -439.932, -222.294, -516.214, -182.034, -518.333, -192.629, -439.932, -150.25, -507.738 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 9, 4, 8, 10, 11 ), PoolIntArray( 12, 9, 11, 13, 3 ), PoolIntArray( 3, 2, 12 ) ]
+outlines = [ PoolVector2Array( 51.0476, -11.9092, -27.3527, 58.0154, -173.559, -429.338, -192.629, -439.932, -211.699, -439.932, -218.056, -427.219, -324.002, 5.04224, -408.759, -28.8606, -283.743, -459.003, -245.602, -509.857, -222.294, -516.214, -182.034, -518.333, -150.25, -507.738, -124.823, -475.954 ) ]
+
+[sub_resource type="NavigationPolygon" id=6]
+vertices = PoolVector2Array( 29.1791, -29.5541, 66.9341, 36.517, -55.7697, 49.7313, -348.371, -641.185, -282.299, -671.389 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 0, 3 ) ]
+outlines = [ PoolVector2Array( 29.1791, -29.5541, 66.9341, 36.517, -55.7697, 49.7313, -348.371, -641.185, -282.299, -671.389 ) ]
 
 [node name="EnemySpawner" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="HighGroup" type="Node2D" parent="."]
+[node name="SpawnPositions" type="Node2D" parent="."]
 
-[node name="High" type="Position2D" parent="HighGroup"]
-position = Vector2( 0, 145 )
-__meta__ = {
-"_gizmo_extents_": 50.0
-}
+[node name="SpawnNavigator1" parent="SpawnPositions" instance=ExtResource( 2 )]
 
-[node name="MidGroup" type="Node2D" parent="."]
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator1" index="0"]
+position = Vector2( -300, 612 )
 
-[node name="Mid" type="Position2D" parent="MidGroup"]
-position = Vector2( 0, 280 )
-__meta__ = {
-"_gizmo_extents_": 50.0
-}
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator1/Navigation2D" index="0"]
+navpoly = SubResource( 1 )
 
-[node name="Mid2" type="Position2D" parent="MidGroup"]
-position = Vector2( 0, 613.543 )
-__meta__ = {
-"_gizmo_extents_": 50.0
-}
+[node name="SpawnNavigator2" parent="SpawnPositions" instance=ExtResource( 2 )]
+position = Vector2( 0, 102 )
 
-[node name="LowGroup" type="Node2D" parent="."]
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator2" index="0"]
+position = Vector2( -350, 50 )
 
-[node name="Low" type="Position2D" parent="LowGroup"]
-position = Vector2( 0, 97.4433 )
-__meta__ = {
-"_gizmo_extents_": 50.0
-}
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator2/Navigation2D" index="0"]
+navpoly = SubResource( 2 )
 
-[node name="Low2" type="Position2D" parent="LowGroup"]
-position = Vector2( 0, 208.235 )
-__meta__ = {
-"_gizmo_extents_": 50.0
-}
+[node name="SpawnNavigator3" parent="SpawnPositions" instance=ExtResource( 2 )]
+position = Vector2( 0, 204 )
 
-[node name="Low3" type="Position2D" parent="LowGroup"]
-position = Vector2( 0, 355 )
-__meta__ = {
-"_gizmo_extents_": 50.0
-}
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator3" index="0"]
+position = Vector2( -450, -100 )
 
-[node name="Low4" type="Position2D" parent="LowGroup"]
-position = Vector2( 0, 500 )
-__meta__ = {
-"_gizmo_extents_": 50.0
-}
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator3/Navigation2D" index="0"]
+navpoly = SubResource( 3 )
+
+[node name="SpawnNavigator4" parent="SpawnPositions" instance=ExtResource( 2 )]
+position = Vector2( 0, 306 )
+
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator4" index="0"]
+position = Vector2( -450, 0 )
+
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator4/Navigation2D" index="0"]
+navpoly = SubResource( 7 )
+
+[node name="SpawnNavigator5" parent="SpawnPositions" instance=ExtResource( 2 )]
+position = Vector2( 0, 408 )
+
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator5" index="0"]
+position = Vector2( -450, 0 )
+
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator5/Navigation2D" index="0"]
+navpoly = SubResource( 8 )
+
+[node name="SpawnNavigator6" parent="SpawnPositions" instance=ExtResource( 2 )]
+position = Vector2( 0, 510 )
+
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator6" index="0"]
+position = Vector2( -450, 100 )
+
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator6/Navigation2D" index="0"]
+navpoly = SubResource( 4 )
+
+[node name="SpawnNavigator7" parent="SpawnPositions" instance=ExtResource( 2 )]
+position = Vector2( 0, 612 )
+
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator7" index="0"]
+position = Vector2( -350, -50 )
+
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator7/Navigation2D" index="0"]
+navpoly = SubResource( 5 )
+
+[node name="SpawnNavigator8" parent="SpawnPositions" instance=ExtResource( 2 )]
+position = Vector2( 0, 720 )
+
+[node name="EndPoint" parent="SpawnPositions/SpawnNavigator8" index="0"]
+position = Vector2( -300, -612 )
+
+[node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator8/Navigation2D" index="0"]
+navpoly = SubResource( 6 )
 
 [node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true
@@ -63,3 +129,12 @@ autostart = true
 
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_CooldownTimer_timeout"]
 [connection signal="timeout" from="StartupTimer" to="." method="_on_StartupTimer_timeout"]
+
+[editable path="SpawnPositions/SpawnNavigator1"]
+[editable path="SpawnPositions/SpawnNavigator2"]
+[editable path="SpawnPositions/SpawnNavigator3"]
+[editable path="SpawnPositions/SpawnNavigator4"]
+[editable path="SpawnPositions/SpawnNavigator5"]
+[editable path="SpawnPositions/SpawnNavigator6"]
+[editable path="SpawnPositions/SpawnNavigator7"]
+[editable path="SpawnPositions/SpawnNavigator8"]

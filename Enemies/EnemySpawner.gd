@@ -2,63 +2,70 @@ extends Node2D
 
 const FlameEnemy = preload("res://Enemies/FlameEnemy.tscn")
 
-export(int) var MAX_ENEMIES = 75
-export(float) var MAX_ENEMY_GROUP = 10
-export(float) var SPAWN_COOLDOWN = 1.0
+export(int) var MAX_ENEMIES = 10
+export(int) var ENEMY_CLUSTER_SIZE = 5
+export(float) var SPAWN_STARTUP_DELAY = 1.0
+export(float) var SPAWN_COOLDOWN = 1.5
 
-var can_spawn = true setget set_can_spawn
-var low_spawners = null
-var mid_spawners = null
-var high_spawners = null
+var can_spawn = false setget set_can_spawn
+var spawners = []
+var high_cluster = 0
+var mid_cluster = 0
+var low_cluster = 0
+var last_low_spawner = null
+var last_mid_spawner = null
+var last_high_spawner = null
 
-onready var lowGroup = $LowGroup
-onready var midGroup = $MidGroup
-onready var highGroup = $HighGroup
 onready var cooldownTimer = $CooldownTimer
 onready var startupTimer = $StartupTimer
+onready var spawnPositions = $SpawnPositions
 
 
 func _ready():
-	set_process(false)
-	low_spawners = lowGroup.get_children()
-	mid_spawners = midGroup.get_children()
-	high_spawners = highGroup.get_children()
-	startupTimer.start(SPAWN_COOLDOWN)
+	startupTimer.start(SPAWN_STARTUP_DELAY)
 
 
 func _process(_delta):
-	if not self.can_spawn:
-		return  # Don't bother
-	
 	if len(get_tree().get_nodes_in_group("Enemy")) >= MAX_ENEMIES:
-		print("DEBUG: Max enemies reached!")
-		return
-	
-	var group_size = 0
-	var beats = BeatDetector.get_beats_now()
-	for beat in beats:
-		if group_size >= MAX_ENEMY_GROUP:
-			print("DEBUG: Max enemy group reached!")
-			break
-
-		spawn_enemy(beat)
-		group_size += 1
-	
-	if group_size > 0:
 		self.can_spawn = false
+		cooldownTimer.start(SPAWN_COOLDOWN)  # Don't try again for a few seconds
+		return
+
+	if high_cluster >= ENEMY_CLUSTER_SIZE:
+		high_cluster = 0
+		last_high_spawner = null
+	if mid_cluster >= ENEMY_CLUSTER_SIZE:
+		mid_cluster = 0
+		last_mid_spawner = null
+	if low_cluster >= ENEMY_CLUSTER_SIZE:
+		low_cluster = 0
+		last_low_spawner = null
+
+	spawners = spawnPositions.get_children()
+
+	var low_beats = BeatDetector.get_low_beats_now()
+	var high_beats = BeatDetector.get_high_beats_now()
+	var mid_beats = BeatDetector.get_mid_beats_now()
+
+	if len(low_beats) > 0:
+		last_low_spawner = spawn_enemy(last_low_spawner)
+		low_cluster += 1
+	if len(mid_beats) > 0:
+		last_mid_spawner = spawn_enemy(last_mid_spawner)
+		mid_cluster += 1
+	if len(high_beats) > 0:
+		last_high_spawner = spawn_enemy(last_high_spawner)
+		high_cluster += 1
 
 
-func spawn_enemy(beat):
-	var spawners = null
-	if beat.freq_range == AudioPlayers.FrequencyRange.LOW:
-		spawners = low_spawners
-	elif beat.freq_range == AudioPlayers.FrequencyRange.MID:
-		spawners = mid_spawners
-	else:
-		spawners = high_spawners
+func spawn_enemy(spawner):
+	if spawner == null:
+		# Randomly select a spawner
+		spawners.shuffle()
+		spawner = spawners.pop_front()
 
-	spawners.shuffle()
-	Utils.instance_scene_on_main(FlameEnemy, spawners[0].global_position)
+	spawner.spawn_enemy(FlameEnemy)
+	return spawner
 
 
 func set_can_spawn(value):
@@ -66,10 +73,12 @@ func set_can_spawn(value):
 	if not can_spawn:
 		cooldownTimer.start(SPAWN_COOLDOWN)
 
+	set_process(can_spawn)
+
 
 func _on_CooldownTimer_timeout():
 	self.can_spawn = true
 
 
 func _on_StartupTimer_timeout():
-	set_process(true)
+	self.can_spawn = true

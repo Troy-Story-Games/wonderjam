@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Environment/LowBackground.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Art/snow_path_front.png" type="Texture" id=3]
-[ext_resource path="res://Art/VFX/snow_flakes.png" type="Texture" id=4]
 [ext_resource path="res://Environment/SnowPath.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Environment/Bookend.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Environment/Bush.tscn" type="PackedScene" id=7]
@@ -113,9 +112,5 @@ scale = Vector2( 1, -1 )
 self_modulate = Color( 1.7, 1.7, 1.7, 1 )
 position = Vector2( 960, -100 )
 amount = 2000
-lifetime = 7.5
-preprocess = 7.5
-randomness = 0.2
 visibility_rect = Rect2( -960, 0, 1920, 900 )
 process_material = SubResource( 6 )
-texture = ExtResource( 4 )

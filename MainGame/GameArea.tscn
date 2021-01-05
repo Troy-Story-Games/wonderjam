@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Effects/Fog.material" type="Material" id=1]
 
 [sub_resource type="Environment" id=1]
 resource_local_to_scene = true
@@ -8,17 +10,28 @@ glow_levels/4 = true
 glow_blend_mode = 0
 glow_bicubic_upscale = true
 
-[node name="GameArea" type="Node"]
+[node name="GameArea" type="Node2D"]
 
 [node name="TheDarkness" type="CanvasModulate" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
 
-[node name="BackgroundLayer" type="Node" parent="."]
+[node name="BackgroundLayer" type="Node2D" parent="."]
 
-[node name="MidgroundLayer" type="Node" parent="."]
+[node name="MidgroundLayer" type="Node2D" parent="."]
 
-[node name="PlayerLayer" type="Node" parent="."]
+[node name="PlayerLayer" type="Node2D" parent="."]
 
-[node name="ForegroundLayer" type="Node" parent="."]
+[node name="ForegroundLayer" type="Node2D" parent="."]
+
+[node name="FogLayer" type="CanvasLayer" parent="."]
+
+[node name="Fog" type="ColorRect" parent="FogLayer"]
+visible = false
+material = ExtResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

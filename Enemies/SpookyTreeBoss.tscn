@@ -14,18 +14,19 @@
 seamless = true
 noise = SubResource( 1 )
 
-[sub_resource type="ShaderMaterial" id=10]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 6 )
 shader_param/core_fire_color = Color( 1, 1, 1, 1 )
 shader_param/inner_fire_color = Color( 1, 0.9415, 0.73, 1 )
 shader_param/outer_fire_color = Color( 1, 0.808333, 0.5, 1 )
 shader_param/narrow = true
+shader_param/leftToRight = false
 shader_param/speed = 3.5
 shader_param/scale = 0.6
 shader_param/noise = SubResource( 2 )
 
-[sub_resource type="ParticlesMaterial" id=11]
+[sub_resource type="ParticlesMaterial" id=4]
 resource_local_to_scene = true
 lifetime_randomness = 0.1
 emission_shape = 1
@@ -41,20 +42,20 @@ scale = 3.0
 scale_random = 0.2
 color = Color( 2.5, 2.5, 0, 1 )
 
-[sub_resource type="Gradient" id=12]
+[sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=13]
-gradient = SubResource( 12 )
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=7]
 max_value = 2.0
 _data = [ Vector2( 0.00787402, 0.4 ), 0.0, 0.0, 0, 0, Vector2( 0.328084, 0.509091 ), 0.0, 0.0, 0, 0, Vector2( 0.616798, 1.43636 ), 1.66254, 1.66254, 0, 0, Vector2( 1, 2 ), -0.506873, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="ParticlesMaterial" id=9]
 resource_local_to_scene = true
 flag_disable_z = true
 direction = Vector3( 0, -1, 0 )
@@ -67,27 +68,28 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.15
 scale_random = 0.2
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 13 )
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
 
-[sub_resource type="OpenSimplexNoise" id=6]
+[sub_resource type="OpenSimplexNoise" id=10]
 
-[sub_resource type="NoiseTexture" id=7]
+[sub_resource type="NoiseTexture" id=11]
 seamless = true
-noise = SubResource( 6 )
+noise = SubResource( 10 )
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=12]
 resource_local_to_scene = true
 shader = ExtResource( 6 )
 shader_param/core_fire_color = Color( 1, 1, 1, 1 )
 shader_param/inner_fire_color = Color( 1, 0.843137, 0.286275, 1 )
 shader_param/outer_fire_color = Color( 1, 0.654902, 0.0980392, 1 )
 shader_param/narrow = true
+shader_param/leftToRight = false
 shader_param/speed = 2.0
 shader_param/scale = 0.898
-shader_param/noise = SubResource( 7 )
+shader_param/noise = SubResource( 11 )
 
-[sub_resource type="ParticlesMaterial" id=9]
+[sub_resource type="ParticlesMaterial" id=13]
 resource_local_to_scene = true
 lifetime_randomness = 0.2
 flag_disable_z = true
@@ -155,22 +157,22 @@ position = Vector2( 10.054, -203.77 )
 texture = ExtResource( 2 )
 
 [node name="AngerFlames" parent="." index="2" instance=ExtResource( 4 )]
-material = SubResource( 10 )
+material = SubResource( 3 )
 position = Vector2( 129.796, -382.164 )
 rotation = 0.907571
 scale = Vector2( 0.904936, 1.88398 )
 
 [node name="Embers" parent="AngerFlames" index="1"]
 visible = false
-process_material = SubResource( 11 )
+process_material = SubResource( 4 )
 
 [node name="SmokeParticles" parent="." index="3" instance=ExtResource( 5 )]
 position = Vector2( 56.1266, -320.724 )
 rotation = 0.785398
-process_material = SubResource( 5 )
+process_material = SubResource( 9 )
 
 [node name="Flames" parent="." index="4" instance=ExtResource( 4 )]
-material = SubResource( 8 )
+material = SubResource( 12 )
 position = Vector2( -23.8871, -157.101 )
 scale = Vector2( 1, 2.34993 )
 
@@ -181,7 +183,7 @@ energy = 5.5
 self_modulate = Color( 3, 3, 3, 1 )
 position = Vector2( 98.8897, -76.9607 )
 lifetime = 1.0
-process_material = SubResource( 9 )
+process_material = SubResource( 13 )
 
 [node name="Sprite" parent="." index="5"]
 light_mask = 0

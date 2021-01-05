@@ -9,7 +9,7 @@
 "Enemy",
 ]]
 collision_layer = 16
-collision_mask = 0
+collision_mask = 16
 script = ExtResource( 3 )
 
 [node name="EnemyStats" parent="." instance=ExtResource( 4 )]
@@ -27,8 +27,13 @@ collision_mask = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
 [connection signal="no_health" from="EnemyStats" to="." method="_on_EnemyStats_no_health"]
 [connection signal="take_damage" from="Hurtbox" to="." method="_on_Hurtbox_take_damage"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 
 [editable path="Hurtbox"]
 [editable path="Hitbox"]

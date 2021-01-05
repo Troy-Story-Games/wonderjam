@@ -1,8 +1,7 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Environment/HighBackground.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Effects/CloudParticles.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Environment/CollisionWall.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MainGame/PlaySong/AboveClouds.gd" type="Script" id=5]
 [ext_resource path="res://Enemies/EnemySpawner.tscn" type="PackedScene" id=6]
@@ -30,18 +29,6 @@ extents = Vector2( 640, 10 )
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 10, 360 )
 
-[sub_resource type="ParticlesMaterial" id=6]
-resource_local_to_scene = true
-emission_shape = 2
-emission_box_extents = Vector3( 1, 1, 1 )
-flag_disable_z = true
-spread = 3.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = -2500.0
-initial_velocity_random = 0.25
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-
 [node name="AboveClouds" instance=ExtResource( 7 )]
 script = ExtResource( 5 )
 
@@ -64,7 +51,7 @@ position = Vector2( 0, 175 )
 rotation = 8.74228e-08
 scale = Vector2( 1, -1 )
 EXTENTS = Vector2( 1280, 175 )
-BAR_COLOR = Color( 0.054902, 0.00392157, 0.294118, 0.843137 )
+BAR_COLOR = Color( 0.08426, 0.0044, 0.44, 0.901961 )
 BAR_WIDTH = 50.0
 ACCELERATION = 10
 NUM_BARS = 24
@@ -101,21 +88,11 @@ position = Vector2( 650, 360 )
 [node name="CollisionShape2D" parent="ForegroundLayer/CollisionWall4" index="0"]
 shape = SubResource( 5 )
 
-[node name="CloudParticles" parent="." index="8" instance=ExtResource( 3 )]
-visible = false
-position = Vector2( 1349.54, 723.62 )
-emitting = false
-amount = 15
-lifetime = 2.0
-preprocess = 2.0
-explosiveness = 0.1
-visibility_rect = Rect2( -3807.42, -133.097, 3807.42, 306.707 )
-process_material = SubResource( 6 )
-
-[node name="EnemySpawner" parent="." index="9" instance=ExtResource( 6 )]
+[node name="EnemySpawner" parent="." index="8" instance=ExtResource( 6 )]
 position = Vector2( 1280, 0 )
 
 [editable path="ForegroundLayer/CollisionWallLeft"]
 [editable path="ForegroundLayer/CollisionWallRight"]
 [editable path="ForegroundLayer/CollisionWall3"]
 [editable path="ForegroundLayer/CollisionWall4"]
+[editable path="EnemySpawner"]

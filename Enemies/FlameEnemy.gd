@@ -1,19 +1,12 @@
 extends Enemy
 
-export(int) var ACCELERATION = 100
-export(int) var SPEED = 250
-
 var flameMaterial = null
 
-onready var flames = $Flames
+onready var flames = $Sprite/Flames
 
 
 func _ready():
 	flameMaterial = flames.get_material()
-
-
-func _physics_process(delta):
-	position.x -= SPEED * delta
 
 
 func _on_EnemyStats_health_changed(value):

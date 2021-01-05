@@ -1,40 +1,23 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Player/IceBeam.gd" type="Script" id=1]
-[ext_resource path="res://Effects/Laser.shader" type="Shader" id=2]
+[ext_resource path="res://Effects/Laser.material" type="Material" id=2]
 [ext_resource path="res://Overlap/Hitbox.tscn" type="PackedScene" id=3]
 
-[sub_resource type="OpenSimplexNoise" id=1]
-octaves = 1
-period = 20.0
-persistence = 1.0
-lacunarity = 4.0
-
-[sub_resource type="NoiseTexture" id=2]
-height = 20
-noise = SubResource( 1 )
-
-[sub_resource type="ShaderMaterial" id=3]
-shader = ExtResource( 2 )
-shader_param/color = Color( 0.235294, 0.701961, 0.976471, 1 )
-shader_param/scroll_speed = 1.0
-shader_param/flash_interval = 5.0
-shader_param/noise_texture = SubResource( 2 )
-
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.296943, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.496183, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
-curve = SubResource( 6 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="ParticlesMaterial" id=5]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 300.0
@@ -42,20 +25,20 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.4
 scale_random = 0.5
-scale_curve = SubResource( 7 )
-color_ramp = SubResource( 5 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 
-[sub_resource type="StreamTexture" id=9]
+[sub_resource type="StreamTexture" id=6]
 flags = 4
 load_path = "res://.import/glowing_circle.png-9d567aba19cc3cec2481f6afa5449655.stex"
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.496882, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
-curve = SubResource( 10 )
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=9]
 emission_shape = 2
 emission_box_extents = Vector3( 60, 20, 1 )
 flag_align_y = true
@@ -69,9 +52,9 @@ orbit_velocity_random = 0.0
 tangential_accel = 200.0
 tangential_accel_random = 1.0
 scale = 0.3
-scale_curve = SubResource( 11 )
+scale_curve = SubResource( 8 )
 
-[sub_resource type="ParticlesMaterial" id=13]
+[sub_resource type="ParticlesMaterial" id=10]
 lifetime_randomness = 0.5
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
@@ -80,10 +63,25 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.75
 scale_random = 0.5
-scale_curve = SubResource( 7 )
-color_ramp = SubResource( 5 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 
-[sub_resource type="CircleShape2D" id=14]
+[sub_resource type="Animation" id=12]
+resource_name = "New Anim"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Line2D:material:shader_param/scroll_speed")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2.0 ]
+}
+
+[sub_resource type="CircleShape2D" id=11]
 radius = 15.1133
 
 [node name="IceBeam" type="RayCast2D"]
@@ -95,7 +93,7 @@ script = ExtResource( 1 )
 
 [node name="Line2D" type="Line2D" parent="."]
 self_modulate = Color( 2, 2, 2, 1 )
-material = SubResource( 3 )
+material = ExtResource( 2 )
 points = PoolVector2Array( 0, 0, 100, 0 )
 default_color = Color( 0.235294, 0.701961, 0.976471, 1 )
 texture_mode = 2
@@ -111,8 +109,8 @@ antialiased = true
 modulate = Color( 2, 2, 2, 1 )
 emitting = false
 lifetime = 0.3
-process_material = SubResource( 8 )
-texture = SubResource( 9 )
+process_material = SubResource( 5 )
+texture = SubResource( 6 )
 
 [node name="BeamSparkles" type="Particles2D" parent="."]
 modulate = Color( 2, 2, 2, 1 )
@@ -123,26 +121,28 @@ randomness = 1.0
 visibility_rect = Rect2( -2500, -2500, 5000, 5000 )
 local_coords = false
 draw_order = 1
-process_material = SubResource( 12 )
-texture = SubResource( 9 )
+process_material = SubResource( 9 )
+texture = SubResource( 6 )
 
 [node name="BeamSourceParticles" type="Particles2D" parent="."]
 modulate = Color( 2, 2, 2, 1 )
 emitting = false
 lifetime = 0.4
-process_material = SubResource( 13 )
-texture = SubResource( 9 )
+process_material = SubResource( 10 )
+texture = SubResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/New Anim" = SubResource( 12 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 3 )]
 collision_mask = 8
 
 [node name="Collider" parent="Hitbox" index="0"]
-shape = SubResource( 14 )
+shape = SubResource( 11 )
 disabled = true
 
 [node name="DamageTimer" type="Timer" parent="."]
+wait_time = 0.25
 one_shot = true
 
 [connection signal="timeout" from="DamageTimer" to="." method="_on_DamageTimer_timeout"]

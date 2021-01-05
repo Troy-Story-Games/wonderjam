@@ -27,7 +27,6 @@ onready var animationPlayer = $AnimationPlayer
 onready var iceBeam = $IceBeam
 onready var rightFootPosition = $RightFootPosition
 onready var leftFootPosition = $LeftFootPosition
-onready var snowJetParticles = $SnowJetParticles
 onready var snowParticles = $SnowParticles
 
 
@@ -69,17 +68,13 @@ func set_state(value):
 			walkingSprite.visible = true
 			iceBeam.visible = false
 			snowParticles.emitting = false
-			snowJetParticles.emitting = false
-			snowJetParticles.visible = false
 			snowParticles.visible = false
 		PlayerState.FLYING:
 			snowSchloop.visible = true
 			walkingSprite.visible = false
 			flyingSprite.visible = true
 			iceBeam.visible = true
-			snowJetParticles.emitting = true
 			snowParticles.emitting = true
-			snowJetParticles.visible = true
 			snowParticles.visible = true
 
 

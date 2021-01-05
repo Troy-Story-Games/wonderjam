@@ -6,6 +6,7 @@ export(int) var DAMAGE = 1
 export(float) var DAMAGE_INTERVAL = 0.25
 
 var is_casting = false setget set_is_casting
+var line2DMaterial = null
 
 onready var line2D = $Line2D
 onready var appearTween = $AppearTween
@@ -16,11 +17,13 @@ onready var animationPlayer = $AnimationPlayer
 onready var hitboxCollider = $Hitbox/Collider
 onready var hitbox = $Hitbox
 onready var damageTimer = $DamageTimer
+onready var shaderPulseEffectTimer = $ShaderPulseEffectTimer
 
 
 func _ready():
 	set_physics_process(false)
 	line2D.points[1] = Vector2.ZERO
+	line2DMaterial = line2D.get_material() as ShaderMaterial
 
 	# We programmatically build the "Pulse" animation so
 	# we can easily edit the export above without

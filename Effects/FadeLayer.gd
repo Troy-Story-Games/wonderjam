@@ -5,7 +5,7 @@ signal fade_out_complete()
 
 export(float) var FADE_IN_START_DELAY = 0.5
 
-var speed_after_delay = 2.0
+var speed_after_delay = 1.0
 
 onready var fadeAnimator = $FadeAnimator
 onready var textureRect = $TextureRect
@@ -16,7 +16,7 @@ func _ready():
 	textureRect.show()
 
 
-func fade_in(speed=2.0):
+func fade_in(speed=1.0):
 	if FADE_IN_START_DELAY > 0.0:
 		speed_after_delay = speed
 		fadeInDelay.start(FADE_IN_START_DELAY)
@@ -24,7 +24,7 @@ func fade_in(speed=2.0):
 		_internal_fade_in(speed)
 
 
-func _internal_fade_in(speed=2.0):
+func _internal_fade_in(speed=1.0):
 	speed = 1.0 / speed
 	fadeAnimator.playback_speed = speed
 	fadeAnimator.play("FadeIn")
