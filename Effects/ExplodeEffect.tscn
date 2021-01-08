@@ -25,8 +25,10 @@ scale_curve = SubResource( 2 )
 color = Color( 2, 2, 2, 1 )
 
 [node name="ExplodeEffect" type="Particles2D"]
+emitting = false
 amount = 80
 lifetime = 2.0
+one_shot = true
 explosiveness = 1.0
 visibility_rect = Rect2( -774.091, -118.611, 885.096, 926.242 )
 process_material = SubResource( 3 )

@@ -17,7 +17,6 @@ onready var animationPlayer = $AnimationPlayer
 onready var hitboxCollider = $Hitbox/Collider
 onready var hitbox = $Hitbox
 onready var damageTimer = $DamageTimer
-onready var shaderPulseEffectTimer = $ShaderPulseEffectTimer
 
 
 func _ready():
@@ -70,7 +69,7 @@ func _physics_process(delta):
 	beamSparkles.process_material.emission_box_extents.x = cast_point.length() * 0.5
 	
 	if not appearTween.is_active():
-		if len(BeatDetector.get_beats_now()) > 0:
+		if len(BackgroundMusicAnalyzer.bpmDetector.get_beats_now()) > 0:
 			pulse()
 
 

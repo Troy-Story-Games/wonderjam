@@ -16,7 +16,7 @@ onready var sprite = $Sprite
 
 func _physics_process(delta):
 	if nav_path.size() == 0:
-		move_and_slide(Vector2(-SPEED, 0), Vector2.UP)
+		position.x += -SPEED * delta
 		return
 
 	var move_amnt = NAV_SPEED * delta

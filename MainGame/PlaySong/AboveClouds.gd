@@ -2,8 +2,8 @@ extends Node
 
 export(int) var STARTING_SCROLL_SPEED = 250
 export(int) var MAX_SCROLL_SPEED = 3000
-export(int) var SCROLL_ACCELERATION = 300
-export(float) var SCROLL_FRICTION = 0.030
+export(int) var SCROLL_ACCELERATION = 150
+export(float) var SCROLL_FRICTION = 0.02
 
 var boost = false
 var speed = 0 setget set_speed
@@ -15,15 +15,15 @@ onready var histogram = $BackgroundLayer/HistogramAudioVisualizer
 
 func _ready():
 	fadeLayer.fade_in()
-	BeatDetector.start_main_song()
+	BackgroundMusicAnalyzer.start_main_song()
 	self.speed = STARTING_SCROLL_SPEED
 
 
 func _physics_process(delta):
-	var beats = BeatDetector.get_beats_now()
-	var low_beats = BeatDetector.get_low_beats_now()
+	#var low_freq_peaks = BackgroundMusicAnalyzer.peakDetector.get_low_peaks_now()
+	var bpm_beats = BackgroundMusicAnalyzer.bpmDetector.get_beats_now()
 
-	if len(low_beats) > 0:
+	if len(bpm_beats) > 0:
 		boost = true
 
 	if boost:

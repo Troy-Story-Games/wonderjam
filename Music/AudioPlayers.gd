@@ -41,8 +41,8 @@ func get_background_playback_position():
 	return backAudioPlayer.get_playback_position() + AudioServer.get_time_since_last_mix()
 
 
-func get_energy_for_frequency_range(spectrum, freq_low, freq_high):
-	var mag = spectrum.get_magnitude_for_frequency_range(freq_low, freq_high)
+func get_energy_for_frequency_range(spectrum, freq_low, freq_high, mode=AudioEffectSpectrumAnalyzerInstance.MAGNITUDE_MAX):
+	var mag = spectrum.get_magnitude_for_frequency_range(freq_low, freq_high, mode)
 	mag = linear2db(mag.length())
 	mag = (mag - min_db) / (max_db - min_db)
 	mag += 0.3 * (freq_low - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)

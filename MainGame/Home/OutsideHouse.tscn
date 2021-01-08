@@ -112,5 +112,6 @@ scale = Vector2( 1, -1 )
 self_modulate = Color( 1.7, 1.7, 1.7, 1 )
 position = Vector2( 960, -100 )
 amount = 2000
+preprocess = 8.0
 visibility_rect = Rect2( -960, 0, 1920, 900 )
 process_material = SubResource( 6 )

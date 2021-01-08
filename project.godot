@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Resource",
+"class": "BPMDetector",
+"language": "GDScript",
+"path": "res://Music/BPMDetector.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Enemy",
 "language": "GDScript",
@@ -29,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Overlap/Hurtbox.gd"
 }, {
+"base": "Resource",
+"class": "PeakDetector",
+"language": "GDScript",
+"path": "res://Music/PeakDetector.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
@@ -40,10 +50,12 @@ _global_script_classes=[ {
 "path": "res://Player/PlayerStats.gd"
 } ]
 _global_script_class_icons={
+"BPMDetector": "",
 "Enemy": "",
 "EnemyStats": "",
 "Hitbox": "",
 "Hurtbox": "",
+"PeakDetector": "",
 "Player": "",
 "PlayerStats": ""
 }
@@ -60,7 +72,7 @@ config/icon="res://icon.png"
 
 Utils="*res://Utils/Utils.gd"
 AudioPlayers="*res://Music/AudioPlayers.tscn"
-BeatDetector="*res://Music/BeatDetector.tscn"
+BackgroundMusicAnalyzer="*res://Music/BackgroundMusicAnalyzer.tscn"
 Events="*res://Utils/Events.gd"
 
 [display]

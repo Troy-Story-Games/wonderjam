@@ -59,3 +59,7 @@ func stdev(items, mean):
 	var variance = sum_of_squares / (len(items) - 1.0)
 
 	return sqrt(variance)
+
+
+func round_to_dec(num, digit):
+	return round(num * pow(10.0, digit)) / pow(10.0, digit)

@@ -8,8 +8,8 @@ onready var fileDialog = $UI/FileDialog
 
 func _ready():
 	fadeLayer.fade_in()
-	preload_done = BeatDetector.is_preload_done
-	BeatDetector.connect("preload_done", self, "_on_BeatDetector_preload_done")
+	preload_done = BackgroundMusicAnalyzer.is_preload_done
+	BackgroundMusicAnalyzer.connect("preload_done", self, "_on_BackgroundMusicAnalyzer_preload_done")
 
 
 func _input(event):
@@ -17,7 +17,7 @@ func _input(event):
 		fileDialog.popup_centered()
 
 
-func _on_BeatDetector_preload_done():
+func _on_BackgroundMusicAnalyzer_preload_done():
 	preload_done = true
 
 
@@ -44,4 +44,4 @@ func _on_Area2D_body_exited(body):
 
 
 func _on_FileDialog_file_selected(path):
-	BeatDetector.preload_song(path)
+	BackgroundMusicAnalyzer.preload_song(path)

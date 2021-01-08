@@ -18,27 +18,27 @@ vertices = PoolVector2Array( -470.208, -61.8734, -508.349, -146.63, -101.515, -2
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 3, 2, 5, 6 ) ]
 outlines = [ PoolVector2Array( 72.2368, -4.6624, 12.9069, 61.0243, -126.942, -13.1381, -150.25, -114.847, -470.208, -61.8734, -508.349, -146.63, -101.515, -208.079 ) ]
 
-[sub_resource type="NavigationPolygon" id=7]
+[sub_resource type="NavigationPolygon" id=4]
 vertices = PoolVector2Array( 59.3547, -15.8401, 48.7601, 18.0627, -510.636, 26.5384, -487.328, -34.9105 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 outlines = [ PoolVector2Array( 59.3547, -15.8401, 48.7601, 18.0627, -510.636, 26.5384, -487.328, -34.9105 ) ]
 
-[sub_resource type="NavigationPolygon" id=8]
+[sub_resource type="NavigationPolygon" id=5]
 vertices = PoolVector2Array( 67.8304, -14.0128, 69.9493, 17.7711, -495.804, 24.1279, -495.804, -28.8453 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 outlines = [ PoolVector2Array( 67.8304, -14.0128, 69.9493, 17.7711, -495.804, 24.1279, -495.804, -28.8453 ) ]
 
-[sub_resource type="NavigationPolygon" id=4]
+[sub_resource type="NavigationPolygon" id=6]
 vertices = PoolVector2Array( -143.894, 252.972, -533.776, 115.242, -482.922, 11.4143, -207.461, 153.382, 55.2854, 34.7225, -198.986, 47.436, 36.2151, -37.321 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 0, 3, 5, 6 ) ]
 outlines = [ PoolVector2Array( 36.2151, -37.321, 55.2854, 34.7225, -143.894, 252.972, -533.776, 115.242, -482.922, 11.4143, -207.461, 153.382, -198.986, 47.436 ) ]
 
-[sub_resource type="NavigationPolygon" id=5]
+[sub_resource type="NavigationPolygon" id=7]
 vertices = PoolVector2Array( 51.0476, -11.9092, -27.3527, 58.0154, -173.559, -429.338, -124.823, -475.954, -218.056, -427.219, -324.002, 5.04224, -408.759, -28.8606, -283.743, -459.003, -245.602, -509.857, -211.699, -439.932, -222.294, -516.214, -182.034, -518.333, -192.629, -439.932, -150.25, -507.738 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 9, 4, 8, 10, 11 ), PoolIntArray( 12, 9, 11, 13, 3 ), PoolIntArray( 3, 2, 12 ) ]
 outlines = [ PoolVector2Array( 51.0476, -11.9092, -27.3527, 58.0154, -173.559, -429.338, -192.629, -439.932, -211.699, -439.932, -218.056, -427.219, -324.002, 5.04224, -408.759, -28.8606, -283.743, -459.003, -245.602, -509.857, -222.294, -516.214, -182.034, -518.333, -150.25, -507.738, -124.823, -475.954 ) ]
 
-[sub_resource type="NavigationPolygon" id=6]
+[sub_resource type="NavigationPolygon" id=8]
 vertices = PoolVector2Array( 29.1791, -29.5541, 66.9341, 36.517, -55.7697, 49.7313, -348.371, -641.185, -282.299, -671.389 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 0, 3 ) ]
 outlines = [ PoolVector2Array( 29.1791, -29.5541, 66.9341, 36.517, -55.7697, 49.7313, -348.371, -641.185, -282.299, -671.389 ) ]
@@ -81,7 +81,7 @@ position = Vector2( 0, 306 )
 position = Vector2( -450, 0 )
 
 [node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator4/Navigation2D" index="0"]
-navpoly = SubResource( 7 )
+navpoly = SubResource( 4 )
 
 [node name="SpawnNavigator5" parent="SpawnPositions" instance=ExtResource( 2 )]
 position = Vector2( 0, 408 )
@@ -90,7 +90,7 @@ position = Vector2( 0, 408 )
 position = Vector2( -450, 0 )
 
 [node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator5/Navigation2D" index="0"]
-navpoly = SubResource( 8 )
+navpoly = SubResource( 5 )
 
 [node name="SpawnNavigator6" parent="SpawnPositions" instance=ExtResource( 2 )]
 position = Vector2( 0, 510 )
@@ -99,7 +99,7 @@ position = Vector2( 0, 510 )
 position = Vector2( -450, 100 )
 
 [node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator6/Navigation2D" index="0"]
-navpoly = SubResource( 4 )
+navpoly = SubResource( 6 )
 
 [node name="SpawnNavigator7" parent="SpawnPositions" instance=ExtResource( 2 )]
 position = Vector2( 0, 612 )
@@ -108,7 +108,7 @@ position = Vector2( 0, 612 )
 position = Vector2( -350, -50 )
 
 [node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator7/Navigation2D" index="0"]
-navpoly = SubResource( 5 )
+navpoly = SubResource( 7 )
 
 [node name="SpawnNavigator8" parent="SpawnPositions" instance=ExtResource( 2 )]
 position = Vector2( 0, 720 )
@@ -117,7 +117,7 @@ position = Vector2( 0, 720 )
 position = Vector2( -300, -612 )
 
 [node name="NavigationPolygonInstance" parent="SpawnPositions/SpawnNavigator8/Navigation2D" index="0"]
-navpoly = SubResource( 6 )
+navpoly = SubResource( 8 )
 
 [node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true

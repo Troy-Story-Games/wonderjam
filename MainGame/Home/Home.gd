@@ -10,8 +10,8 @@ var player = null
 
 func _ready():
 	fadeLayer.fade_in()
-	preload_done = BeatDetector.is_preload_done
-	BeatDetector.connect("preload_done", self, "_on_BeatDetector_preload_done")
+	preload_done = BackgroundMusicAnalyzer.is_preload_done
+	BackgroundMusicAnalyzer.connect("preload_done", self, "_on_BackgroundMusicAnalyzer_preload_done")
 	Events.connect("footprint", self, "_on_footprint")
 
 
@@ -20,7 +20,7 @@ func _input(event):
 		fadeLayer.fade_out()
 
 
-func _on_BeatDetector_preload_done():
+func _on_BackgroundMusicAnalyzer_preload_done():
 	preload_done = true
 
 

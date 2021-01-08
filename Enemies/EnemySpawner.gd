@@ -2,9 +2,9 @@ extends Node2D
 
 const FlameEnemy = preload("res://Enemies/FlameEnemy.tscn")
 
-export(int) var MAX_ENEMIES = 10
-export(int) var ENEMY_CLUSTER_SIZE = 5
-export(float) var SPAWN_STARTUP_DELAY = 1.0
+export(int) var MAX_ENEMIES = 5
+export(int) var ENEMY_CLUSTER_SIZE = 3
+export(float) var SPAWN_STARTUP_DELAY = 1.5
 export(float) var SPAWN_COOLDOWN = 1.5
 
 var can_spawn = false setget set_can_spawn
@@ -43,9 +43,9 @@ func _process(_delta):
 
 	spawners = spawnPositions.get_children()
 
-	var low_beats = BeatDetector.get_low_beats_now()
-	var high_beats = BeatDetector.get_high_beats_now()
-	var mid_beats = BeatDetector.get_mid_beats_now()
+	var low_beats = BackgroundMusicAnalyzer.peakDetector.get_low_peaks_now()
+	var high_beats = BackgroundMusicAnalyzer.peakDetector.get_high_peaks_now()
+	var mid_beats = BackgroundMusicAnalyzer.peakDetector.get_mid_peaks_now()
 
 	if len(low_beats) > 0:
 		last_low_spawner = spawn_enemy(last_low_spawner)

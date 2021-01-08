@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Enemies/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Effects/Flames.tscn" type="PackedScene" id=2]
@@ -40,14 +40,10 @@ scale_random = 0.2
 color = Color( 2.5, 2.5, 0, 1 )
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 27.5405
-height = 53.6124
-
-[sub_resource type="CapsuleShape2D" id=6]
 radius = 25.0664
 height = 39.6941
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=6]
 radius = 21.2946
 
 [node name="FlameEnemy" instance=ExtResource( 1 )]
@@ -72,19 +68,18 @@ process_material = SubResource( 4 )
 
 [node name="Collider" parent="." index="2"]
 rotation = 1.5708
-shape = SubResource( 5 )
 
 [node name="Hurtbox" parent="." index="3"]
 rotation = 1.5708
 
 [node name="Collider" parent="Hurtbox" index="0"]
-shape = SubResource( 6 )
+shape = SubResource( 5 )
 
 [node name="Hitbox" parent="." index="4"]
 position = Vector2( -33.4087, 0 )
 
 [node name="Collider" parent="Hitbox" index="0"]
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="VisibilityNotifier2D" parent="." index="7"]
 position = Vector2( -5.05413, -0.148659 )
