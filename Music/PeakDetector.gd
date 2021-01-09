@@ -3,7 +3,7 @@ class_name PeakDetector
 
 # Peak tracking
 var peaks = []
-var peaks_now = []
+var peaks_now = null
 var peaks_now_by_range = {"low": [], "mid": [], "high": []}
 
 var freq_ranges = []
@@ -78,13 +78,14 @@ func get_peaks_now():
 	This will return peaks that should be
 	displayed on this frame to sync visually.
 	"""
-	if len(peaks_now) > 0:
+	if peaks_now != null:
 		return peaks_now
 
 	var compensated_playback_time = AudioPlayers.get_adjusted_playback_time()
 
 	analysis_mutex.lock()
 
+	peaks_now = []
 	while len(peaks) > 0 and compensated_playback_time >= peaks[0].pos:
 		var miss = compensated_playback_time - peaks[0].pos
 		if miss > drop_peak_threshold:
@@ -136,7 +137,10 @@ func get_high_peaks_now():
 
 
 func clear_peaks_now():
-	peaks_now.clear()
+	if peaks_now != null:
+		peaks_now.clear()
+		peaks_now = null
+
 	peaks_now_by_range.low.clear()
 	peaks_now_by_range.mid.clear()
 	peaks_now_by_range.high.clear()

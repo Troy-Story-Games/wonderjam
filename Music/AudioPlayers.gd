@@ -13,11 +13,16 @@ const COMPENSATE_HZ = 60.0
 const FREQ_MAX = 11050.0
 const FREQ_MIN = 20
 
+var playback_pos_mutex = null
 var max_db = MAX_DB
 var min_db = MIN_DB
 
 onready var mainAudioPlayer = $MainAudioPlayer
 onready var backAudioPlayer = $BackAudioPlayer
+
+
+func _init():
+	playback_pos_mutex = Mutex.new()
 
 
 func _ready():
@@ -34,11 +39,22 @@ func _ready():
 func get_adjusted_playback_time():
 	# Get the playback time that it really is for this frame (e.g slightly
 	# in the future but that's fine b/c we preload the song and do preprocessing)
-	return mainAudioPlayer.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency() + (1 / COMPENSATE_HZ) * COMPENSATE_FRAMES
+	playback_pos_mutex.lock()
+	var pos = mainAudioPlayer.get_playback_position()
+	var time_since_last_mix = AudioServer.get_time_since_last_mix()
+	var latency = AudioServer.get_output_latency()
+	playback_pos_mutex.unlock()
+
+	return pos + time_since_last_mix - latency + (1 / COMPENSATE_HZ) * COMPENSATE_FRAMES
 
 
 func get_background_playback_position():
-	return backAudioPlayer.get_playback_position() + AudioServer.get_time_since_last_mix()
+	playback_pos_mutex.lock()
+	var pos = backAudioPlayer.get_playback_position()
+	var time_since_last_mix = AudioServer.get_time_since_last_mix()
+	playback_pos_mutex.unlock()
+
+	return pos + time_since_last_mix
 
 
 func get_energy_for_frequency_range(spectrum, freq_low, freq_high, mode=AudioEffectSpectrumAnalyzerInstance.MAGNITUDE_MAX):

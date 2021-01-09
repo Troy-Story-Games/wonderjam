@@ -14,7 +14,27 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
-## Unreleased - 2020-01-02
+## Unreleased - 2021-01-09
+
+### Added
+
+* Some new art assets for the game icon, health bar, and some more houses
+* Added a fog shader for the boss area to make it more spooky
+
+### Changed
+
+* Change the game name to WonderJam
+* Found and fixed a [bug in Godot](https://github.com/godotengine/godot/pull/45036) that causes our game to lock up when polling the `AudioServer`. Will need to export the game using a custom version as the fix likely won't be in Godot official in time
+* Broke the beat detection up into 3 classes:
+    * `BackgroundMusicAnalyzer` - Which handles the analysis of the muted background song. This will emit `preload_done` when a song is ready
+    * `BPMDetector` - Which identifies the BPM for the song and exposes a `get_beats_now` method that will return any beats (following the BPM) that should be displayed for the current frame
+    * `PeakDetector` - Which identifies peaks in the audio and exposes a `get_peaks_now` method (along with other frequency-specific ones) that returns the peaks for different frequency ranges for the current frame
+
+### Removed
+
+* Enemies no longer collide (was making things complicated)
+
+## Unreleased - 2021-01-02
 
 ### Added
 
@@ -44,7 +64,7 @@ Use the following sub-headings when adding changelog entries:
 * Removed the progress bar (for now)
 * Removed Godot `icon.png`
 
-## Unreleased - 2020-01-01
+## Unreleased - 2021-01-01
 
 ### Added
 
