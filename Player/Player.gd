@@ -178,9 +178,12 @@ func update_animations(input_vector):
 		PlayerState.FLYING:
 			var speed_diff = MAX_FLIGHT_ANIMATION_PLAYBACK_SPEED - MIN_FLIGHT_ANIMATION_PLAYBACK_SPEED
 			var main_scene = get_tree().current_scene as AboveClouds
-			var scroll_speed_factor = main_scene.get_speed_factor()
-			var add = speed_diff * scroll_speed_factor
-			animationPlayer.playback_speed = MIN_FLIGHT_ANIMATION_PLAYBACK_SPEED + add
+			if main_scene != null:
+				var scroll_speed_factor = main_scene.get_speed_factor()
+				var add = speed_diff * scroll_speed_factor
+				animationPlayer.playback_speed = MIN_FLIGHT_ANIMATION_PLAYBACK_SPEED + add
+			else:
+				animationPlayer.playback_speed = 1.0
 			animationPlayer.play("Flying")
 		PlayerState.SHOOTING:
 			if animationPlayer.current_animation == "Shoot":
@@ -188,9 +191,12 @@ func update_animations(input_vector):
 			else:
 				var speed_diff = MAX_FLIGHT_ANIMATION_PLAYBACK_SPEED - MIN_FLIGHT_ANIMATION_PLAYBACK_SPEED
 				var main_scene = get_tree().current_scene as AboveClouds
-				var scroll_speed_factor = main_scene.get_speed_factor()
-				var add = speed_diff * scroll_speed_factor
-				animationPlayer.playback_speed = MIN_FLIGHT_ANIMATION_PLAYBACK_SPEED + add
+				if main_scene != null:
+					var scroll_speed_factor = main_scene.get_speed_factor()
+					var add = speed_diff * scroll_speed_factor
+					animationPlayer.playback_speed = MIN_FLIGHT_ANIMATION_PLAYBACK_SPEED + add
+				else:
+					animationPlayer.playback_speed = 1.0
 
 
 func move():

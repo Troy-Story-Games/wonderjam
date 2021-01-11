@@ -1,5 +1,6 @@
 # Anything up here is project specific
 test_music/
+releases/
 *save_data.json
 
 # The lines below were Created by https://www.toptal.com/developers/gitignore/api/c++,godot,python,visualstudio

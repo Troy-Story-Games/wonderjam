@@ -86,6 +86,8 @@ run/main_scene="res://UI/StartMenu.tscn"
 boot_splash/image="res://logo.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
+run/disable_stderr.release=true
+run/disable_stdout.release=true
 
 [autoload]
 
