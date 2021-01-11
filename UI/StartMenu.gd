@@ -6,14 +6,16 @@ onready var fadeLayer = $FadeLayer
 
 
 func _ready():
+	randomize()
 	fadeLayer.fade_in()
 	camera2D.zoom = Vector2.ONE
 
 
-func _input(event):
-	if event.is_action("ui_accept"):
+func _unhandled_input(event):
+	if event.is_pressed():
 		animationPlayer.play("Zoom")
 
 
 func _on_FadeLayer_fade_out_complete():
+	# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://MainGame/Home/InsideHouse.tscn")

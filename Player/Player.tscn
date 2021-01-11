@@ -1,11 +1,11 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://Art/Characters/winter_guy.png" type="Texture" id=1]
+[ext_resource path="res://Art/Player/winter_guy_flying.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Overlap/Hurtbox.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Art/Characters/snow_schloop.png" type="Texture" id=4]
+[ext_resource path="res://Effects/WhiteFlash.shader" type="Shader" id=4]
 [ext_resource path="res://Player/IceBeam.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Art/Characters/winter_guy_animated.png" type="Texture" id=6]
+[ext_resource path="res://Art/Player/winter_guy_walking.png" type="Texture" id=6]
 [ext_resource path="res://Effects/SnowParticles.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Gradient" id=1]
@@ -48,14 +48,33 @@ scale_random = 0.1
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 37.9169, 85.0482 )
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 4 )
+shader_param/active = false
 
-[sub_resource type="CapsuleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 45.1204, 85.3684 )
+
+[sub_resource type="CapsuleShape2D" id=10]
 radius = 28.2393
 height = 111.409
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("FlyingSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+}
+
+[sub_resource type="Animation" id=12]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -71,7 +90,54 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=13]
+resource_name = "Shoot"
+length = 0.3
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("FlyingSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075, 0.15, 0.225 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 11, 12, 13 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "Shooting", -1, 1.0, false ],
+"method": "play"
+} ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "Shooting"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("FlyingSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
+}
+
+[sub_resource type="Animation" id=15]
 length = 0.3
 loop = true
 tracks/0/type = "value"
@@ -87,6 +153,23 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
+[sub_resource type="Animation" id=16]
+resource_name = "Flash"
+length = 0.55
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("FlyingSprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false ]
+}
+
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 2 )
@@ -98,12 +181,9 @@ lifetime = 1.25
 preprocess = 1.25
 process_material = SubResource( 7 )
 
-[node name="SnowSchloop" type="Sprite" parent="."]
+[node name="IceBeam" parent="." instance=ExtResource( 5 )]
 visible = false
-self_modulate = Color( 1.8, 1.8, 1.8, 1 )
-position = Vector2( -12.3566, 9.24897 )
-texture = ExtResource( 4 )
-flip_h = true
+position = Vector2( 63.8456, -72.028 )
 
 [node name="WalkingSprite" type="Sprite" parent="."]
 position = Vector2( 0, -93.2342 )
@@ -113,12 +193,15 @@ frame = 3
 
 [node name="FlyingSprite" type="Sprite" parent="."]
 visible = false
-position = Vector2( 0, -93.2342 )
+material = SubResource( 8 )
+position = Vector2( 0, -78 )
 texture = ExtResource( 1 )
+hframes = 24
+frame = 13
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2( -1.18921, -76.3024 )
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [node name="CameraFollow" type="RemoteTransform2D" parent="."]
 
@@ -128,20 +211,25 @@ collision_layer = 4
 
 [node name="Collider" parent="Hurtbox" index="0"]
 position = Vector2( 3.56763, 16.6489 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Idle = SubResource( 10 )
-anims/Walking = SubResource( 11 )
+anims/Flying = SubResource( 11 )
+anims/Idle = SubResource( 12 )
+anims/Shoot = SubResource( 13 )
+anims/Shooting = SubResource( 14 )
+anims/Walking = SubResource( 15 )
 
-[node name="IceBeam" parent="." instance=ExtResource( 5 )]
-visible = false
-position = Vector2( 66.5956, -63.028 )
+[node name="FlashAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Flash = SubResource( 16 )
 
 [node name="RightFootPosition" type="Position2D" parent="."]
-position = Vector2( 0, 7.57664 )
+position = Vector2( 0, 9.4644 )
 
 [node name="LeftFootPosition" type="Position2D" parent="."]
-position = Vector2( 0, -8.41845 )
+position = Vector2( 0, -5.11489 )
+
+[connection signal="invincibility_ended" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_ended"]
+[connection signal="take_damage" from="Hurtbox" to="." method="_on_Hurtbox_take_damage"]
 
 [editable path="Hurtbox"]

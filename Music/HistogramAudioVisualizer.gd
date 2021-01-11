@@ -58,7 +58,7 @@ func _process(delta):
 func set_num_bars(value):
 	NUM_BARS = value
 	histogram.clear()
-	for i in range(NUM_BARS):
+	for _idx in range(NUM_BARS):
 		histogram.append(0.0)
 
 	freq_ranges.clear()
@@ -66,12 +66,6 @@ func set_num_bars(value):
 
 
 func populate_histogram(delta):
-	var freq_min = AudioPlayers.FREQ_MIN
-	var freq_max = AudioPlayers.FREQ_MAX
-	var freq = freq_min
-	
-	var interval = (freq_max - freq_min) / self.NUM_BARS
-	
 	for i in range(self.NUM_BARS):
 		var rng = freq_ranges[i]
 		var energy = AudioPlayers.get_energy_for_frequency_range(spectrum, rng.low, rng.high)

@@ -11,7 +11,9 @@ var player = null
 func _ready():
 	fadeLayer.fade_in()
 	preload_done = BackgroundMusicAnalyzer.is_preload_done
+	# warning-ignore:return_value_discarded
 	BackgroundMusicAnalyzer.connect("preload_done", self, "_on_BackgroundMusicAnalyzer_preload_done")
+	# warning-ignore:return_value_discarded
 	Events.connect("footprint", self, "_on_footprint")
 
 
@@ -47,6 +49,8 @@ func _on_EnterHouseArea_body_exited(body):
 
 func _on_FadeLayer_fade_out_complete():
 	if preload_done:
+		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://MainGame/PlaySong/AboveClouds.tscn")
 	else:
+		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://MainGame/Home/InsideHouse.tscn")

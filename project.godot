@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "AboveClouds",
+"language": "GDScript",
+"path": "res://MainGame/PlaySong/AboveClouds.gd"
+}, {
 "base": "Resource",
 "class": "BPMDetector",
 "language": "GDScript",
@@ -48,8 +53,19 @@ _global_script_classes=[ {
 "class": "PlayerStats",
 "language": "GDScript",
 "path": "res://Player/PlayerStats.gd"
+}, {
+"base": "Node",
+"class": "Song",
+"language": "GDScript",
+"path": "res://Utils/Song.gd"
+}, {
+"base": "VBoxContainer",
+"class": "SongCard",
+"language": "GDScript",
+"path": "res://UI/SongCard.gd"
 } ]
 _global_script_class_icons={
+"AboveClouds": "",
 "BPMDetector": "",
 "Enemy": "",
 "EnemyStats": "",
@@ -57,7 +73,9 @@ _global_script_class_icons={
 "Hurtbox": "",
 "PeakDetector": "",
 "Player": "",
-"PlayerStats": ""
+"PlayerStats": "",
+"Song": "",
+"SongCard": ""
 }
 
 [application]
@@ -67,6 +85,7 @@ config/description="It's a game with winter, music, and shooting"
 run/main_scene="res://UI/StartMenu.tscn"
 boot_splash/image="res://logo.png"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
@@ -74,6 +93,11 @@ Utils="*res://Utils/Utils.gd"
 AudioPlayers="*res://Music/AudioPlayers.tscn"
 BackgroundMusicAnalyzer="*res://Music/BackgroundMusicAnalyzer.tscn"
 Events="*res://Utils/Events.gd"
+SaveAndLoad="*res://Utils/SaveAndLoad.gd"
+
+[debug]
+
+gdscript/warnings/treat_warnings_as_errors=true
 
 [display]
 

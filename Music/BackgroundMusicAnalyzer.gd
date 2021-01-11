@@ -20,21 +20,30 @@ const PEAK_SCORE_THRESHOLD = 0.6
 # to 2000 hz so we'll use that)
 const BPM_CUTOFF_FREQ = 2000
 
-# Energy tracking
-var energy_window = []
-
-var preloaded_for = 0.0
-var back_spectrum = null
-var main_stream = null
-var back_stream = null
 var is_preload_done = false
 
-onready var peakDetector = PeakDetector.new(FREQ_SPLIT_COUNT, DROP_PEAK_THRESHOLD, MIN_TIME_BETWEEN_PEAKS, PEAK_SCORE_THRESHOLD)
-onready var bpmDetector = BPMDetector.new(BPM_CUTOFF_FREQ)
+onready var peakDetector = null
+onready var bpmDetector = null
 onready var preloadTimer = $PreloadTimer
 
 
-func _physics_process(delta):
+func _ready():
+	initialize_analysis()
+
+
+func initialize_analysis():
+	peakDetector = PeakDetector.new(FREQ_SPLIT_COUNT, DROP_PEAK_THRESHOLD, MIN_TIME_BETWEEN_PEAKS, PEAK_SCORE_THRESHOLD)
+	bpmDetector = BPMDetector.new(BPM_CUTOFF_FREQ)
+
+
+func reset():
+	peakDetector.stop_thread()
+	bpmDetector.stop_thread()
+	is_preload_done = false
+	initialize_analysis()
+
+
+func _physics_process(_delta):
 	if AudioPlayers.mainAudioPlayer.playing:
 		# These must always be called - so we call them 
 		# here in case nobody else does on this frame.
@@ -75,23 +84,6 @@ func get_preload_progress():
 	
 	var time_passed = preloadTimer.wait_time - preloadTimer.time_left
 	return (time_passed / PRELOAD_TIME) * 100.0
-
-
-func start_main_song():
-	"""
-	This is called when the player is ready to play
-	This will start playing the main song
-	"""
-	# This allows preload to be longer than PRELOAD_TIME
-	# PRELOAD_TIME is intended to be a minimum. The game
-	# is designed to allow the player to do things while
-	# the song loads. If they want to play immediately
-	# the minimum wait time will be PRELOAD_TIME otherwise
-	# they could wait longer and we track that here.
-	preloaded_for = AudioPlayers.get_background_playback_position()
-
-	print("DEBUG: preloaded_for ", preloaded_for)
-	AudioPlayers.mainAudioPlayer.play()
 
 
 func _on_PreloadTimer_timeout():

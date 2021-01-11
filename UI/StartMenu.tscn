@@ -57,7 +57,7 @@ script = ExtResource( 4 )
 [node name="TitleUI" parent="UI" instance=ExtResource( 2 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 1096.89, 534.954 )
+position = Vector2( 1096, 535 )
 current = true
 limit_left = 0
 limit_top = 0
@@ -65,6 +65,7 @@ limit_right = 1920
 limit_bottom = 720
 
 [node name="OutsideHouse" parent="." instance=ExtResource( 1 )]
+position = Vector2( -1, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Zoom = SubResource( 1 )

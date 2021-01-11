@@ -41,7 +41,7 @@ func _on_EnemyStats_no_health():
 	queue_free()
 
 
-func _on_Hurtbox_take_damage(damage, area):
+func _on_Hurtbox_take_damage(damage, _area):
 	stats.health -= damage
 
 

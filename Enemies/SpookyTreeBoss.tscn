@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://Enemies/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/Enemies/SpookyTreeBoss/body_behind.png" type="Texture" id=2]
@@ -7,6 +7,47 @@
 [ext_resource path="res://Effects/SmokeParticles.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Effects/Flames.shader" type="Shader" id=6]
 [ext_resource path="res://Enemies/SpookyTreeBoss.gd" type="Script" id=7]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/reference.png" type="Texture" id=8]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_1.3.png" type="Texture" id=9]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_1.2.png" type="Texture" id=10]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_3.png" type="Texture" id=11]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_2.png" type="Texture" id=12]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_1.1.png" type="Texture" id=13]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_4.3.png" type="Texture" id=14]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_4.1.png" type="Texture" id=15]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/leg_4.2.png" type="Texture" id=16]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_arm_1.2.png" type="Texture" id=17]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_1.1.png" type="Texture" id=18]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_arm_1.png" type="Texture" id=19]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_1.2.png" type="Texture" id=20]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_1.3.png" type="Texture" id=21]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_1.4.png" type="Texture" id=22]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_arm_2.1.png" type="Texture" id=23]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_arm_1.1.png" type="Texture" id=24]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_2.2.png" type="Texture" id=25]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_2.4.png" type="Texture" id=26]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_2.1.png" type="Texture" id=27]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_4.1.png" type="Texture" id=28]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_nub.png" type="Texture" id=29]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_2.3.png" type="Texture" id=30]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_4.4.png" type="Texture" id=31]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_arm_2.4.png" type="Texture" id=32]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_4.3.png" type="Texture" id=33]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_3.2.png" type="Texture" id=34]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_arm_2.1.png" type="Texture" id=35]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_arm_2.3.png" type="Texture" id=36]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_3.1.png" type="Texture" id=37]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_arm_2.2.png" type="Texture" id=38]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_3.3.png" type="Texture" id=39]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_2.png" type="Texture" id=40]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_4.2.png" type="Texture" id=41]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_arm_2.2.png" type="Texture" id=42]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/left_hand_3.4.png" type="Texture" id=43]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_1.1.png" type="Texture" id=44]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_1.5.png" type="Texture" id=45]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_1.4.png" type="Texture" id=46]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_1.3.png" type="Texture" id=47]
+[ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_1.2.png" type="Texture" id=48]
 
 [sub_resource type="OpenSimplexNoise" id=1]
 
@@ -148,15 +189,21 @@ tracks/2/keys = {
 [node name="SpookyTreeBoss" instance=ExtResource( 1 )]
 script = ExtResource( 7 )
 
-[node name="EnemyStats" parent="." index="0"]
+[node name="Reference" type="Sprite" parent="." index="0"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.290196 )
+position = Vector2( -7.55951, -229.306 )
+texture = ExtResource( 8 )
+
+[node name="EnemyStats" parent="." index="1"]
 max_health = 125
 
-[node name="BehindBody" type="Sprite" parent="." index="1"]
+[node name="BehindBody" type="Sprite" parent="." index="2"]
 show_behind_parent = true
 position = Vector2( 10.054, -203.77 )
 texture = ExtResource( 2 )
 
-[node name="AngerFlames" parent="." index="2" instance=ExtResource( 4 )]
+[node name="AngerFlames" parent="." index="3" instance=ExtResource( 4 )]
 material = SubResource( 3 )
 position = Vector2( 129.796, -382.164 )
 rotation = 0.907571
@@ -166,12 +213,12 @@ scale = Vector2( 0.904936, 1.88398 )
 visible = false
 process_material = SubResource( 4 )
 
-[node name="SmokeParticles" parent="." index="3" instance=ExtResource( 5 )]
+[node name="SmokeParticles" parent="." index="4" instance=ExtResource( 5 )]
 position = Vector2( 56.1266, -320.724 )
 rotation = 0.785398
 process_material = SubResource( 9 )
 
-[node name="Flames" parent="." index="4" instance=ExtResource( 4 )]
+[node name="Flames" parent="." index="5" instance=ExtResource( 4 )]
 material = SubResource( 12 )
 position = Vector2( -23.8871, -157.101 )
 scale = Vector2( 1, 2.34993 )
@@ -185,12 +232,147 @@ position = Vector2( 98.8897, -76.9607 )
 lifetime = 1.0
 process_material = SubResource( 13 )
 
-[node name="Sprite" parent="." index="5"]
+[node name="Sprite" parent="." index="6"]
 light_mask = 0
 position = Vector2( 10.054, -203.77 )
 texture = ExtResource( 3 )
 
-[node name="AnimationPlayer" parent="." index="9"]
+[node name="Leg1" type="Sprite" parent="Sprite" index="0"]
+show_behind_parent = true
+position = Vector2( -156.583, 185.767 )
+texture = ExtResource( 13 )
+
+[node name="MiddleSegment" type="Sprite" parent="Sprite/Leg1" index="0"]
+texture = ExtResource( 10 )
+
+[node name="EndSegment" type="Sprite" parent="Sprite/Leg1/MiddleSegment" index="0"]
+texture = ExtResource( 9 )
+
+[node name="Leg2" type="Sprite" parent="Sprite" index="1"]
+show_behind_parent = true
+position = Vector2( -44.3372, 199.237 )
+texture = ExtResource( 12 )
+
+[node name="Leg3" type="Sprite" parent="Sprite" index="2"]
+position = Vector2( 14.0308, 195.87 )
+texture = ExtResource( 11 )
+
+[node name="Leg4" type="Sprite" parent="Sprite" index="3"]
+position = Vector2( 140.869, 186.329 )
+texture = ExtResource( 15 )
+
+[node name="MiddleSegment" type="Sprite" parent="Sprite/Leg4" index="0"]
+texture = ExtResource( 16 )
+
+[node name="EndSegment" type="Sprite" parent="Sprite/Leg4/MiddleSegment" index="0"]
+texture = ExtResource( 14 )
+
+[node name="LeftArm1" type="Sprite" parent="Sprite" index="4"]
+position = Vector2( -164.402, 35.8857 )
+texture = ExtResource( 24 )
+
+[node name="MiddleSegment" type="Sprite" parent="Sprite/LeftArm1" index="0"]
+texture = ExtResource( 17 )
+
+[node name="Hand" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment" index="0"]
+texture = ExtResource( 18 )
+
+[node name="Finger1" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment/Hand" index="0"]
+texture = ExtResource( 20 )
+
+[node name="Finger2" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment/Hand" index="1"]
+texture = ExtResource( 21 )
+
+[node name="Finger3" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment/Hand" index="2"]
+texture = ExtResource( 22 )
+
+[node name="LeftArm2" type="Sprite" parent="Sprite" index="5"]
+show_behind_parent = true
+light_mask = 0
+position = Vector2( -169.275, -154.97 )
+z_index = -1
+texture = ExtResource( 23 )
+
+[node name="MiddleSegment" type="Sprite" parent="Sprite/LeftArm2" index="0"]
+texture = ExtResource( 42 )
+
+[node name="EndSegment" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment" index="0"]
+texture = ExtResource( 36 )
+
+[node name="Wrist" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment" index="0"]
+texture = ExtResource( 32 )
+
+[node name="Hand" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist" index="0"]
+texture = ExtResource( 40 )
+
+[node name="Nub" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment" index="1"]
+show_behind_parent = true
+texture = ExtResource( 29 )
+
+[node name="Wrist2" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment" index="2"]
+texture = ExtResource( 37 )
+
+[node name="Finger1" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2" index="0"]
+texture = ExtResource( 34 )
+
+[node name="Finger2" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2" index="1"]
+texture = ExtResource( 39 )
+
+[node name="Finger3" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2" index="2"]
+texture = ExtResource( 43 )
+
+[node name="Wrist" type="Sprite" parent="Sprite/LeftArm2" index="1"]
+texture = ExtResource( 28 )
+
+[node name="Finger1" type="Sprite" parent="Sprite/LeftArm2/Wrist" index="0"]
+texture = ExtResource( 41 )
+
+[node name="Finger2" type="Sprite" parent="Sprite/LeftArm2/Wrist" index="1"]
+texture = ExtResource( 33 )
+
+[node name="Finger3" type="Sprite" parent="Sprite/LeftArm2/Wrist" index="2"]
+texture = ExtResource( 31 )
+
+[node name="RightArm1" type="Sprite" parent="Sprite" index="6"]
+position = Vector2( 63.1808, -36.8088 )
+texture = ExtResource( 19 )
+
+[node name="Finger1" type="Sprite" parent="Sprite/RightArm1" index="0"]
+texture = ExtResource( 44 )
+
+[node name="Finger2" type="Sprite" parent="Sprite/RightArm1" index="1"]
+texture = ExtResource( 48 )
+
+[node name="Finger3" type="Sprite" parent="Sprite/RightArm1" index="2"]
+texture = ExtResource( 47 )
+
+[node name="Finger4" type="Sprite" parent="Sprite/RightArm1" index="3"]
+texture = ExtResource( 46 )
+
+[node name="Finger5" type="Sprite" parent="Sprite/RightArm1" index="4"]
+texture = ExtResource( 45 )
+
+[node name="RigthArm2" type="Sprite" parent="Sprite" index="7"]
+show_behind_parent = true
+position = Vector2( -45.4896, -184.678 )
+texture = ExtResource( 35 )
+
+[node name="MiddleSegment" type="Sprite" parent="Sprite/RigthArm2" index="0"]
+texture = ExtResource( 38 )
+
+[node name="Wrist" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment" index="0"]
+texture = ExtResource( 27 )
+
+[node name="Finger1" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment/Wrist" index="0"]
+texture = ExtResource( 25 )
+
+[node name="Finger2" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment/Wrist" index="1"]
+texture = ExtResource( 30 )
+
+[node name="Finger3" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment/Wrist" index="2"]
+texture = ExtResource( 26 )
+
+[node name="AnimationPlayer" parent="." index="10"]
 anims/Rage = SubResource( 14 )
 
 [connection signal="health_changed" from="EnemyStats" to="." method="_on_EnemyStats_health_changed"]

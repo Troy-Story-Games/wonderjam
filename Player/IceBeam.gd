@@ -48,7 +48,7 @@ func _input(event):
 		self.is_casting = false
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var cast_point = cast_to
 	force_raycast_update()
 	

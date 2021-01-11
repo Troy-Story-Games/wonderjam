@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Effects/ParallaxBackground.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Art/midground_trees.png" type="Texture" id=2]
-[ext_resource path="res://Art/background_trees.png" type="Texture" id=3]
-[ext_resource path="res://Art/night_sky_lower.png" type="Texture" id=4]
+[ext_resource path="res://Art/Environment/midground_trees.png" type="Texture" id=2]
+[ext_resource path="res://Art/Environment/background_trees.png" type="Texture" id=3]
+[ext_resource path="res://Art/Environment/night_sky_lower.png" type="Texture" id=4]
 [ext_resource path="res://Effects/StarParticles.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Curve" id=1]
@@ -42,7 +42,7 @@ region_rect = Rect2( 0, 0, 3840, 720 )
 [node name="StarParticles" parent="StaticLayer" index="1" instance=ExtResource( 5 )]
 position = Vector2( 960, 30 )
 amount = 24
-visibility_rect = Rect2( -960, -30, 1920, 60 )
+visibility_rect = Rect2( -960, -30, 1920, 720 )
 local_coords = false
 process_material = SubResource( 3 )
 

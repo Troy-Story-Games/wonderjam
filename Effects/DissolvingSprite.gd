@@ -13,13 +13,13 @@ enum DissolveEffect {
 export(DissolveEffect) var DISSOLVE_EFFECT = DissolveEffect.BURN
 export(float) var burn_pos = 0 setget set_burn_pos
 
+onready var mat = get_material() as ShaderMaterial
+
 
 func _ready():
 	if texture == null:
 		return
 
-	var mat = get_material()
-	
 	match DISSOLVE_EFFECT:
 		DissolveEffect.BURN:
 			mat.set_shader_param("burn_ramp", BurnGradient)
@@ -34,4 +34,6 @@ func set_burn_pos(value):
 		return
 
 	burn_pos = clamp(value, 0, 1)
-	get_material().set_shader_param("burn_position", burn_pos)
+	
+	if mat != null:
+		mat.set_shader_param("burn_position", burn_pos)

@@ -1,5 +1,7 @@
 extends Node
 
+signal song_complete(path)
+
 enum FrequencyRange {
 	LOW,
 	MID,
@@ -16,9 +18,12 @@ const FREQ_MIN = 20
 var playback_pos_mutex = null
 var max_db = MAX_DB
 var min_db = MIN_DB
+var current_song_path = null
+var player_died = false
 
 onready var mainAudioPlayer = $MainAudioPlayer
 onready var backAudioPlayer = $BackAudioPlayer
+onready var animationPlayer = $AnimationPlayer
 
 
 func _init():
@@ -26,6 +31,8 @@ func _init():
 
 
 func _ready():
+	mainAudioPlayer.volume_db = 0
+	
 	# Get the index for our back song
 	var back_bus_idx = AudioServer.get_bus_index("BackSong")
 
@@ -34,6 +41,23 @@ func _ready():
 	
 	min_db = MIN_DB + mainAudioPlayer.volume_db
 	max_db = MAX_DB + mainAudioPlayer.volume_db
+
+
+func fade_out_song():
+	player_died = true
+	BackgroundMusicAnalyzer.reset()
+	backAudioPlayer.stop()
+	animationPlayer.play("FadeOutSong")
+
+
+func start_main_song():
+	"""
+	This is called when the player is ready to play
+	This will start playing the main song
+	"""
+	print("DEBUG: preloaded_for ", get_background_playback_position())
+	mainAudioPlayer.volume_db = 0
+	mainAudioPlayer.play()
 
 
 func get_adjusted_playback_time():
@@ -45,6 +69,18 @@ func get_adjusted_playback_time():
 	var latency = AudioServer.get_output_latency()
 	playback_pos_mutex.unlock()
 
+	# Using this solution for now so I can build the game using an official release
+	# and not have to worry about compiling all the cross-platform export templates
+	# from source
+	if time_since_last_mix > 1000.0:
+		# This is to handle this bug: https://github.com/godotengine/godot/issues/45025
+		# Fixed on this PR: https://github.com/godotengine/godot/pull/45036
+		# Problem: Multi-threading issue where this can be negative sometimes
+		# but it's unsigned so instead it just blows up to be super huge
+		# Solution: Use Godot built from source with the fix or leave this code here
+		print("DEBUG: BUG 45036 IS HERE!")
+		time_since_last_mix = 0.0
+
 	return pos + time_since_last_mix - latency + (1 / COMPENSATE_HZ) * COMPENSATE_FRAMES
 
 
@@ -53,6 +89,18 @@ func get_background_playback_position():
 	var pos = backAudioPlayer.get_playback_position()
 	var time_since_last_mix = AudioServer.get_time_since_last_mix()
 	playback_pos_mutex.unlock()
+
+	# Using this solution for now so I can build the game using an official release
+	# and not have to worry about compiling all the cross-platform export templates
+	# from source
+	if time_since_last_mix > 1000.0:
+		# This is to handle this bug: https://github.com/godotengine/godot/issues/45025
+		# Fixed on this PR: https://github.com/godotengine/godot/pull/45036
+		# Problem: Multi-threading issue where this can be negative sometimes
+		# but it's unsigned so instead it just blows up to be super huge
+		# Solution: Use Godot built from source with the fix or leave this code here
+		print("DEBUG: BUG 45036 IS HERE!")
+		time_since_last_mix = 0.0
 
 	return pos + time_since_last_mix
 
@@ -79,6 +127,7 @@ func load_song(path):
 	var content = file.get_buffer(file.get_len())
 	file.close()
 	load_streams(path, content)
+	current_song_path = path
 
 
 func load_streams(song_file_path, file_bytes):
@@ -149,3 +198,9 @@ func split_freq_range(low, high, split):
 		prev_hz = high_hz
 
 	return result
+
+
+func _on_MainAudioPlayer_finished():
+	if not player_died:
+		emit_signal("song_complete", current_song_path)
+	current_song_path = null

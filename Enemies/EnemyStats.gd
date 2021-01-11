@@ -2,6 +2,7 @@ extends Node
 class_name EnemyStats
 
 export(int) var max_health = 1 setget set_max_health
+export(int) var points = 10
 
 var health = max_health setget set_health
 
@@ -24,4 +25,5 @@ func set_health(value):
 	health = clamp(value, 0, self.max_health)
 	emit_signal("health_changed", health)
 	if health <= 0:
+		Events.emit_signal("score_points", points)
 		emit_signal("no_health")

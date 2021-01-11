@@ -14,6 +14,40 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2021-01-10
+
+### Added
+
+* Finished importing art for boss enemy
+* Added eyes to fire enemy
+* Added player health
+* Added enemy fire bullet
+* Made the game possible to lose
+* Added game icon
+* Added game logo
+* Added score and multiplier
+* Added support for game saves
+* Added chalkboard and tutorial
+* Added "reset" support to the music handling classes so you can play more than one song without having to restart the game
+* Added player death effect
+* Added flying animation
+* Added shooting animation
+* Added UI element for a song card that can be displayed in the recent songs list on the chalkboard
+* Added loading information
+* Added helpful tutorial "control" popups
+* Added fonts
+* Added "flash" effect for when player gets hurt
+
+### Changed
+
+* Turned on "Treat warnings as errors" and fixed serval minor issues
+* Code cleanup
+* Changed the beat and peak detection to not hold mutexes as long
+* Can no longer leave the house while a song is loading. Can leave when the song is done loading
+* Changed title screen "press anything" prompt to be in a proper font
+* Changed hurtbox to support invincibility
+* Give player 1 second of invincibility on damage
+
 ## Unreleased - 2021-01-09
 
 ### Added

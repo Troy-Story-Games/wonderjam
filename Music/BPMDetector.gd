@@ -24,6 +24,7 @@ var bpm_cutoff_freq = 0
 var back_spectrum = null
 var analysis_thread = null
 var analysis_mutex = null
+var beat_mutex = null
 var exit_thread = false
 
 
@@ -37,6 +38,7 @@ func _init(_bpm_cutoff_freq=2000, _sampling_interval=0.05, _sample_window=9.0, _
 	self.beat_intervals_to_use = _beat_intervals_to_use
 	self.bpm_bottom_freq = AudioPlayers.FREQ_MIN
 	self.analysis_mutex = Mutex.new()
+	self.beat_mutex = Mutex.new()
 	self.analysis_thread = Thread.new()
 
 	# Get the index for our back song
@@ -46,7 +48,7 @@ func _init(_bpm_cutoff_freq=2000, _sampling_interval=0.05, _sample_window=9.0, _
 	self.back_spectrum = AudioServer.get_bus_effect_instance(back_bus_idx, 0)
 
 
-func _process_thread(userdata):
+func _process_thread(_userdata):
 	"""
 	Perform the analysis of the background song in a thread
 	so we're not tied to 60FPS for BPM detection
@@ -77,19 +79,20 @@ func get_beats_now():
 
 	var compensated_playback_time = AudioPlayers.get_adjusted_playback_time()
 
-	analysis_mutex.lock()
-
 	beats_now = []
-	while len(beats) > 0 and compensated_playback_time >= beats[0]:
-		var miss = compensated_playback_time - beats[0]
+	while get_beats_len() > 0:
+		var beat = get_beat(0)
+		if compensated_playback_time < beat:
+			break
+
+		pop_front_beat()
+
+		var miss = compensated_playback_time - beat
 		if miss > drop_beat_threshold:
 			print("DEBUG: SLOW: Missed by: ", miss, " dropping the beat!")
-			beats.pop_front()
 			continue  # Skip it - would be out of sync if we showed it
 
-		beats_now.append(beats.pop_front())
-
-	analysis_mutex.unlock()
+		beats_now.append(beat)
 
 	return beats_now
 
@@ -105,7 +108,8 @@ func stop_thread():
 	analysis_mutex.lock()
 	exit_thread = true
 	analysis_mutex.unlock()
-	analysis_thread.wait_to_finish()
+	if analysis_thread.is_active():
+		analysis_thread.wait_to_finish()
 
 
 func start_thread():
@@ -116,6 +120,35 @@ func sort_beat_intervals(a, b):
 	if a[1] > b[1]:
 		return true
 	return false
+
+
+func get_beats_len():
+	beat_mutex.lock()
+	var blen = len(beats)
+	beat_mutex.unlock()
+	return blen
+
+
+func get_beat(idx):
+	# Get the song position (time the beat occured) for the beat at the
+	# provided index
+	beat_mutex.lock()
+	var beat = beats[idx]
+	beat_mutex.unlock()
+	return beat
+
+
+func add_beat(beat):
+	beat_mutex.lock()
+	beats.append(beat)
+	beat_mutex.unlock()
+
+
+func pop_front_beat():
+	beat_mutex.lock()
+	var beat = beats.pop_front()
+	beat_mutex.unlock()
+	return beat
 
 
 func analyze_background_song(prev_pos):
@@ -234,8 +267,6 @@ func analyze_background_song(prev_pos):
 	#	print(interval[0], ": ", interval[1], " ~ ", approx_bpm, " BPM")
 	#print("==========")
 
-	analysis_mutex.lock()
-
 	# It's a sliding window, so now we have to find the starting
 	# position in the beats array
 	var found_idx = 0
@@ -247,12 +278,14 @@ func analyze_background_song(prev_pos):
 
 	# Shrink to remove beats that we're going to replace
 	# with presumably more accurate beats
+	beat_mutex.lock()
 	beats.resize(found_idx)
+	beat_mutex.unlock()
 
 	var current_pos = first_significant_sample_pos
 	var next_pos = current_pos + main_interval
 	while current_pos <= pos:
-		beats.append(current_pos)
+		add_beat(current_pos)
 		
 		for idx in range(1, len(intervals)):
 			var sub_interval = intervals[idx][0]
@@ -266,11 +299,9 @@ func analyze_background_song(prev_pos):
 				sub_interval *= 2
 
 			if current_pos + sub_interval < next_pos:
-				beats.append(current_pos + sub_interval)
+				add_beat(current_pos + sub_interval)
 
 		current_pos += main_interval
 		next_pos = current_pos + main_interval
-
-	analysis_mutex.unlock()
 
 	return pos
