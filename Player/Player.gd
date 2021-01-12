@@ -2,6 +2,7 @@ extends KinematicBody2D
 class_name Player
 
 const PlayerDeathEffect = preload("res://Effects/PlayerDeathEffect.tscn")
+const BombEffect = preload("res://Effects/BombEffect.tscn")
 
 signal take_damage(damage)
 
@@ -11,6 +12,7 @@ enum PlayerState {
 	SHOOTING
 }
 
+
 export (int) var ACCELERATION = 950
 export (int) var MAX_SPEED = 250
 export(int) var GRAVITY = 600
@@ -19,6 +21,7 @@ export(float) var MIN_FLIGHT_ANIMATION_PLAYBACK_SPEED = 0.75
 export(float) var MAX_FLIGHT_ANIMATION_PLAYBACK_SPEED = 1.5
 export (float) var FRICTION = 0.75
 export (float) var INVINCIBILITY_TIME = 1.0
+export(float) var BOMB_COOLDOWN = 2
 export (PlayerState) var STATE = PlayerState.WALKING
 
 var PlayerStats = Utils.get_player_stats()
@@ -27,6 +30,7 @@ var motion = Vector2.ZERO
 var state = PlayerState.WALKING setget set_state
 var place_right_foot = true
 var distance_since_last_footprint = 0.0
+var can_use_bomb = true
 
 onready var flyingSprite = $FlyingSprite
 onready var walkingSprite = $WalkingSprite
@@ -37,6 +41,8 @@ onready var leftFootPosition = $LeftFootPosition
 onready var snowParticles = $SnowParticles
 onready var flashAnimationPlayer = $FlashAnimationPlayer
 onready var hurtbox = $Hurtbox
+onready var bombPosition = $BombPosition
+onready var bombCooldown = $BombCooldown
 
 
 func _ready():
@@ -72,6 +78,9 @@ func _physics_process(delta):
 			apply_friction(input_vector)
 			update_animations(input_vector)
 			move()
+
+	if Input.is_action_just_pressed("bomb") and self.state != PlayerState.WALKING:
+		use_bomb()
 
 
 func set_state(value):
@@ -199,6 +208,15 @@ func update_animations(input_vector):
 					animationPlayer.playback_speed = 1.0
 
 
+func use_bomb():
+	if can_use_bomb and PlayerStats.bombs > 0:
+		can_use_bomb = false
+		bombCooldown.start(BOMB_COOLDOWN)
+		PlayerStats.bombs -= 1
+		Utils.instance_scene_on_main(BombEffect, bombPosition.global_position)
+		hurtbox.start_invincibility(INVINCIBILITY_TIME)
+
+
 func move():
 	motion = move_and_slide(motion, Vector2.UP)
 
@@ -219,3 +237,12 @@ func _on_Hurtbox_take_damage(damage, _area):
 func _on_Hurtbox_invincibility_ended():
 	flashAnimationPlayer.stop()
 	flyingSprite.material.set_shader_param("active", false)
+
+
+func _on_BombCooldown_timeout():
+	can_use_bomb = true
+
+
+func _on_PickupDetector_area_entered(area):
+	if area is Pickup:
+		area._pickup()

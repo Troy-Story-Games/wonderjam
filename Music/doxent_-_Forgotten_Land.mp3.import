@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/doxent_-_Forgotten_Land.mp3-b1ab2d885d5f612159851ba299843526.mp3str"
+
+[deps]
+
+source_file="res://Music/doxent_-_Forgotten_Land.mp3"
+dest_files=[ "res://.import/doxent_-_Forgotten_Land.mp3-b1ab2d885d5f612159851ba299843526.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

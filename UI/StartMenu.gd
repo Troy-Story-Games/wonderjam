@@ -7,6 +7,7 @@ onready var fadeLayer = $FadeLayer
 
 func _ready():
 	randomize()
+	BackgroundGameMusic.fade_in()
 	fadeLayer.fade_in()
 	camera2D.zoom = Vector2.ONE
 

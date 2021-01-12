@@ -1,5 +1,14 @@
 extends Node
 
+const HealthPickup = preload("res://Items/HealthPickup.tscn")
+# Higher chance for health than anything else
+const HEALTH_CHANCE = 0.65
+
+var pickup_items = [
+	preload("res://Items/BombPickup.tscn"),
+	preload("res://Items/MultiplierPickup.tscn")
+]
+
 
 func instance_scene_on_main(packed_scene, position=Vector2.ZERO):
 	"""
@@ -18,6 +27,14 @@ func instance_scene_on_main(packed_scene, position=Vector2.ZERO):
 	return instance
 
 
+func drop_random_item(position, chance=0.25):
+	if rand_range(0.0, 1.0) <= chance:
+		if rand_range(0.0, 1.0) <= HEALTH_CHANCE:
+			Utils.instance_scene_on_main(HealthPickup, position)
+		else:
+			pickup_items.shuffle()
+			Utils.instance_scene_on_main(pickup_items[0], position)
+
 func get_player_stats():
 	"""
 	Get the shared instance of PlayerStats
@@ -32,7 +49,7 @@ func new_noise_texture(width=512, height=512, octaves=3, period=64, persistence=
 	
 	Ref: https://github.com/splite/Godot-3.1-Dissolve-shader-with-OpenSimplexNoise 
 	"""
-	var noise = OpenSimplexNoise.new();
+	var noise = OpenSimplexNoise.new()
 	noise.seed = randi()
 	noise.octaves = octaves
 	noise.period = period

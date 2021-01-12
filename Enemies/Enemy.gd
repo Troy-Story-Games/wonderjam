@@ -6,12 +6,12 @@ const ExplodeEffect = preload("res://Effects/ExplodeEffect.tscn")
 export(int) var NAV_SPEED = 400
 export(int) var SPEED = 100
 export(int) var NAV_POINT_TARGET_RANGE = 10
+export(bool) var DROP_ITEM_ON_DEATH = true
+export(float) var DROP_CHANCE = 0.05
 
 var nav_path = PoolVector2Array()
-var motion = Vector2.ZERO
 
 onready var stats = $EnemyStats
-onready var sprite = $Sprite
 
 
 func _physics_process(delta):
@@ -38,6 +38,8 @@ func move_along_path(move_amnt):
 func _on_EnemyStats_no_health():
 	var instance = Utils.instance_scene_on_main(ExplodeEffect, global_position)
 	instance.emitting = true
+	if DROP_ITEM_ON_DEATH:
+		Utils.drop_random_item(global_position, DROP_CHANCE)
 	queue_free()
 
 

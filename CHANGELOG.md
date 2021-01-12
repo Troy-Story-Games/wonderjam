@@ -14,6 +14,23 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+
+## Released v0.8.5 - 2021-01-11
+
+### Fixed
+
+* Player could walk off the level in the `OutsideHouse` area - Fixed the collision shapes
+* Fixed player stats not refilling after death
+* Fixed a bug where you would be dropped into the same song again if you leave the house after completing the song
+
+### Added
+
+* Sound effects (just for item pickup right now)
+* Bomb pickup item, health pickup item, and multiplier pickup item
+* Health and bomb UI elements
+* Game music for when not playing a song (CC0 from [ccMixter](http://ccmixter.org))
+* Bomb effect that kills all enemies on screen
+
 ## Unreleased - 2021-01-10
 
 ### Added

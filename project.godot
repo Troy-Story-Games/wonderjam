@@ -44,6 +44,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Music/PeakDetector.gd"
 }, {
+"base": "Area2D",
+"class": "Pickup",
+"language": "GDScript",
+"path": "res://Items/Pickup.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
@@ -72,6 +77,7 @@ _global_script_class_icons={
 "Hitbox": "",
 "Hurtbox": "",
 "PeakDetector": "",
+"Pickup": "",
 "Player": "",
 "PlayerStats": "",
 "Song": "",
@@ -96,10 +102,13 @@ AudioPlayers="*res://Music/AudioPlayers.tscn"
 BackgroundMusicAnalyzer="*res://Music/BackgroundMusicAnalyzer.tscn"
 Events="*res://Utils/Events.gd"
 SaveAndLoad="*res://Utils/SaveAndLoad.gd"
+SoundFx="*res://SoundFX/SoundFX.tscn"
+BackgroundGameMusic="*res://Music/BackgroundGameMusic.tscn"
 
 [debug]
 
 gdscript/warnings/treat_warnings_as_errors=true
+gdscript/warnings/unused_class_variable=true
 
 [display]
 
@@ -145,6 +154,15 @@ shoot={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
  ]
 }
+bomb={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":66,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [layer_names]
 
@@ -153,6 +171,7 @@ shoot={
 2d_physics/layer_3="PlayerHurtbox"
 2d_physics/layer_4="EnemyHurtbox"
 2d_physics/layer_5="Enemy"
+2d_physics/layer_6="Pickup"
 
 [rendering]
 

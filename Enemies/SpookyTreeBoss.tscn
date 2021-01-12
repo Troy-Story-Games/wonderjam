@@ -49,13 +49,13 @@
 [ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_1.3.png" type="Texture" id=47]
 [ext_resource path="res://Art/Enemies/SpookyTreeBoss/right_hand_1.2.png" type="Texture" id=48]
 
-[sub_resource type="OpenSimplexNoise" id=7]
+[sub_resource type="OpenSimplexNoise" id=1]
 
-[sub_resource type="NoiseTexture" id=8]
+[sub_resource type="NoiseTexture" id=2]
 seamless = true
-noise = SubResource( 7 )
+noise = SubResource( 1 )
 
-[sub_resource type="ShaderMaterial" id=17]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 6 )
 shader_param/core_fire_color = Color( 1, 1, 1, 1 )
@@ -65,9 +65,9 @@ shader_param/narrow = true
 shader_param/leftToRight = false
 shader_param/speed = 3.5
 shader_param/scale = 0.6
-shader_param/noise = SubResource( 8 )
+shader_param/noise = SubResource( 2 )
 
-[sub_resource type="ParticlesMaterial" id=18]
+[sub_resource type="ParticlesMaterial" id=4]
 resource_local_to_scene = true
 lifetime_randomness = 0.1
 emission_shape = 1
@@ -83,20 +83,20 @@ scale = 3.0
 scale_random = 0.2
 color = Color( 2.5, 2.5, 0, 1 )
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=11]
-gradient = SubResource( 10 )
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
 
-[sub_resource type="Curve" id=12]
+[sub_resource type="Curve" id=7]
 max_value = 2.0
 _data = [ Vector2( 0.00787402, 0.4 ), 0.0, 0.0, 0, 0, Vector2( 0.328084, 0.509091 ), 0.0, 0.0, 0, 0, Vector2( 0.616798, 1.43636 ), 1.66254, 1.66254, 0, 0, Vector2( 1, 2 ), -0.506873, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=13]
-curve = SubResource( 12 )
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=19]
+[sub_resource type="ParticlesMaterial" id=9]
 resource_local_to_scene = true
 flag_disable_z = true
 direction = Vector3( 0, -1, 0 )
@@ -109,16 +109,16 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.15
 scale_random = 0.2
-scale_curve = SubResource( 13 )
-color_ramp = SubResource( 11 )
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
 
-[sub_resource type="OpenSimplexNoise" id=15]
+[sub_resource type="OpenSimplexNoise" id=10]
 
-[sub_resource type="NoiseTexture" id=16]
+[sub_resource type="NoiseTexture" id=11]
 seamless = true
-noise = SubResource( 15 )
+noise = SubResource( 10 )
 
-[sub_resource type="ShaderMaterial" id=20]
+[sub_resource type="ShaderMaterial" id=12]
 resource_local_to_scene = true
 shader = ExtResource( 6 )
 shader_param/core_fire_color = Color( 1, 1, 1, 1 )
@@ -128,9 +128,9 @@ shader_param/narrow = true
 shader_param/leftToRight = false
 shader_param/speed = 2.0
 shader_param/scale = 0.898
-shader_param/noise = SubResource( 16 )
+shader_param/noise = SubResource( 11 )
 
-[sub_resource type="ParticlesMaterial" id=21]
+[sub_resource type="ParticlesMaterial" id=13]
 resource_local_to_scene = true
 lifetime_randomness = 0.2
 flag_disable_z = true
@@ -146,11 +146,11 @@ scale = 3.0
 scale_random = 0.2
 color = Color( 2.5, 2.5, 0, 1 )
 
-[sub_resource type="CapsuleShape2D" id=22]
+[sub_resource type="CapsuleShape2D" id=14]
 radius = 50.4101
 height = 290.427
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=15]
 resource_name = "Rage"
 length = 1.5
 tracks/0/type = "value"
@@ -192,6 +192,7 @@ tracks/2/keys = {
 
 [node name="SpookyTreeBoss" instance=ExtResource( 1 )]
 script = ExtResource( 7 )
+DROP_ITEM_ON_DEATH = false
 
 [node name="Reference" type="Sprite" parent="." index="0"]
 visible = false
@@ -208,22 +209,22 @@ position = Vector2( 10.054, -203.77 )
 texture = ExtResource( 2 )
 
 [node name="AngerFlames" parent="." index="3" instance=ExtResource( 4 )]
-material = SubResource( 17 )
+material = SubResource( 3 )
 position = Vector2( 129.796, -382.164 )
 rotation = 0.907571
 scale = Vector2( 0.904936, 1.88398 )
 
 [node name="Embers" parent="AngerFlames" index="1"]
 visible = false
-process_material = SubResource( 18 )
+process_material = SubResource( 4 )
 
 [node name="SmokeParticles" parent="." index="4" instance=ExtResource( 5 )]
 position = Vector2( 56.1266, -320.724 )
 rotation = 0.785398
-process_material = SubResource( 19 )
+process_material = SubResource( 9 )
 
 [node name="Flames" parent="." index="5" instance=ExtResource( 4 )]
-material = SubResource( 20 )
+material = SubResource( 12 )
 position = Vector2( -23.8871, -157.101 )
 scale = Vector2( 1, 2.34993 )
 
@@ -234,7 +235,7 @@ energy = 5.5
 self_modulate = Color( 3, 3, 3, 1 )
 position = Vector2( 98.8897, -76.9607 )
 lifetime = 1.0
-process_material = SubResource( 21 )
+process_material = SubResource( 13 )
 
 [node name="Sprite" parent="." index="6"]
 light_mask = 0
@@ -378,10 +379,10 @@ texture = ExtResource( 26 )
 
 [node name="Collider" parent="Hurtbox" index="0"]
 position = Vector2( -35.2102, -152.827 )
-shape = SubResource( 22 )
+shape = SubResource( 14 )
 
 [node name="AnimationPlayer" parent="." index="10"]
-anims/Rage = SubResource( 23 )
+anims/Rage = SubResource( 15 )
 
 [connection signal="health_changed" from="EnemyStats" to="." method="_on_EnemyStats_health_changed"]
 

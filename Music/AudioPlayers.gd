@@ -201,6 +201,10 @@ func split_freq_range(low, high, split):
 
 
 func _on_MainAudioPlayer_finished():
+	print("DEBUG: MainAudioPlayer finished playing audio")
 	if not player_died:
+		print("DEBUG: Emitting song_complete")
+		BackgroundMusicAnalyzer.reset()
+		backAudioPlayer.stop()
 		emit_signal("song_complete", current_song_path)
 	current_song_path = null

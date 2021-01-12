@@ -25,9 +25,26 @@ var loading_messages = [
 	"Computers are hard",
 	"I had so many plans",
 	"There was so much to do",
-	"There was no way"
+	"There was no way",
+	"This game is too hard",
+	"Trying to find my cat",
+	"Does he even have a cat",
+	"Calibrating cuteness",
+	"Are you alright Steve",
+	"You look great today",
+	"Removing bugs",
+	"Removing ransomware",
+	"Installing ransomware (jk lol)",
+	"Watering the plants",
+	"Resupplying magic chalk",
+	"Jamming to your song without you",
+	"I'm always listening",
+	"Checking bitcoin prices",
+	"Uploading song to youtube",
+	"The fireplace is not an enemy"
 ]
 
+var PlayerStats = Utils.get_player_stats()
 var loading_dots = ""
 var player_leaving = false
 var player_looking_at_map = false
@@ -52,6 +69,10 @@ onready var loadedAnimationPlayer = $LoadedArraowAnimator
 
 
 func _ready():
+	if not BackgroundGameMusic.playing:
+		BackgroundGameMusic.fade_in()
+	
+	PlayerStats.refill_stats()
 	fadeLayer.fade_in()
 	preload_done = BackgroundMusicAnalyzer.is_preload_done
 	# warning-ignore:return_value_discarded
@@ -110,6 +131,7 @@ func _on_BackgroundMusicAnalyzer_preload_done():
 	preload_done = true
 	if player_leaving:
 		fadeLayer.fade_out()
+		BackgroundGameMusic.fade_out()
 
 
 func _on_FadeLayer_fade_out_complete():
@@ -125,6 +147,8 @@ func _on_ExitArea_body_entered(body):
 	if body is Player:
 		player_leaving = true
 		if not song_selected or preload_done:
+			if preload_done:
+				BackgroundGameMusic.fade_out()
 			fadeLayer.fade_out()
 
 

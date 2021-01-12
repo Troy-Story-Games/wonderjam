@@ -35,6 +35,8 @@ func _ready():
 	AudioPlayers.connect("song_complete", self, "_on_AudioPlayers_song_complete")
 	# warning-ignore:return_value_discarded
 	Events.connect("score_points", self, "_on_Events_score_points")
+	# warning-ignore:return_value_discarded
+	Events.connect("add_multiplier", self, "_on_Events_add_multiplier")
 	PlayerStats.connect("player_died", self, "_on_PlayerStats_player_died")
 	self.speed = STARTING_SCROLL_SPEED
 	self.score = 0
@@ -94,6 +96,10 @@ func get_speed_factor():
 func _on_AudioPlayers_song_complete(path):
 	SaveAndLoad.complete_song(path, score)
 	fadeLayer.fade_out()
+
+
+func _on_Events_add_multiplier(amount):
+	self.multiplier += amount
 
 
 func _on_Events_score_points(points):

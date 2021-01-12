@@ -9,6 +9,9 @@ var player = null
 
 
 func _ready():
+	if not BackgroundGameMusic.playing:
+		BackgroundGameMusic.fade_in()
+
 	fadeLayer.fade_in()
 	preload_done = BackgroundMusicAnalyzer.is_preload_done
 	# warning-ignore:return_value_discarded
