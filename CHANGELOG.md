@@ -14,6 +14,21 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Unreleased - 2021-01-12
+
+### Fixed
+
+* Error handling if the user tries to pick a song of unsupported type (e.g. something not .MP3 or .OGG)
+* Changed Tutorial arrows to be TextureRect to work better inside the control nodes
+
+### Added
+
+* Text above the map to indicate a song should be selected
+
+### Removed
+
+* Removed .WAV file support. Was untested and didn't work right when I tried. Will add back eventually
+
 
 ## Released v0.8.5 - 2021-01-11
 
