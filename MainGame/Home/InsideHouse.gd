@@ -66,6 +66,7 @@ onready var animationPlayer = $AnimationPlayer
 onready var dotdotdotTimer = $BackgroundLayer/LoadingText/DotDotDotTimer
 onready var loadingLabel = $BackgroundLayer/LoadingText/LoadingLabel
 onready var loadedAnimationPlayer = $LoadedArraowAnimator
+onready var errorPopup = $UI/ErrorPopup
 
 
 func _ready():
@@ -75,8 +76,11 @@ func _ready():
 	PlayerStats.refill_stats()
 	fadeLayer.fade_in()
 	preload_done = BackgroundMusicAnalyzer.is_preload_done
+
 	# warning-ignore:return_value_discarded
 	BackgroundMusicAnalyzer.connect("preload_done", self, "_on_BackgroundMusicAnalyzer_preload_done")
+	# warning-ignore:return_value_discarded
+	Events.connect("popup_error", self, "_on_Events_popup_error")
 
 	chalkboardHelper.scale = Vector2.ZERO
 	mapHelper.scale = Vector2.ZERO
@@ -159,7 +163,9 @@ func _on_ExitArea_body_exited(body):
 
 func _on_FileDialog_file_selected(path):
 	SaveAndLoad.play_song(path)
-	BackgroundMusicAnalyzer.preload_song(path)
+	if not BackgroundMusicAnalyzer.preload_song(path):
+		print("ERROR: Could not load " + path)
+		return
 	self.song_selected = true
 
 
@@ -212,3 +218,8 @@ func _on_DotDotDotTimer_timeout():
 
 	loadingLabel.text = "Loading" + loading_dots
 	dotdotdotTimer.start()
+
+
+func _on_Events_popup_error(error):
+	errorPopup.dialog_text = error
+	errorPopup.popup_centered()

@@ -126,9 +126,11 @@ func load_song(path):
 	file.open(path, File.READ)
 	var content = file.get_buffer(file.get_len())
 	file.close()
-	load_streams(path, content)
-	current_song_path = path
+	if not load_streams(path, content):
+		return false
 
+	current_song_path = path
+	return true
 
 func load_streams(song_file_path, file_bytes):
 	"""
@@ -154,17 +156,15 @@ func load_streams(song_file_path, file_bytes):
 		main_stream.data = file_bytes
 		back_stream.data = file_bytes
 	else:
-		print("DEBUG: Load WAV: ", song_file_path)
-		main_stream = AudioStreamSample.new()
-		back_stream = AudioStreamSample.new()
-		main_stream.data = file_bytes
-		back_stream.data = file_bytes
+		Events.emit_signal("popup_error", song_file_path + " is not a valid MP3, or OGG song file.")
+		return false
 
 	backAudioPlayer.stream = back_stream
 	backAudioPlayer.set_bus("BackSong")
 	
 	mainAudioPlayer.stream = main_stream
 	mainAudioPlayer.set_bus("MainSong")
+	return true
 
 
 func split_freq_range(low, high, split):

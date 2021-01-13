@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://MainGame/GameArea.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/home_interior.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Font/EraserRegular.ttf" type="DynamicFontData" id=19]
 [ext_resource path="res://Font/EraserDust.ttf" type="DynamicFontData" id=20]
 [ext_resource path="res://Art/UI/arrowUpOutlined.png" type="Texture" id=21]
+[ext_resource path="res://Art/home_interior_map_frame_shrunk.png" type="Texture" id=22]
 
 [sub_resource type="Environment" id=1]
 resource_local_to_scene = true
@@ -31,12 +32,12 @@ glow_blend_mode = 0
 glow_bicubic_upscale = true
 
 [sub_resource type="DynamicFont" id=2]
-size = 24
-font_data = ExtResource( 19 )
+size = 48
+font_data = ExtResource( 20 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 24
-font_data = ExtResource( 20 )
+font_data = ExtResource( 19 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 24
@@ -44,15 +45,19 @@ font_data = ExtResource( 20 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 24
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 24
 font_data = ExtResource( 19 )
 
-[sub_resource type="OpenSimplexNoise" id=6]
+[sub_resource type="OpenSimplexNoise" id=7]
 
-[sub_resource type="NoiseTexture" id=7]
+[sub_resource type="NoiseTexture" id=8]
 seamless = true
-noise = SubResource( 6 )
+noise = SubResource( 7 )
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=9]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
 shader_param/core_fire_color = Color( 1, 0.654902, 0.0980392, 1 )
@@ -62,15 +67,15 @@ shader_param/narrow = true
 shader_param/leftToRight = false
 shader_param/speed = 1.0
 shader_param/scale = 1.0
-shader_param/noise = SubResource( 7 )
+shader_param/noise = SubResource( 8 )
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=10]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.501312, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=10]
-curve = SubResource( 9 )
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
 
-[sub_resource type="ParticlesMaterial" id=11]
+[sub_resource type="ParticlesMaterial" id=12]
 resource_local_to_scene = true
 lifetime_randomness = 0.1
 emission_shape = 1
@@ -87,16 +92,16 @@ tangential_accel = 400.0
 tangential_accel_random = 1.0
 scale = 8.0
 scale_random = 0.2
-scale_curve = SubResource( 10 )
+scale_curve = SubResource( 11 )
 color = Color( 2, 2, 0, 1 )
 
-[sub_resource type="OpenSimplexNoise" id=12]
+[sub_resource type="OpenSimplexNoise" id=13]
 
-[sub_resource type="NoiseTexture" id=13]
+[sub_resource type="NoiseTexture" id=14]
 seamless = true
-noise = SubResource( 12 )
+noise = SubResource( 13 )
 
-[sub_resource type="ShaderMaterial" id=14]
+[sub_resource type="ShaderMaterial" id=15]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
 shader_param/core_fire_color = Color( 1, 1, 1, 1 )
@@ -106,9 +111,9 @@ shader_param/narrow = false
 shader_param/leftToRight = false
 shader_param/speed = 1.0
 shader_param/scale = 1.0
-shader_param/noise = SubResource( 13 )
+shader_param/noise = SubResource( 14 )
 
-[sub_resource type="ParticlesMaterial" id=15]
+[sub_resource type="ParticlesMaterial" id=16]
 resource_local_to_scene = true
 lifetime_randomness = 0.1
 emission_shape = 1
@@ -123,29 +128,29 @@ orbit_velocity_random = 0.0
 scale_random = 0.2
 color = Color( 2.5, 2.5, 0, 1 )
 
-[sub_resource type="Gradient" id=16]
+[sub_resource type="Gradient" id=17]
 colors = PoolColorArray( 1, 1, 1, 1, 0.89, 0.974333, 1, 1 )
 
-[sub_resource type="GradientTexture" id=17]
-gradient = SubResource( 16 )
+[sub_resource type="GradientTexture" id=18]
+gradient = SubResource( 17 )
 
-[sub_resource type="Curve" id=18]
+[sub_resource type="Curve" id=19]
 min_value = 0.5
 max_value = 2.0
 _data = [ Vector2( 0, 1 ), 0.0, 4.42138, 0, 1, Vector2( 0.119769, 1.52955 ), 0.0, 0.0, 0, 0, Vector2( 0.186147, 0.806818 ), 0.0, 0.0, 0, 0, Vector2( 0.372294, 1.625 ), -5.53965, -5.53965, 0, 0, Vector2( 0.412698, 0.765909 ), 0.0, 0.0, 0, 0, Vector2( 0.506494, 1.44773 ), 7.99615, 7.99615, 0, 0, Vector2( 0.62482, 0.915909 ), 17.1818, 17.1818, 0, 0, Vector2( 0.72583, 1.55682 ), 23.625, 23.625, 0, 0, Vector2( 0.867244, 1.175 ), 19.7591, 19.7591, 0, 0, Vector2( 1, 1 ), -1.31821, 0.0, 1, 0 ]
 
-[sub_resource type="CurveTexture" id=19]
-curve = SubResource( 18 )
+[sub_resource type="CurveTexture" id=20]
+curve = SubResource( 19 )
 
-[sub_resource type="Curve" id=20]
+[sub_resource type="Curve" id=21]
 min_value = -40.0
 max_value = 40.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.170274, 9.45454 ), -105.488, -105.488, 0, 0, Vector2( 0.417027, -8.72727 ), 336.0, 336.0, 0, 0, Vector2( 0.692641, -5.09091 ), -193.846, -193.846, 0, 0, Vector2( 1, 1 ), 112.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=21]
-curve = SubResource( 20 )
+[sub_resource type="CurveTexture" id=22]
+curve = SubResource( 21 )
 
-[sub_resource type="ParticlesMaterial" id=22]
+[sub_resource type="ParticlesMaterial" id=23]
 resource_local_to_scene = true
 emission_shape = 2
 emission_box_extents = Vector3( 100, 0, 1 )
@@ -156,30 +161,30 @@ gravity = Vector3( 0, 30, 0 )
 initial_velocity = 800.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-tangential_accel_curve = SubResource( 21 )
+tangential_accel_curve = SubResource( 22 )
 scale = 2.0
-scale_curve = SubResource( 19 )
-color_ramp = SubResource( 17 )
-
-[sub_resource type="RectangleShape2D" id=23]
-extents = Vector2( 960, 25 )
+scale_curve = SubResource( 20 )
+color_ramp = SubResource( 18 )
 
 [sub_resource type="RectangleShape2D" id=24]
-extents = Vector2( 10, 360 )
+extents = Vector2( 960, 25 )
 
 [sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 10, 360 )
 
 [sub_resource type="RectangleShape2D" id=26]
-extents = Vector2( 17.1185, 60.1667 )
+extents = Vector2( 10, 360 )
 
 [sub_resource type="RectangleShape2D" id=27]
-extents = Vector2( 172.531, 238.466 )
+extents = Vector2( 17.1185, 60.1667 )
 
 [sub_resource type="RectangleShape2D" id=28]
+extents = Vector2( 172.531, 238.466 )
+
+[sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 118.525, 250.027 )
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=30]
 length = 0.3
 step = 0.05
 tracks/0/type = "value"
@@ -195,7 +200,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1.25, 1.25 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=31]
 length = 0.3
 step = 0.05
 tracks/0/type = "value"
@@ -211,7 +216,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1.25, 1.25 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=32]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("BackgroundLayer/LoadingText/Sprite7:visible")
@@ -312,13 +317,28 @@ margin_left = -507.0
 margin_top = -209.5
 margin_right = 507.0
 margin_bottom = 209.5
+popup_exclusive = true
 window_title = "Open a File"
+resizable = true
 dialog_text = "Select a groovy beat."
 mode = 0
 access = 2
-filters = PoolStringArray( "*.mp3; MP3 Jams", "*.ogg; OGG Beats", "*.wav; WAV Grooves" )
+filters = PoolStringArray( "*.mp3; MP3 Jams", "*.ogg; OGG Beats" )
 current_dir = "/Users/lapla/Documents/GitRepo/wonderjam"
 current_path = "/Users/lapla/Documents/GitRepo/wonderjam/"
+
+[node name="ErrorPopup" type="AcceptDialog" parent="UI" index="1"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -234.0
+margin_top = -72.5
+margin_right = 234.0
+margin_bottom = 72.5
+popup_exclusive = true
+window_title = "Error!"
+dialog_autowrap = true
 
 [node name="WorldEnvironment" parent="." index="2"]
 environment = SubResource( 1 )
@@ -360,7 +380,29 @@ texture = ExtResource( 13 )
 show_behind_parent = true
 texture = ExtResource( 15 )
 
+[node name="SongFrameShrunk" type="Sprite" parent="BackgroundLayer/Interior" index="2"]
+position = Vector2( 1604.03, 140.909 )
+texture = ExtResource( 22 )
+
+[node name="SongFrameShrunkBack" type="Sprite" parent="BackgroundLayer/Interior/SongFrameShrunk" index="0"]
+show_behind_parent = true
+position = Vector2( 0, 8.48526 )
+scale = Vector2( 1, 0.356711 )
+texture = ExtResource( 15 )
+
+[node name="SelectASongLabel" type="Label" parent="BackgroundLayer/Interior/SongFrameShrunk" index="1"]
+margin_left = -160.513
+margin_top = -19.0919
+margin_right = 161.487
+margin_bottom = 31.9081
+custom_fonts/font = SubResource( 2 )
+text = "Select A SONG"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="SongsPlayed" type="VBoxContainer" parent="BackgroundLayer" index="1"]
+visible = false
 margin_left = 400.0
 margin_top = 93.0
 margin_right = 696.0
@@ -375,12 +417,11 @@ __meta__ = {
 [node name="RecentSongs" type="Label" parent="BackgroundLayer/SongsPlayed" index="0"]
 margin_right = 296.0
 margin_bottom = 29.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "Recent Songs"
 align = 1
 
 [node name="IntroText" type="VBoxContainer" parent="BackgroundLayer" index="2"]
-visible = false
 margin_left = 400.0
 margin_top = 93.0
 margin_right = 696.0
@@ -394,7 +435,7 @@ __meta__ = {
 margin_right = 296.0
 margin_bottom = 26.0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Welcome to WonderJAm!"
 align = 1
 autowrap = true
@@ -404,7 +445,7 @@ margin_top = 30.0
 margin_right = 296.0
 margin_bottom = 393.0
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "use the      and      arrows to move around and    to interact
 
 Check out that map over there!
@@ -444,7 +485,7 @@ __meta__ = {
 [node name="LoadingLabel" type="Label" parent="BackgroundLayer/LoadingText" index="0"]
 margin_right = 296.0
 margin_bottom = 29.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Loading"
 align = 1
 
@@ -576,12 +617,12 @@ scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 21 )
 
 [node name="MapHelperPopup" type="Sprite" parent="BackgroundLayer" index="5"]
-position = Vector2( 1602, 182 )
+position = Vector2( 1602, 51.1857 )
 scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 21 )
 
 [node name="WideFlames" parent="MidgroundLayer" index="0" instance=ExtResource( 8 )]
-material = SubResource( 8 )
+material = SubResource( 9 )
 position = Vector2( 997.349, 563.491 )
 scale = Vector2( 0.378087, 0.432887 )
 texture = ExtResource( 9 )
@@ -592,11 +633,11 @@ energy = 0.35
 
 [node name="Embers" parent="MidgroundLayer/WideFlames" index="1"]
 lifetime = 1.0
-process_material = SubResource( 11 )
+process_material = SubResource( 12 )
 
 [node name="Flames" parent="MidgroundLayer" index="1" instance=ExtResource( 7 )]
 visible = false
-material = SubResource( 14 )
+material = SubResource( 15 )
 position = Vector2( 1010.54, 568.045 )
 scale = Vector2( 2.225, 1.48437 )
 
@@ -606,7 +647,7 @@ energy = 0.2
 [node name="Embers" parent="MidgroundLayer/Flames" index="1"]
 amount = 4
 lifetime = 0.5
-process_material = SubResource( 15 )
+process_material = SubResource( 16 )
 
 [node name="Sprite" type="Sprite" parent="MidgroundLayer" index="2"]
 position = Vector2( 999.423, 619.56 )
@@ -616,7 +657,7 @@ texture = ExtResource( 6 )
 position = Vector2( 783.015, 685.757 )
 
 [node name="SnowParticles" parent="PlayerLayer/Player" index="1"]
-process_material = SubResource( 22 )
+process_material = SubResource( 23 )
 
 [node name="CameraFollow" parent="PlayerLayer/Player" index="6"]
 remote_path = NodePath("../../../Camera2D")
@@ -625,19 +666,19 @@ remote_path = NodePath("../../../Camera2D")
 position = Vector2( 960, 720 )
 
 [node name="CollisionShape2D" parent="ForegroundLayer/Floor" index="0"]
-shape = SubResource( 23 )
+shape = SubResource( 24 )
 
 [node name="CollisionWallLeft" parent="ForegroundLayer" index="1" instance=ExtResource( 3 )]
 position = Vector2( -10, 360 )
 
 [node name="CollisionShape2D" parent="ForegroundLayer/CollisionWallLeft" index="0"]
-shape = SubResource( 24 )
+shape = SubResource( 25 )
 
 [node name="CollisionWallRight" parent="ForegroundLayer" index="2" instance=ExtResource( 3 )]
 position = Vector2( 1930, 360 )
 
 [node name="CollisionShape2D" parent="ForegroundLayer/CollisionWallRight" index="0"]
-shape = SubResource( 25 )
+shape = SubResource( 26 )
 
 [node name="ExitArea" type="Area2D" parent="ForegroundLayer" index="3"]
 position = Vector2( 17.21, 635.852 )
@@ -645,28 +686,28 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForegroundLayer/ExitArea" index="0"]
-shape = SubResource( 26 )
+shape = SubResource( 27 )
 
 [node name="MapArea" type="Area2D" parent="ForegroundLayer" index="4"]
 position = Vector2( 1605.4, 431.195 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForegroundLayer/MapArea" index="0"]
 position = Vector2( 1.78174, 23.1634 )
-shape = SubResource( 27 )
+shape = SubResource( 28 )
 
 [node name="SongArea" type="Area2D" parent="ForegroundLayer" index="5"]
 position = Vector2( 541.027, 364.8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ForegroundLayer/SongArea" index="0"]
 position = Vector2( 8.97974, 76.3274 )
-shape = SubResource( 28 )
+shape = SubResource( 29 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="10"]
-anims/ChalkboardHelp = SubResource( 29 )
-anims/MapHelp = SubResource( 30 )
+anims/ChalkboardHelp = SubResource( 30 )
+anims/MapHelp = SubResource( 31 )
 
 [node name="LoadedArraowAnimator" type="AnimationPlayer" parent="." index="11"]
-anims/LoadingComplete = SubResource( 31 )
+anims/LoadingComplete = SubResource( 32 )
 
 [connection signal="file_selected" from="UI/FileDialog" to="." method="_on_FileDialog_file_selected"]
 [connection signal="fade_out_complete" from="FadeLayer" to="." method="_on_FadeLayer_fade_out_complete"]

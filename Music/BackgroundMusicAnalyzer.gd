@@ -65,13 +65,15 @@ func _exit_tree():
 
 func preload_song(path):
 	# Load the song
-	AudioPlayers.load_song(path)
+	if not AudioPlayers.load_song(path):
+		return false
 
 	# Start preloading the song immediately
 	AudioPlayers.backAudioPlayer.play()
 	preloadTimer.start(PRELOAD_TIME)
 	peakDetector.start_thread()
 	bpmDetector.start_thread()
+	return true
 
 
 func get_preload_progress():
