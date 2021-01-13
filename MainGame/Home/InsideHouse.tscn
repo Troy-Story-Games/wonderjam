@@ -453,23 +453,45 @@ Check out that map over there!
 Explore outside by walking left. To come in, press the    arrow in front of the door."
 autowrap = true
 
-[node name="UpArrow2" type="Sprite" parent="BackgroundLayer/IntroText/IntroTextPart2" index="0"]
-position = Vector2( 54.3526, 72.7477 )
-scale = Vector2( 0.75, 0.75 )
+[node name="UpArrow2" type="TextureRect" parent="BackgroundLayer/IntroText/IntroTextPart2" index="0"]
+margin_left = 27.6179
+margin_top = 46.7722
+margin_right = 77.6179
+margin_bottom = 96.7722
 texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="LeftArrow" type="Sprite" parent="BackgroundLayer/IntroText/IntroTextPart2" index="1"]
-position = Vector2( 112.265, 14.6498 )
+[node name="LeftArrow" type="TextureRect" parent="BackgroundLayer/IntroText/IntroTextPart2" index="1"]
+margin_left = 88.199
+margin_top = -9.7999
+margin_right = 138.199
+margin_bottom = 40.2001
 texture = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="RightArrow" type="Sprite" parent="BackgroundLayer/IntroText/IntroTextPart2" index="2"]
-position = Vector2( 204.484, 14.8559 )
+[node name="RightArrow" type="TextureRect" parent="BackgroundLayer/IntroText/IntroTextPart2" index="2"]
+margin_left = 178.18
+margin_top = -11.5817
+margin_right = 228.18
+margin_bottom = 38.4183
 texture = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="UpArrow" type="Sprite" parent="BackgroundLayer/IntroText/IntroTextPart2" index="3"]
-position = Vector2( 128.373, 274.097 )
-scale = Vector2( 0.75, 0.75 )
+[node name="UpArrow" type="TextureRect" parent="BackgroundLayer/IntroText/IntroTextPart2" index="3"]
+margin_left = 104.137
+margin_top = 247.67
+margin_right = 154.137
+margin_bottom = 297.67
 texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LoadingText" type="VBoxContainer" parent="BackgroundLayer" index="3"]
 visible = false
