@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Enemies/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/Enemies/SpookyTreeBoss/body_behind.png" type="Texture" id=2]
@@ -146,6 +146,10 @@ scale = 3.0
 scale_random = 0.2
 color = Color( 2.5, 2.5, 0, 1 )
 
+[sub_resource type="CapsuleShape2D" id=17]
+radius = 56.7996
+height = 273.75
+
 [sub_resource type="CapsuleShape2D" id=14]
 radius = 50.4101
 height = 246.235
@@ -194,6 +198,7 @@ tracks/2/keys = {
 }
 
 [node name="SpookyTreeBoss" instance=ExtResource( 1 )]
+collision_mask = 1
 script = ExtResource( 7 )
 DROP_ITEM_ON_DEATH = false
 
@@ -708,6 +713,11 @@ __meta__ = {
 "_edit_bone_": true
 }
 
+[node name="Collider" parent="." index="7"]
+visible = false
+position = Vector2( -16.0362, -137.198 )
+shape = SubResource( 17 )
+
 [node name="Hurtbox" parent="." index="8"]
 visible = false
 
@@ -730,6 +740,8 @@ visible = false
 
 [node name="VisibilityNotifier2D" parent="." index="12"]
 visible = false
+
+[node name="MovementAnimationPlayer" type="AnimationPlayer" parent="." index="13"]
 [connection signal="health_changed" from="EnemyStats" to="." method="_on_EnemyStats_health_changed"]
 
 [editable path="AngerFlames"]
