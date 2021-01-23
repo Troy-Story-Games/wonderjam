@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://Enemies/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/Enemies/SpookyTreeBoss/body_behind.png" type="Texture" id=2]
@@ -148,10 +148,13 @@ color = Color( 2.5, 2.5, 0, 1 )
 
 [sub_resource type="CapsuleShape2D" id=14]
 radius = 50.4101
-height = 290.427
+height = 246.235
 
-[sub_resource type="Animation" id=15]
-resource_name = "Rage"
+[sub_resource type="CapsuleShape2D" id=15]
+radius = 53.9755
+height = 298.587
+
+[sub_resource type="Animation" id=16]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("AngerFlames:material:shader_param/scale")
@@ -244,149 +247,495 @@ texture = ExtResource( 3 )
 
 [node name="Leg1" type="Sprite" parent="Sprite" index="0"]
 show_behind_parent = true
-position = Vector2( -156.583, 185.767 )
+position = Vector2( -70.9287, 145.604 )
+rotation = 6.30201
 texture = ExtResource( 13 )
+offset = Vector2( -85.6543, 40.163 )
+__meta__ = {
+"_edit_ik_": true
+}
 
 [node name="MiddleSegment" type="Sprite" parent="Sprite/Leg1" index="0"]
+position = Vector2( -58.0594, 56.1865 )
+rotation = -0.0434594
 texture = ExtResource( 10 )
+offset = Vector2( -26.9695, -16.1068 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="EndSegment" type="Sprite" parent="Sprite/Leg1/MiddleSegment" index="0"]
+position = Vector2( -55.0628, -19.8526 )
+rotation = 0.0285087
 texture = ExtResource( 9 )
+offset = Vector2( 27.7187, 3.74577 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/Leg1/MiddleSegment/EndSegment" index="0"]
+position = Vector2( -69, 71.25 )
+rotation = -0.00753772
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Leg2" type="Sprite" parent="Sprite" index="1"]
 show_behind_parent = true
-position = Vector2( -44.3372, 199.237 )
+position = Vector2( -47.4801, 163.048 )
+rotation = 0.114618
 texture = ExtResource( 12 )
+offset = Vector2( 3.14286, 36.1894 )
+__meta__ = {
+"_edit_ik_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/Leg2" index="0"]
+position = Vector2( 1.05945, 88.4652 )
+rotation = -0.109126
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Leg3" type="Sprite" parent="Sprite" index="2"]
-position = Vector2( 14.0308, 195.87 )
+position = Vector2( 7.75566, 163.493 )
 texture = ExtResource( 11 )
+offset = Vector2( 6.27514, 32.377 )
+__meta__ = {
+"_edit_ik_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/Leg3" index="0"]
+position = Vector2( 1.44556, 80.0737 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Leg4" type="Sprite" parent="Sprite" index="3"]
-position = Vector2( 140.869, 186.329 )
+position = Vector2( 48.737, 145.23 )
 texture = ExtResource( 15 )
+offset = Vector2( 92.132, 41.0994 )
+__meta__ = {
+"_edit_ik_": true
+}
 
 [node name="MiddleSegment" type="Sprite" parent="Sprite/Leg4" index="0"]
+position = Vector2( 48.554, 36.5268 )
 texture = ExtResource( 16 )
+offset = Vector2( 42.3177, 1.78183 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="EndSegment" type="Sprite" parent="Sprite/Leg4/MiddleSegment" index="0"]
+position = Vector2( 70.381, -5.79083 )
 texture = ExtResource( 14 )
+offset = Vector2( -26.727, 5.79083 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/Leg4/MiddleSegment/EndSegment" index="0"]
+position = Vector2( 95.3262, 80.1809 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="LeftArm1" type="Sprite" parent="Sprite" index="4"]
-position = Vector2( -164.402, 35.8857 )
+position = Vector2( -92.8397, 31.5351 )
 texture = ExtResource( 24 )
+offset = Vector2( -71.5623, 4.35062 )
+__meta__ = {
+"_edit_ik_": true
+}
 
 [node name="MiddleSegment" type="Sprite" parent="Sprite/LeftArm1" index="0"]
+position = Vector2( -22.8492, -21.7255 )
 texture = ExtResource( 17 )
+offset = Vector2( -47.5712, 27.3441 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Hand" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment" index="0"]
+position = Vector2( -52.8153, -2.62202 )
+rotation = -6.35894
 texture = ExtResource( 18 )
+offset = Vector2( 3.74576, 27.7187 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger1" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment/Hand" index="0"]
+position = Vector2( -45.6984, 23.5983 )
+rotation = 0.166394
 texture = ExtResource( 20 )
+offset = Vector2( 48.695, 2.62206 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm1/MiddleSegment/Hand/Finger1" index="0"]
+position = Vector2( -22.1, 45.3238 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger2" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment/Hand" index="1"]
+position = Vector2( -43.8255, 24.3475 )
+rotation = -0.0715847
 texture = ExtResource( 21 )
+offset = Vector2( 46.8221, 1.87289 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm1/MiddleSegment/Hand/Finger2" index="0"]
+position = Vector2( -2.99663, 52.0662 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger3" type="Sprite" parent="Sprite/LeftArm1/MiddleSegment/Hand" index="2"]
+position = Vector2( -43.0763, 22.4746 )
 texture = ExtResource( 22 )
+offset = Vector2( 46.073, 3.74579 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm1/MiddleSegment/Hand/Finger3" index="0"]
+position = Vector2( 21.3509, 26.9695 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="LeftArm2" type="Sprite" parent="Sprite" index="5"]
 show_behind_parent = true
 light_mask = 0
-position = Vector2( -169.275, -154.97 )
+position = Vector2( -71.054, -45.23 )
 z_index = -1
 texture = ExtResource( 23 )
+offset = Vector2( -98.221, -109.74 )
+__meta__ = {
+"_edit_ik_": true
+}
 
 [node name="MiddleSegment" type="Sprite" parent="Sprite/LeftArm2" index="0"]
+position = Vector2( -106.5, -48 )
 texture = ExtResource( 42 )
+offset = Vector2( 6, -64 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="EndSegment" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment" index="0"]
+position = Vector2( 31, -106 )
 texture = ExtResource( 36 )
+offset = Vector2( -25, 40 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Wrist" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment" index="0"]
+position = Vector2( -67.5, -72 )
 texture = ExtResource( 32 )
+offset = Vector2( 41, 112 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Hand" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist" index="0"]
+position = Vector2( 45.5, -36 )
 texture = ExtResource( 40 )
+offset = Vector2( -4, 147 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="Position2D" type="Position2D" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist/Hand" index="0"]
+position = Vector2( 38, 34 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Nub" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment" index="1"]
 show_behind_parent = true
+position = Vector2( -67, -72 )
 texture = ExtResource( 29 )
+offset = Vector2( 45, 110 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Nub" index="0"]
+position = Vector2( -17, -60.5 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Wrist2" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment" index="2"]
+position = Vector2( -67.5, -71 )
 texture = ExtResource( 37 )
+offset = Vector2( 39.5, 106 )
 
 [node name="Finger1" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2" index="0"]
+position = Vector2( -34, -6 )
 texture = ExtResource( 34 )
+offset = Vector2( 67, 111.5 )
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2/Finger1" index="0"]
+position = Vector2( -67, 8.5 )
 
 [node name="Finger2" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2" index="1"]
+position = Vector2( -35, -5 )
 texture = ExtResource( 39 )
+offset = Vector2( 68, 110.5 )
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2/Finger2" index="0"]
+position = Vector2( -36, 30.5 )
 
 [node name="Finger3" type="Sprite" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2" index="2"]
+position = Vector2( -34.5, -4.5 )
 texture = ExtResource( 43 )
+offset = Vector2( 67.5, 110 )
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm2/MiddleSegment/EndSegment/Wrist2/Finger3" index="0"]
+position = Vector2( -8, 29.5 )
 
 [node name="Wrist" type="Sprite" parent="Sprite/LeftArm2" index="1"]
+position = Vector2( -107, -50 )
 texture = ExtResource( 28 )
+offset = Vector2( 17.5, -57 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger1" type="Sprite" parent="Sprite/LeftArm2/Wrist" index="0"]
+position = Vector2( -40.5, -35.5 )
 texture = ExtResource( 41 )
+offset = Vector2( 58, -21.5 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm2/Wrist/Finger1" index="0"]
+position = Vector2( -31.5, -67.5 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger2" type="Sprite" parent="Sprite/LeftArm2/Wrist" index="1"]
+position = Vector2( -50.5, -32 )
 texture = ExtResource( 33 )
+offset = Vector2( 68, -25 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm2/Wrist/Finger2" index="0"]
+position = Vector2( -45.5, -42 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger3" type="Sprite" parent="Sprite/LeftArm2/Wrist" index="2"]
+position = Vector2( -45, -22.5 )
 texture = ExtResource( 31 )
+offset = Vector2( 62.5, -34.5 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/LeftArm2/Wrist/Finger3" index="0"]
+position = Vector2( -41, 18 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="RightArm1" type="Sprite" parent="Sprite" index="6"]
-position = Vector2( 63.1808, -36.8088 )
+position = Vector2( 15.946, -56.73 )
 texture = ExtResource( 19 )
+offset = Vector2( 47.2348, 19.9212 )
+__meta__ = {
+"_edit_ik_": true
+}
 
 [node name="Finger1" type="Sprite" parent="Sprite/RightArm1" index="0"]
+position = Vector2( 78.5, -4 )
 texture = ExtResource( 44 )
+offset = Vector2( -29.5, 24 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RightArm1/Finger1" index="0"]
+position = Vector2( 24.8974, -13.2433 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger2" type="Sprite" parent="Sprite/RightArm1" index="1"]
+position = Vector2( 83, 9.5 )
 texture = ExtResource( 48 )
+offset = Vector2( -34, 10.5 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RightArm1/Finger2" index="0"]
+position = Vector2( -25.6893, 30.9975 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger3" type="Sprite" parent="Sprite/RightArm1" index="2"]
+position = Vector2( 93.5, 16 )
 texture = ExtResource( 47 )
+offset = Vector2( -44.5, 4 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RightArm1/Finger3" index="0"]
+position = Vector2( -36.719, 41.9786 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger4" type="Sprite" parent="Sprite/RightArm1" index="3"]
+position = Vector2( 103.5, 21.5 )
 texture = ExtResource( 46 )
+offset = Vector2( -54.5, -1.5 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RightArm1/Finger4" index="0"]
+position = Vector2( -35.5946, 48.6624 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger5" type="Sprite" parent="Sprite/RightArm1" index="4"]
+position = Vector2( 105.5, 22 )
 texture = ExtResource( 45 )
+offset = Vector2( -56.5, -2 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RightArm1/Finger5" index="0"]
+position = Vector2( -15.3459, 42.3354 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="RigthArm2" type="Sprite" parent="Sprite" index="7"]
 show_behind_parent = true
-position = Vector2( -45.4896, -184.678 )
+position = Vector2( 34.4784, -122.046 )
+rotation = 0.203255
 texture = ExtResource( 35 )
+offset = Vector2( -79.968, -62.6315 )
+__meta__ = {
+"_edit_ik_": true
+}
 
 [node name="MiddleSegment" type="Sprite" parent="Sprite/RigthArm2" index="0"]
+position = Vector2( -57.2455, -22.4492 )
+rotation = -0.163932
 texture = ExtResource( 38 )
+offset = Vector2( -26.3779, -40.4086 )
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Wrist" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment" index="0"]
+position = Vector2( -10.6634, -58.368 )
+rotation = -0.0396459
 texture = ExtResource( 27 )
+offset = Vector2( -15.1532, 21.3268 )
+__meta__ = {
+"_edit_bone_": true,
+"_edit_ik_": true
+}
 
 [node name="Finger1" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment/Wrist" index="0"]
+position = Vector2( -52.7557, -10.6634 )
+rotation = 0.185317
 texture = ExtResource( 25 )
+offset = Vector2( 34.7964, 33.1125 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RigthArm2/MiddleSegment/Wrist/Finger1" index="0"]
+position = Vector2( -36.48, 54.4394 )
+rotation = -0.163123
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger2" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment/Wrist" index="1"]
+position = Vector2( -49.3883, -7.29599 )
+rotation = -0.0797464
 texture = ExtResource( 30 )
+offset = Vector2( 31.429, 29.7452 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RigthArm2/MiddleSegment/Wrist/Finger2" index="0"]
+position = Vector2( -2.80618, 71.2764 )
+rotation = 0.0624324
+__meta__ = {
+"_edit_bone_": true
+}
 
 [node name="Finger3" type="Sprite" parent="Sprite/RigthArm2/MiddleSegment/Wrist" index="2"]
+position = Vector2( -42.0923, -7.29599 )
+rotation = -0.104422
 texture = ExtResource( 26 )
+offset = Vector2( 24.133, 29.7452 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="EndPoint" type="Position2D" parent="Sprite/RigthArm2/MiddleSegment/Wrist/Finger3" index="0"]
+position = Vector2( 10.1022, 61.1742 )
+rotation = 0.0876974
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="Hurtbox" parent="." index="8"]
+visible = false
 
 [node name="Collider" parent="Hurtbox" index="0"]
 position = Vector2( -35.2102, -152.827 )
 shape = SubResource( 14 )
 
-[node name="AnimationPlayer" parent="." index="10"]
-anims/Rage = SubResource( 15 )
+[node name="Hitbox" parent="." index="9"]
+visible = false
 
+[node name="Collider" parent="Hitbox" index="0"]
+position = Vector2( -27.7187, -170.058 )
+shape = SubResource( 15 )
+
+[node name="AnimationPlayer" parent="." index="10"]
+anims/Rage = SubResource( 16 )
+
+[node name="PathFollow2D" parent="." index="11"]
+visible = false
+
+[node name="VisibilityNotifier2D" parent="." index="12"]
+visible = false
 [connection signal="health_changed" from="EnemyStats" to="." method="_on_EnemyStats_health_changed"]
 
 [editable path="AngerFlames"]
+
 [editable path="Flames"]
+
 [editable path="Hurtbox"]
+
 [editable path="Hitbox"]
