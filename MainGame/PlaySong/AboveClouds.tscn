@@ -171,6 +171,7 @@ NUM_BARS = 24
 
 [node name="Player" parent="PlayerLayer" index="0" instance=ExtResource( 2 )]
 position = Vector2( 151.148, 471.425 )
+scale = Vector2( 0.68, 0.68 )
 ACCELERATION = 2000
 MAX_SPEED = 450
 GRAVITY = 0
