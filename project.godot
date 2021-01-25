@@ -68,6 +68,11 @@ _global_script_classes=[ {
 "class": "SongCard",
 "language": "GDScript",
 "path": "res://UI/SongCard.gd"
+}, {
+"base": "Resource",
+"class": "WaveFileImport",
+"language": "GDScript",
+"path": "res://Music/WavFileImport.gd"
 } ]
 _global_script_class_icons={
 "AboveClouds": "",
@@ -81,7 +86,8 @@ _global_script_class_icons={
 "Player": "",
 "PlayerStats": "",
 "Song": "",
-"SongCard": ""
+"SongCard": "",
+"WaveFileImport": ""
 }
 
 [application]

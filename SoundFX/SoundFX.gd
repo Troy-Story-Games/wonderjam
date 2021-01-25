@@ -3,6 +3,7 @@ extends Node
 var sounds_path = "res://SoundFX/"
 var sounds = {
 	"Pickup": load(sounds_path + "phaserUp7.ogg"),
+	"Click": load(sounds_path + "switch_006.ogg")
 }
 
 onready var sound_players = get_children()

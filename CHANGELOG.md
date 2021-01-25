@@ -14,6 +14,22 @@ Use the following sub-headings when adding changelog entries:
 * __Fixed__ for any bug fixes.
 * __Security__ in case of vulnerabilities.
 
+## Released v0.8.6 - 2021-01-24
+
+### Added
+
+* Proper ".WAV" file support - Won't work for 100% of wav files but should work for common ones.
+* Pause menu when in song that allows you to continue or quit
+* Linux support
+* Updated to Godot 3.2.4beta6 - Bug fixes/stability improvements to game engine
+* Switch sound for the button presses on the pause menu (Thanks Kenney.nl)
+* Continue and Giveup buttons on the pause menu with default, hover, and click art (based on blackboard from home screen)
+
+### Changed
+
+* Made the player smaller
+* Resized the HUD elements a little
+
 ## Unreleased - 2021-01-12
 
 ### Fixed
@@ -28,7 +44,6 @@ Use the following sub-headings when adding changelog entries:
 ### Removed
 
 * Removed .WAV file support. Was untested and didn't work right when I tried. Will add back eventually
-
 
 ## Released v0.8.5 - 2021-01-11
 

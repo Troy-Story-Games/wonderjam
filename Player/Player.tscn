@@ -174,7 +174,9 @@ tracks/0/keys = {
 radius = 55.5275
 height = 118.034
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"Player",
+]]
 collision_layer = 2
 script = ExtResource( 2 )
 

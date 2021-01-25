@@ -15,6 +15,7 @@ const COMPENSATE_HZ = 60.0
 const FREQ_MAX = 11050.0
 const FREQ_MIN = 20
 
+var wavFileImport = ResourceLoader.load("res://Music/WavFileImport.tres")
 var playback_pos_mutex = null
 var max_db = MAX_DB
 var min_db = MIN_DB
@@ -48,6 +49,14 @@ func fade_out_song():
 	BackgroundMusicAnalyzer.reset()
 	backAudioPlayer.stop()
 	animationPlayer.play("FadeOutSong")
+
+
+func pause_song():
+	mainAudioPlayer.stream_paused = true
+
+
+func resume_song():
+	mainAudioPlayer.stream_paused = false
 
 
 func start_main_song():
@@ -121,7 +130,7 @@ func get_max_db():
 	return max_db
 
 
-func load_song(path):
+func load_song(path : String) -> bool:
 	var file = File.new()
 	file.open(path, File.READ)
 	var content = file.get_buffer(file.get_len())
@@ -132,7 +141,7 @@ func load_song(path):
 	current_song_path = path
 	return true
 
-func load_streams(song_file_path, file_bytes):
+func load_streams(song_file_path : String, file_bytes : PoolByteArray) -> bool:
 	"""
 	Load the streams (both foreground and background)
 	
@@ -143,7 +152,7 @@ func load_streams(song_file_path, file_bytes):
 	var main_stream = null
 	
 	# Create the appropriate stream
-	if song_file_path.ends_with(".mp3"):
+	if song_file_path.to_lower().ends_with(".mp3"):
 		print("DEBUG: Load MP3: ", song_file_path)
 		main_stream = AudioStreamMP3.new()
 		back_stream = AudioStreamMP3.new()
@@ -155,6 +164,10 @@ func load_streams(song_file_path, file_bytes):
 		back_stream = AudioStreamOGGVorbis.new()
 		main_stream.data = file_bytes
 		back_stream.data = file_bytes
+	elif song_file_path.ends_with(".wav"):
+		print("DEBUG: Load WAV: ", song_file_path)
+		main_stream = wavFileImport.import_wav(file_bytes)
+		back_stream = wavFileImport.import_wav(file_bytes)
 	else:
 		Events.emit_signal("popup_error", song_file_path + " is not a valid MP3, or OGG song file.")
 		return false

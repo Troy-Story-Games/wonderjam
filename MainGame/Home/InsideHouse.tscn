@@ -318,12 +318,12 @@ margin_top = -209.5
 margin_right = 507.0
 margin_bottom = 209.5
 popup_exclusive = true
-window_title = "Open a File"
+window_title = "Pick a song"
 resizable = true
 dialog_text = "Select a groovy beat."
 mode = 0
 access = 2
-filters = PoolStringArray( "*.mp3; MP3 Jams", "*.ogg; OGG Beats" )
+filters = PoolStringArray( "*.mp3; MP3 Jams", "*.ogg; OGG Beats", "*.wav; WAV Grooves" )
 current_dir = "/Users/lapla/Documents/GitRepo/wonderjam"
 current_path = "/Users/lapla/Documents/GitRepo/wonderjam/"
 

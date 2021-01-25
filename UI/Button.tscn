@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Art/home_interior_map_frame_shrunk_bright.png" type="Texture" id=1]
+[ext_resource path="res://Art/home_interior_map_frame_shrunk_disabled.png" type="Texture" id=2]
+[ext_resource path="res://Art/home_interior_map_frame_shrunk.png" type="Texture" id=3]
+[ext_resource path="res://Art/home_interior_map_frame_shrunk_dark.png" type="Texture" id=4]
+[ext_resource path="res://Art/home_interior_blackboard_small.png" type="Texture" id=5]
+[ext_resource path="res://Font/EraserRegular.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 6 )
+
+[node name="Continue" type="TextureButton"]
+margin_right = 33.0
+margin_bottom = 10.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 1 )
+texture_disabled = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+show_behind_parent = true
+margin_right = 453.0
+margin_bottom = 122.0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -75.5
+margin_top = -28.5
+margin_right = 75.5
+margin_bottom = 28.5
+custom_fonts/font = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
