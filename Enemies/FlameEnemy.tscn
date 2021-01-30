@@ -51,9 +51,6 @@ radius = 21.2946
 script = ExtResource( 4 )
 NAV_POINT_TARGET_RANGE = 4
 
-[node name="EnemyStats" parent="." index="0"]
-max_health = 2
-
 [node name="Flames" parent="Sprite" index="0" instance=ExtResource( 2 )]
 material = SubResource( 3 )
 position = Vector2( -0.579834, 0 )
@@ -104,10 +101,11 @@ position = Vector2( -86.3046, 0 )
 
 [node name="BulletTimer" type="Timer" parent="." index="11"]
 one_shot = true
-
 [connection signal="health_changed" from="EnemyStats" to="." method="_on_EnemyStats_health_changed"]
 [connection signal="timeout" from="BulletTimer" to="." method="_on_BulletTimer_timeout"]
 
 [editable path="Sprite/Flames"]
+
 [editable path="Hurtbox"]
+
 [editable path="Hitbox"]

@@ -192,6 +192,8 @@ process_material = SubResource( 7 )
 [node name="IceBeam" parent="." instance=ExtResource( 5 )]
 visible = false
 position = Vector2( 63.8456, -72.028 )
+LINE_WIDTH = 8.0
+PULSE_LINE_WIDTH = 30.0
 
 [node name="WalkingSprite" type="Sprite" parent="."]
 position = Vector2( 0, -93.2342 )
